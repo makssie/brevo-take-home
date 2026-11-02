@@ -2,6 +2,17 @@
  "count": 315,
  "actions": [
   {
+   "id": "account.get_account",
+   "name": "Get account details",
+   "category": "account",
+   "summary": "Get account details. Retrieves details of your Brevo account. **Use this to:** - Get account information (email, name, company, address) - Check plan details (type, credits, expiration) - Get relay information (for…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/account/get_account.json"
+  },
+  {
    "id": "account.get_account_state",
    "name": "Check account plan and sending readiness",
    "category": "account",
@@ -68,6 +79,28 @@
    "file": "catalog/automations/list_workflows.json"
   },
   {
+   "id": "companies.get_all_companies",
+   "name": "Get all Companies",
+   "category": "companies",
+   "summary": "Get all Companies. Retrieve a paginated list of companies with optional filtering, sorting, and search capabilities. Results are sorted by creation date in descending order by default, and can be filtered by…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/companies/get_all_companies.json"
+  },
+  {
+   "id": "companies.get_company_attributes",
+   "name": "Get company attributes",
+   "category": "companies",
+   "summary": "Get company attributes. Retrieve the list of all attributes defined for companies, including both system-default and custom attributes. Each attribute includes its label, internal name, type, required status, and…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/companies/get_company_attributes.json"
+  },
+  {
    "id": "contacts.add_contact_to_list",
    "name": "Add contacts to a list",
    "category": "contacts",
@@ -112,6 +145,105 @@
    "file": "catalog/contacts/create_list.json"
   },
   {
+   "id": "contacts.get_attributes",
+   "name": "List all attributes",
+   "category": "contacts",
+   "summary": "List all attributes. Retrieve all contact attributes defined in your Brevo account, grouped by category (normal, transactional, category, calculated, global). Each attribute includes its name, type, and category, along…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/contacts/get_attributes.json"
+  },
+  {
+   "id": "contacts.get_contact_info",
+   "name": "Get a contact's details",
+   "category": "contacts",
+   "summary": "Get a contact's details. Follow this format when passing a \"SMS\" phone number as an attribute. Accepted Number Formats 91xxxxxxxxxx +91xxxxxxxxxx 0091xxxxxxxxxx There are 2 ways to get a contact Option 1-…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/contacts/get_contact_info.json"
+  },
+  {
+   "id": "contacts.get_contact_stats",
+   "name": "Get email campaigns' statistics for a contact",
+   "category": "contacts",
+   "summary": "Get email campaigns' statistics for a contact. Retrieve email campaign statistics for a specific contact identified by email address or numeric ID. Statistics include messages sent, opens, clicks, hard/soft bounces,…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/contacts/get_contact_stats.json"
+  },
+  {
+   "id": "contacts.get_contacts",
+   "name": "Get all the contacts",
+   "category": "contacts",
+   "summary": "Get all the contacts. Retrieve all contacts from your Brevo account with support for pagination, filtering, and sorting. Results default to 50 contacts per page (maximum 1000) sorted in descending order of creation,…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/contacts/get_contacts.json"
+  },
+  {
+   "id": "contacts.get_contacts_from_list",
+   "name": "Get contacts in a list",
+   "category": "contacts",
+   "summary": "Get contacts in a list. Retrieve all contacts belonging to a specific list, identified by its list ID. Results are paginated with a default of 50 contacts per page (maximum 500) and sorted in descending order of…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/contacts/get_contacts_from_list.json"
+  },
+  {
+   "id": "contacts.get_folder",
+   "name": "Returns a folder's details",
+   "category": "contacts",
+   "summary": "Returns a folder's details. Ongoing changes for this endpoint. We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/contacts/get_folder.json"
+  },
+  {
+   "id": "contacts.get_folder_lists",
+   "name": "Get lists in a folder",
+   "category": "contacts",
+   "summary": "Get lists in a folder. Ongoing changes for this endpoint. We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the attributes…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/contacts/get_folder_lists.json"
+  },
+  {
+   "id": "contacts.get_folders",
+   "name": "Get all folders",
+   "category": "contacts",
+   "summary": "Get all folders. Ongoing changes for this endpoint We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the attributes will be…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/contacts/get_folders.json"
+  },
+  {
+   "id": "contacts.get_list",
+   "name": "Get a list's details",
+   "category": "contacts",
+   "summary": "Get a list's details. Retrieve the details of a specific contact list by its ID, including its name, folder ID, creation date, subscriber counts, and campaign statistics. You can optionally filter campaign statistics…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/contacts/get_list.json"
+  },
+  {
    "id": "contacts.get_lists",
    "name": "List contact lists",
    "category": "contacts",
@@ -121,6 +253,72 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/contacts/get_lists.json"
+  },
+  {
+   "id": "contacts.get_segments",
+   "name": "Get all the segments",
+   "category": "contacts",
+   "summary": "Get all the segments. Retrieve all contact segments defined in your Brevo account with support for pagination and sorting. Results default to 10 segments per page (maximum 50) sorted in descending order of creation.…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/contacts/get_segments.json"
+  },
+  {
+   "id": "deals.get_all_deals",
+   "name": "Get all deals",
+   "category": "deals",
+   "summary": "Get all deals. Retrieve a paginated list of deals with optional filtering, sorting, and search capabilities. Results can be filtered by attributes such as deal name or owner, linked companies, linked contacts, or…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/deals/get_all_deals.json"
+  },
+  {
+   "id": "deals.get_all_pipelines",
+   "name": "Get all pipelines",
+   "category": "deals",
+   "summary": "Get all pipelines. Retrieve the list of all deal pipelines configured for your account, including each pipeline''s stages and settings. If no pipelines have been configured yet, a default pipeline is automatically…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/deals/get_all_pipelines.json"
+  },
+  {
+   "id": "deals.get_deal_attributes",
+   "name": "Get deal attributes",
+   "category": "deals",
+   "summary": "Get deal attributes. Retrieve the list of all attributes defined for deals, including both system-default and custom attributes. Each attribute includes its label, internal name, type, required status, and available…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/deals/get_deal_attributes.json"
+  },
+  {
+   "id": "deals.get_pipeline_stages",
+   "name": "Get pipeline stages",
+   "category": "deals",
+   "summary": "Get pipeline stages. This endpoint is deprecated. Prefer /crm/pipeline/details/{pipelineID} instead.",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/deals/get_pipeline_stages.json"
+  },
+  {
+   "id": "domains.get_domains",
+   "name": "Get the list of all sender domains",
+   "category": "domains",
+   "summary": "Get the list of all sender domains. Retrieves all domains associated with the account. Use this to: - List all domains - Verify domain existence - Check domain authentication and verification status - Monitor domain…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/domains/get_domains.json"
   },
   {
    "id": "email_campaigns.create_campaign_draft",
@@ -143,6 +341,39 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/email_campaigns/get_editor_account.json"
+  },
+  {
+   "id": "email_campaigns.get_email_campaign",
+   "name": "Get an email campaign report",
+   "category": "email_campaigns",
+   "summary": "Get an email campaign report. Retrieve detailed information about a specific email campaign by its ID, including recipients, statistics, and HTML content. Use the statistics query parameter to select which statistics…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/email_campaigns/get_email_campaign.json"
+  },
+  {
+   "id": "email_campaigns.get_email_campaigns",
+   "name": "Return all your created email campaigns",
+   "category": "email_campaigns",
+   "summary": "Return all your created email campaigns. The response payload for this endpoint has changed You now need to specify which type of statistics you would like to retrieve. For more information visit [this…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/email_campaigns/get_email_campaigns.json"
+  },
+  {
+   "id": "email_campaigns.get_shared_template_url",
+   "name": "Get a shared template url",
+   "category": "email_campaigns",
+   "summary": "Get a shared template url. Get a unique URL to share & import an email template from one Brevo account to another.",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/email_campaigns/get_shared_template_url.json"
   },
   {
    "id": "email_campaigns.list_campaigns",
@@ -200,6 +431,28 @@
    "file": "catalog/email_campaigns/set_campaign_subject.json"
   },
   {
+   "id": "event.get_events",
+   "name": "Get events",
+   "category": "event",
+   "summary": "Get events. This endpoint currently only supports custom events. Retrieve a list of events filtered by various criteria.",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/event/get_events.json"
+  },
+  {
+   "id": "files.get_all_files",
+   "name": "Get all files",
+   "category": "files",
+   "summary": "Get all files. Retrieve a paginated list of CRM files with optional filtering by entity type, entity IDs, and date range. Results are sorted by creation date in descending order by default, with a default limit of 50…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/files/get_all_files.json"
+  },
+  {
    "id": "forms.create_form",
    "name": "Create a sign-up form",
    "category": "forms",
@@ -220,6 +473,50 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/forms/list_forms.json"
+  },
+  {
+   "id": "inbound_parsing.get_inbound_email_events",
+   "name": "Get the list of all the events for the received emails.",
+   "category": "inbound_parsing",
+   "summary": "Get the list of all the events for the received emails.. This endpoint will show the list of all the events for the received emails. When no date range is provided, the last 30 days of events are returned by default.",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/inbound_parsing/get_inbound_email_events.json"
+  },
+  {
+   "id": "notes.get_all_notes",
+   "name": "Get all notes",
+   "category": "notes",
+   "summary": "Get all notes. Retrieve a paginated list of CRM notes with optional filtering by entity type, entity IDs, and date range. Results are sorted by creation date in descending order by default, with a default limit of 50…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/notes/get_all_notes.json"
+  },
+  {
+   "id": "process.get_processes",
+   "name": "Get background processes",
+   "category": "process",
+   "summary": "Get background processes. Retrieves a list of background processes from your Brevo account with filtering and pagination. **Use this to:** - Monitor background process activity and status - Track long-running…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/process/get_processes.json"
+  },
+  {
+   "id": "program.get_lplist",
+   "name": "Get loyalty program list",
+   "category": "program",
+   "summary": "Get loyalty program list. Returns list of loyalty programs",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/program/get_lplist.json"
   },
   {
    "id": "segments.count_matching_contacts",
@@ -299,6 +596,149 @@
    "file": "catalog/segments/preview_matching_contacts.json"
   },
   {
+   "id": "senders.get_ips",
+   "name": "Get all the dedicated IPs for your account",
+   "category": "senders",
+   "summary": "Get all the dedicated IPs for your account. Retrieves all dedicated IPs associated with your Brevo account. Use this to: - List all your dedicated IPs - Check the status of your dedicated IPs (active/inactive) - Find…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/senders/get_ips.json"
+  },
+  {
+   "id": "senders.get_senders",
+   "name": "Get email senders",
+   "category": "senders",
+   "summary": "Get email senders. Retrieves a list of all email senders from your Brevo account with optional filtering. **Use this to:** - Get all available senders for email campaign setup - Find sender details including ID, name,…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/senders/get_senders.json"
+  },
+  {
+   "id": "sms_campaigns.get_sms_campaigns",
+   "name": "Returns the information for all your created SMS campaigns",
+   "category": "sms_campaigns",
+   "summary": "Returns the information for all your created SMS campaigns. Retrieve a paginated list of all your SMS campaigns with their statistics and recipient information. Results can be filtered by status and date range, with a…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/sms_campaigns/get_sms_campaigns.json"
+  },
+  {
+   "id": "tasks.get_all_task_types",
+   "name": "Get all task types",
+   "category": "tasks",
+   "summary": "Get all task types. Retrieve the list of all available task types, such as Email, Call, Meeting, Todo, Lunch, Deadline, and LinkedIn. If no task types exist yet, the default set is automatically created and returned.…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/tasks/get_all_task_types.json"
+  },
+  {
+   "id": "tasks.get_all_tasks",
+   "name": "Get all tasks",
+   "category": "tasks",
+   "summary": "Get all tasks. Retrieve a paginated list of CRM tasks with optional filtering by task type, status, date range, assignee, and linked entities (contacts, deals, companies). Results are sorted by creation date in…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/tasks/get_all_tasks.json"
+  },
+  {
+   "id": "transactional_emails.get_aggregated_smtp_report",
+   "name": "Get your transactional email activity aggregated over a period of time",
+   "category": "transactional_emails",
+   "summary": "Get your transactional email activity aggregated over a period of time. This endpoint will show the aggregated stats for past 90 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/transactional_emails/get_aggregated_smtp_report.json"
+  },
+  {
+   "id": "transactional_emails.get_blocked_domains",
+   "name": "Get the list of blocked domains",
+   "category": "transactional_emails",
+   "summary": "Get the list of blocked domains",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/transactional_emails/get_blocked_domains.json"
+  },
+  {
+   "id": "transactional_emails.get_email_event_report",
+   "name": "Get all your transactional email activity (unaggregated events)",
+   "category": "transactional_emails",
+   "summary": "Get all your transactional email activity (unaggregated events). This endpoint will show the aggregated stats for past 30 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can not…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/transactional_emails/get_email_event_report.json"
+  },
+  {
+   "id": "transactional_emails.get_smtp_report",
+   "name": "Get your transactional email activity aggregated per day",
+   "category": "transactional_emails",
+   "summary": "Get your transactional email activity aggregated per day. This endpoint will show the aggregated stats per day for the past 10 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/transactional_emails/get_smtp_report.json"
+  },
+  {
+   "id": "transactional_emails.get_smtp_templates",
+   "name": "Get the list of email templates",
+   "category": "transactional_emails",
+   "summary": "Get the list of email templates. Retrieve a paginated list of all transactional email templates (including automation templates) with their details such as name, subject, sender, status, HTML content, and timestamps.…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/transactional_emails/get_smtp_templates.json"
+  },
+  {
+   "id": "transactional_emails.get_transac_blocked_contacts",
+   "name": "Get the list of blocked or unsubscribed transactional contacts",
+   "category": "transactional_emails",
+   "summary": "Get the list of blocked or unsubscribed transactional contacts. Retrieve a paginated list of transactional contacts that have been blocked or unsubscribed, along with the reason for blocking (e.g. hard bounce, admin…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/transactional_emails/get_transac_blocked_contacts.json"
+  },
+  {
+   "id": "transactional_whats_app.get_whatsapp_event_report",
+   "name": "Get all your WhatsApp activity (unaggregated events)",
+   "category": "transactional_whats_app",
+   "summary": "Get all your WhatsApp activity (unaggregated events). This endpoint will show the unaggregated statistics for WhatsApp activity (30 days by default if `startDate` and `endDate` or `days` is not passed. The date range…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/transactional_whats_app/get_whatsapp_event_report.json"
+  },
+  {
+   "id": "user.get_invited_users_list",
+   "name": "Get the list of all your users",
+   "category": "user",
+   "summary": "Get the list of all your users. Retrieves the list of all users associated with your organization, including both active and pending invited users. Each user entry includes their email address, owner status, current…",
+   "verification": "executed",
+   "method": "public_api",
+   "destructive": false,
+   "plan_gated": null,
+   "file": "catalog/user/get_invited_users_list.json"
+  },
+  {
    "id": "automations.assign_tag",
    "name": "Assign a tag to an automation",
    "category": "automations",
@@ -354,17 +794,6 @@
    "file": "catalog/email_campaigns/schedule_campaign.json"
   },
   {
-   "id": "account.get_account",
-   "name": "Get account details",
-   "category": "account",
-   "summary": "Get account details. Retrieves details of your Brevo account. **Use this to:** - Get account information (email, name, company, address) - Check plan details (type, credits, expiration) - Get relay information (for…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/account/get_account.json"
-  },
-  {
    "id": "account.get_account_activity",
    "name": "Get user activity logs",
    "category": "account",
@@ -372,7 +801,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: Upgrade to Enterprise plan to access this API.",
    "file": "catalog/account/get_account_activity.json"
   },
   {
@@ -618,28 +1047,6 @@
    "file": "catalog/companies/get_acompany.json"
   },
   {
-   "id": "companies.get_all_companies",
-   "name": "Get all Companies",
-   "category": "companies",
-   "summary": "Get all Companies. Retrieve a paginated list of companies with optional filtering, sorting, and search capabilities. Results are sorted by creation date in descending order by default, and can be filtered by…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/companies/get_all_companies.json"
-  },
-  {
-   "id": "companies.get_company_attributes",
-   "name": "Get company attributes",
-   "category": "companies",
-   "summary": "Get company attributes. Retrieve the list of all attributes defined for companies, including both system-default and custom attributes. Each attribute includes its label, internal name, type, required status, and…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/companies/get_company_attributes.json"
-  },
-  {
    "id": "companies.import_companies_creation_and_updation",
    "name": "Import companies(creation and updation)",
    "category": "companies",
@@ -713,7 +1120,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: consent group is not enabled for this client",
    "file": "catalog/consent_groups/get_consent_groups.json"
   },
   {
@@ -814,116 +1221,6 @@
    "destructive": true,
    "plan_gated": null,
    "file": "catalog/contacts/delete_multi_attribute_options.json"
-  },
-  {
-   "id": "contacts.get_attributes",
-   "name": "List all attributes",
-   "category": "contacts",
-   "summary": "List all attributes. Retrieve all contact attributes defined in your Brevo account, grouped by category (normal, transactional, category, calculated, global). Each attribute includes its name, type, and category, along…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/contacts/get_attributes.json"
-  },
-  {
-   "id": "contacts.get_contact_info",
-   "name": "Get a contact's details",
-   "category": "contacts",
-   "summary": "Get a contact's details. Follow this format when passing a \"SMS\" phone number as an attribute. Accepted Number Formats 91xxxxxxxxxx +91xxxxxxxxxx 0091xxxxxxxxxx There are 2 ways to get a contact Option 1-…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/contacts/get_contact_info.json"
-  },
-  {
-   "id": "contacts.get_contact_stats",
-   "name": "Get email campaigns' statistics for a contact",
-   "category": "contacts",
-   "summary": "Get email campaigns' statistics for a contact. Retrieve email campaign statistics for a specific contact identified by email address or numeric ID. Statistics include messages sent, opens, clicks, hard/soft bounces,…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/contacts/get_contact_stats.json"
-  },
-  {
-   "id": "contacts.get_contacts",
-   "name": "Get all the contacts",
-   "category": "contacts",
-   "summary": "Get all the contacts. Retrieve all contacts from your Brevo account with support for pagination, filtering, and sorting. Results default to 50 contacts per page (maximum 1000) sorted in descending order of creation,…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/contacts/get_contacts.json"
-  },
-  {
-   "id": "contacts.get_contacts_from_list",
-   "name": "Get contacts in a list",
-   "category": "contacts",
-   "summary": "Get contacts in a list. Retrieve all contacts belonging to a specific list, identified by its list ID. Results are paginated with a default of 50 contacts per page (maximum 500) and sorted in descending order of…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/contacts/get_contacts_from_list.json"
-  },
-  {
-   "id": "contacts.get_folder",
-   "name": "Returns a folder's details",
-   "category": "contacts",
-   "summary": "Returns a folder's details. Ongoing changes for this endpoint. We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/contacts/get_folder.json"
-  },
-  {
-   "id": "contacts.get_folder_lists",
-   "name": "Get lists in a folder",
-   "category": "contacts",
-   "summary": "Get lists in a folder. Ongoing changes for this endpoint. We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the attributes…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/contacts/get_folder_lists.json"
-  },
-  {
-   "id": "contacts.get_folders",
-   "name": "Get all folders",
-   "category": "contacts",
-   "summary": "Get all folders. Ongoing changes for this endpoint We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the attributes will be…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/contacts/get_folders.json"
-  },
-  {
-   "id": "contacts.get_list",
-   "name": "Get a list's details",
-   "category": "contacts",
-   "summary": "Get a list's details. Retrieve the details of a specific contact list by its ID, including its name, folder ID, creation date, subscriber counts, and campaign statistics. You can optionally filter campaign statistics…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/contacts/get_list.json"
-  },
-  {
-   "id": "contacts.get_segments",
-   "name": "Get all the segments",
-   "category": "contacts",
-   "summary": "Get all the segments. Retrieve all contact segments defined in your Brevo account with support for pagination and sorting. Results default to 10 segments per page (maximum 50) sorted in descending order of creation.…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/contacts/get_segments.json"
   },
   {
    "id": "contacts.import_contacts",
@@ -1245,28 +1542,6 @@
    "file": "catalog/deals/get_adeal.json"
   },
   {
-   "id": "deals.get_all_deals",
-   "name": "Get all deals",
-   "category": "deals",
-   "summary": "Get all deals. Retrieve a paginated list of deals with optional filtering, sorting, and search capabilities. Results can be filtered by attributes such as deal name or owner, linked companies, linked contacts, or…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/deals/get_all_deals.json"
-  },
-  {
-   "id": "deals.get_all_pipelines",
-   "name": "Get all pipelines",
-   "category": "deals",
-   "summary": "Get all pipelines. Retrieve the list of all deal pipelines configured for your account, including each pipeline''s stages and settings. If no pipelines have been configured yet, a default pipeline is automatically…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/deals/get_all_pipelines.json"
-  },
-  {
    "id": "deals.get_apipeline",
    "name": "Get a pipeline",
    "category": "deals",
@@ -1276,28 +1551,6 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/deals/get_apipeline.json"
-  },
-  {
-   "id": "deals.get_deal_attributes",
-   "name": "Get deal attributes",
-   "category": "deals",
-   "summary": "Get deal attributes. Retrieve the list of all attributes defined for deals, including both system-default and custom attributes. Each attribute includes its label, internal name, type, required status, and available…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/deals/get_deal_attributes.json"
-  },
-  {
-   "id": "deals.get_pipeline_stages",
-   "name": "Get pipeline stages",
-   "category": "deals",
-   "summary": "Get pipeline stages. This endpoint is deprecated. Prefer /crm/pipeline/details/{pipelineID} instead.",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/deals/get_pipeline_stages.json"
   },
   {
    "id": "deals.import_deals_creation_and_updation",
@@ -1375,17 +1628,6 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/domains/get_domain_configuration.json"
-  },
-  {
-   "id": "domains.get_domains",
-   "name": "Get the list of all sender domains",
-   "category": "domains",
-   "summary": "Get the list of all sender domains. Retrieves all domains associated with the account. Use this to: - List all domains - Verify domain existence - Check domain authentication and verification status - Monitor domain…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/domains/get_domains.json"
   },
   {
    "id": "ecommerce.activate_the_ecommerce_app",
@@ -1505,7 +1747,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: Your eCommerce section is not yet activated.",
    "file": "catalog/ecommerce/get_categories.json"
   },
   {
@@ -1538,7 +1780,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: Your eCommerce section is not yet activated.",
    "file": "catalog/ecommerce/get_orders.json"
   },
   {
@@ -1560,7 +1802,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: Your eCommerce section is not yet activated.",
    "file": "catalog/ecommerce/get_products.json"
   },
   {
@@ -1628,39 +1870,6 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/email_campaigns/get_ab_test_campaign_result.json"
-  },
-  {
-   "id": "email_campaigns.get_email_campaign",
-   "name": "Get an email campaign report",
-   "category": "email_campaigns",
-   "summary": "Get an email campaign report. Retrieve detailed information about a specific email campaign by its ID, including recipients, statistics, and HTML content. Use the statistics query parameter to select which statistics…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/email_campaigns/get_email_campaign.json"
-  },
-  {
-   "id": "email_campaigns.get_email_campaigns",
-   "name": "Return all your created email campaigns",
-   "category": "email_campaigns",
-   "summary": "Return all your created email campaigns. The response payload for this endpoint has changed You now need to specify which type of statistics you would like to retrieve. For more information visit [this…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/email_campaigns/get_email_campaigns.json"
-  },
-  {
-   "id": "email_campaigns.get_shared_template_url",
-   "name": "Get a shared template url",
-   "category": "email_campaigns",
-   "summary": "Get a shared template url. Get a unique URL to share & import an email template from one Brevo account to another.",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/email_campaigns/get_shared_template_url.json"
   },
   {
    "id": "email_campaigns.send_email_campaign_now",
@@ -1751,17 +1960,6 @@
    "file": "catalog/event/create_event.json"
   },
   {
-   "id": "event.get_events",
-   "name": "Get events",
-   "category": "event",
-   "summary": "Get events. This endpoint currently only supports custom events. Retrieve a list of events filtered by various criteria.",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/event/get_events.json"
-  },
-  {
    "id": "external_feeds.create_external_feed",
    "name": "Create external feed",
    "category": "external_feeds",
@@ -1791,7 +1989,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: This feature is only available to customers with an Enterprise plan. To enable it, please contact your customer success manager.",
    "file": "catalog/external_feeds/get_all_external_feeds.json"
   },
   {
@@ -1839,17 +2037,6 @@
    "file": "catalog/files/download_afile.json"
   },
   {
-   "id": "files.get_all_files",
-   "name": "Get all files",
-   "category": "files",
-   "summary": "Get all files. Retrieve a paginated list of CRM files with optional filtering by entity type, entity IDs, and date range. Results are sorted by creation date in descending order by default, with a default limit of 50…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/files/get_all_files.json"
-  },
-  {
    "id": "files.get_file_details",
    "name": "Get file details",
    "category": "files",
@@ -1881,17 +2068,6 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/inbound_parsing/get_inbound_email_attachment.json"
-  },
-  {
-   "id": "inbound_parsing.get_inbound_email_events",
-   "name": "Get the list of all the events for the received emails.",
-   "category": "inbound_parsing",
-   "summary": "Get the list of all the events for the received emails.. This endpoint will show the list of all the events for the received emails. When no date range is provided, the last 30 days of events are returned by default.",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/inbound_parsing/get_inbound_email_events.json"
   },
   {
    "id": "inbound_parsing.get_inbound_email_events_by_uuid",
@@ -2055,7 +2231,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: Current account is not a corporate user",
    "file": "catalog/master_account/get_corporate_invited_users_list.json"
   },
   {
@@ -2088,7 +2264,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: Current account is not a corporate user",
    "file": "catalog/master_account/get_sub_account_groups.json"
   },
   {
@@ -2099,7 +2275,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: Current account is not a corporate user",
    "file": "catalog/master_account/get_the_details_of_requested_master_account.json"
   },
   {
@@ -2132,7 +2308,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: Current account is not a corporate user",
    "file": "catalog/master_account/list_of_all_ips.json"
   },
   {
@@ -2213,17 +2389,6 @@
    "file": "catalog/notes/delete_anote.json"
   },
   {
-   "id": "notes.get_all_notes",
-   "name": "Get all notes",
-   "category": "notes",
-   "summary": "Get all notes. Retrieve a paginated list of CRM notes with optional filtering by entity type, entity IDs, and date range. Results are sorted by creation date in descending order by default, with a default limit of 50…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/notes/get_all_notes.json"
-  },
-  {
    "id": "notes.get_anote",
    "name": "Get a note",
    "category": "notes",
@@ -2290,17 +2455,6 @@
    "file": "catalog/process/get_process.json"
   },
   {
-   "id": "process.get_processes",
-   "name": "Get background processes",
-   "category": "process",
-   "summary": "Get background processes. Retrieves a list of background processes from your Brevo account with filtering and pagination. **Use this to:** - Monitor background process activity and status - Track long-running…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/process/get_processes.json"
-  },
-  {
    "id": "program.create_new_lp",
    "name": "Create loyalty program",
    "category": "program",
@@ -2354,17 +2508,6 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/program/get_loyalty_program_info.json"
-  },
-  {
-   "id": "program.get_lplist",
-   "name": "Get loyalty program list",
-   "category": "program",
-   "summary": "Get loyalty program list. Returns list of loyalty programs",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/program/get_lplist.json"
   },
   {
    "id": "program.get_parameter_subscription_info",
@@ -2565,17 +2708,6 @@
    "file": "catalog/senders/delete_sender.json"
   },
   {
-   "id": "senders.get_ips",
-   "name": "Get all the dedicated IPs for your account",
-   "category": "senders",
-   "summary": "Get all the dedicated IPs for your account. Retrieves all dedicated IPs associated with your Brevo account. Use this to: - List all your dedicated IPs - Check the status of your dedicated IPs (active/inactive) - Find…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/senders/get_ips.json"
-  },
-  {
    "id": "senders.get_ips_from_sender",
    "name": "Get all the dedicated IPs for a specific sender",
    "category": "senders",
@@ -2585,17 +2717,6 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/senders/get_ips_from_sender.json"
-  },
-  {
-   "id": "senders.get_senders",
-   "name": "Get email senders",
-   "category": "senders",
-   "summary": "Get email senders. Retrieves a list of all email senders from your Brevo account with optional filtering. **Use this to:** - Get all available senders for email campaign setup - Find sender details including ID, name,…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/senders/get_senders.json"
   },
   {
    "id": "senders.update_sender",
@@ -2651,17 +2772,6 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/sms_campaigns/get_sms_campaign.json"
-  },
-  {
-   "id": "sms_campaigns.get_sms_campaigns",
-   "name": "Returns the information for all your created SMS campaigns",
-   "category": "sms_campaigns",
-   "summary": "Returns the information for all your created SMS campaigns. Retrieve a paginated list of all your SMS campaigns with their statistics and recipient information. Results can be filtered by status and date range, with a…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/sms_campaigns/get_sms_campaigns.json"
   },
   {
    "id": "sms_campaigns.request_sms_recipient_export",
@@ -2750,28 +2860,6 @@
    "destructive": true,
    "plan_gated": null,
    "file": "catalog/tasks/delete_atask.json"
-  },
-  {
-   "id": "tasks.get_all_task_types",
-   "name": "Get all task types",
-   "category": "tasks",
-   "summary": "Get all task types. Retrieve the list of all available task types, such as Email, Call, Meeting, Todo, Lunch, Deadline, and LinkedIn. If no task types exist yet, the default set is automatically created and returned.…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/tasks/get_all_task_types.json"
-  },
-  {
-   "id": "tasks.get_all_tasks",
-   "name": "Get all tasks",
-   "category": "tasks",
-   "summary": "Get all tasks. Retrieve a paginated list of CRM tasks with optional filtering by task type, status, date range, assignee, and linked entities (contacts, deals, companies). Results are sorted by creation date in…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/tasks/get_all_tasks.json"
   },
   {
    "id": "tasks.get_atask",
@@ -2983,39 +3071,6 @@
    "file": "catalog/transactional_emails/delete_smtp_template.json"
   },
   {
-   "id": "transactional_emails.get_aggregated_smtp_report",
-   "name": "Get your transactional email activity aggregated over a period of time",
-   "category": "transactional_emails",
-   "summary": "Get your transactional email activity aggregated over a period of time. This endpoint will show the aggregated stats for past 90 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/transactional_emails/get_aggregated_smtp_report.json"
-  },
-  {
-   "id": "transactional_emails.get_blocked_domains",
-   "name": "Get the list of blocked domains",
-   "category": "transactional_emails",
-   "summary": "Get the list of blocked domains",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/transactional_emails/get_blocked_domains.json"
-  },
-  {
-   "id": "transactional_emails.get_email_event_report",
-   "name": "Get all your transactional email activity (unaggregated events)",
-   "category": "transactional_emails",
-   "summary": "Get all your transactional email activity (unaggregated events). This endpoint will show the aggregated stats for past 30 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can not…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/transactional_emails/get_email_event_report.json"
-  },
-  {
    "id": "transactional_emails.get_scheduled_email_by_id",
    "name": "Fetch scheduled emails by batchId or messageId",
    "category": "transactional_emails",
@@ -3027,17 +3082,6 @@
    "file": "catalog/transactional_emails/get_scheduled_email_by_id.json"
   },
   {
-   "id": "transactional_emails.get_smtp_report",
-   "name": "Get your transactional email activity aggregated per day",
-   "category": "transactional_emails",
-   "summary": "Get your transactional email activity aggregated per day. This endpoint will show the aggregated stats per day for the past 10 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/transactional_emails/get_smtp_report.json"
-  },
-  {
    "id": "transactional_emails.get_smtp_template",
    "name": "Returns the template information",
    "category": "transactional_emails",
@@ -3047,28 +3091,6 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/transactional_emails/get_smtp_template.json"
-  },
-  {
-   "id": "transactional_emails.get_smtp_templates",
-   "name": "Get the list of email templates",
-   "category": "transactional_emails",
-   "summary": "Get the list of email templates. Retrieve a paginated list of all transactional email templates (including automation templates) with their details such as name, subject, sender, status, HTML content, and timestamps.…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/transactional_emails/get_smtp_templates.json"
-  },
-  {
-   "id": "transactional_emails.get_transac_blocked_contacts",
-   "name": "Get the list of blocked or unsubscribed transactional contacts",
-   "category": "transactional_emails",
-   "summary": "Get the list of blocked or unsubscribed transactional contacts. Retrieve a paginated list of transactional contacts that have been blocked or unsubscribed, along with the reason for blocking (e.g. hard bounce, admin…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/transactional_emails/get_transac_blocked_contacts.json"
   },
   {
    "id": "transactional_emails.get_transac_email_content",
@@ -3192,17 +3214,6 @@
    "file": "catalog/transactional_sms/send_async_transactional_sms.json"
   },
   {
-   "id": "transactional_whats_app.get_whatsapp_event_report",
-   "name": "Get all your WhatsApp activity (unaggregated events)",
-   "category": "transactional_whats_app",
-   "summary": "Get all your WhatsApp activity (unaggregated events). This endpoint will show the unaggregated statistics for WhatsApp activity (30 days by default if `startDate` and `endDate` or `days` is not passed. The date range…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/transactional_whats_app/get_whatsapp_event_report.json"
-  },
-  {
    "id": "transactional_whats_app.send_whatsapp_message",
    "name": "Send a WhatsApp message",
    "category": "transactional_whats_app",
@@ -3223,17 +3234,6 @@
    "destructive": false,
    "plan_gated": null,
    "file": "catalog/user/edit_user_permission.json"
-  },
-  {
-   "id": "user.get_invited_users_list",
-   "name": "Get the list of all your users",
-   "category": "user",
-   "summary": "Get the list of all your users. Retrieves the list of all users associated with your organization, including both active and pending invited users. Each user entry includes their email address, owner status, current…",
-   "verification": "documented",
-   "method": "public_api",
-   "destructive": false,
-   "plan_gated": null,
-   "file": "catalog/user/get_invited_users_list.json"
   },
   {
    "id": "user.get_user_permission",
@@ -3408,7 +3408,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: plan not eligible for using whatsapp",
    "file": "catalog/whats_app_campaigns/get_whats_app_campaign.json"
   },
   {
@@ -3419,7 +3419,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: plan not eligible for using whatsapp",
    "file": "catalog/whats_app_campaigns/get_whats_app_campaigns.json"
   },
   {
@@ -3430,7 +3430,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: plan not eligible for using whatsapp",
    "file": "catalog/whats_app_campaigns/get_whats_app_config.json"
   },
   {
@@ -3441,7 +3441,7 @@
    "verification": "documented",
    "method": "public_api",
    "destructive": false,
-   "plan_gated": null,
+   "plan_gated": "Refused on the free plan: plan not eligible for using whatsapp",
    "file": "catalog/whats_app_campaigns/get_whats_app_templates.json"
   },
   {

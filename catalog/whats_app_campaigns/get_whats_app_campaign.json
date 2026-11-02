@@ -241,6 +241,18 @@
     "level": "documented",
     "date": "2026-11-02",
     "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#whatsAppCampaigns_getWhatsAppCampaign",
-    "notes": "Generated from the public OpenAPI spec. Not executed."
-  }
+    "notes": "Generated from the public OpenAPI spec. A read-only call failed on the free account (HTTP 403); see errors."
+  },
+  "plan_gated": "Refused on the free plan: plan not eligible for using whatsapp",
+  "errors": [
+    {
+      "when": "Read-only test call on a free-plan account, with known test ids or no inputs",
+      "status": 403,
+      "response": {
+        "code": null,
+        "message": "plan not eligible for using whatsapp"
+      },
+      "agent_should": "Likely a plan or permission restriction. Tell the user instead of retrying."
+    }
+  ]
 }

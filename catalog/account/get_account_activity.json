@@ -102,6 +102,18 @@
     "level": "documented",
     "date": "2026-11-02",
     "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#account_getAccountActivity",
-    "notes": "Generated from the public OpenAPI spec. Not executed."
-  }
+    "notes": "Generated from the public OpenAPI spec. A read-only call failed on the free account (HTTP 400); see errors."
+  },
+  "plan_gated": "Refused on the free plan: Upgrade to Enterprise plan to access this API.",
+  "errors": [
+    {
+      "when": "Read-only test call on a free-plan account, with known test ids or no inputs",
+      "status": 400,
+      "response": {
+        "code": "bad_request",
+        "message": "Upgrade to Enterprise plan to access this API."
+      },
+      "agent_should": "A required parameter is missing or invalid. Check inputs before retrying."
+    }
+  ]
 }

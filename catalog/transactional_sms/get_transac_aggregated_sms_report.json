@@ -109,6 +109,17 @@
     "level": "documented",
     "date": "2026-11-02",
     "evidence": "https://developers.brevo.com/openapi/transactional-sms.json#transactionalSms_getTransacAggregatedSmsReport",
-    "notes": "Generated from the public OpenAPI spec. Not executed."
-  }
+    "notes": "Generated from the public OpenAPI spec. A read-only call failed on the free account (HTTP 500); see errors."
+  },
+  "errors": [
+    {
+      "when": "Read-only test call on a free-plan account, with known test ids or no inputs",
+      "status": 500,
+      "response": {
+        "code": "invalid_request",
+        "message": "Invalid Request"
+      },
+      "agent_should": "Report the error to the user; do not retry blindly."
+    }
+  ]
 }

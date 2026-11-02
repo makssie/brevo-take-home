@@ -205,9 +205,9 @@
   "destructive": false,
   "reversible": true,
   "verification": {
-    "level": "documented",
+    "level": "executed",
     "date": "2026-11-02",
-    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_getContacts",
-    "notes": "Generated from the public OpenAPI spec. Not executed."
+    "evidence": "GET with an API key on the owner's free account returned HTTP 200. Spec: https://developers.brevo.com/openapi/contact-management.json#contacts_getContacts",
+    "notes": "Generated from the public OpenAPI spec. The real response differs from the documented output schema at: $.contacts[0].listUnsubscribed (type), $.contacts[1].listUnsubscribed (type), $.contacts[2].listUnsubscribed (type)."
   }
 }

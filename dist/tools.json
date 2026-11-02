@@ -1,5 +1,13 @@
 [
  {
+  "name": "account__get_account",
+  "description": "[verification: executed] Get account details. Retrieves details of your Brevo account. **Use this to:** - Get account information (email, name, company, address) - Check plan details (type, credits, expiration) - Get relay information (for transactional emails) - Check Marketing Automation status - Access organization and user identifiers **Key information returned:** - Complete account details (organization ID, user ID, company information) - Address and contact information - Plan…",
+  "input_schema": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
   "name": "account__get_account_state",
   "description": "[verification: executed] Return the plan and flags that decide whether sending works. Call before any send or activation flow: on the test account it reported plan FREE, transactional status 'phone_not_verified' and SMTP disabled. The response also contains the owner's personal details, which an agent should not repeat. It does NOT expose the marketing-email suspension shown as a banner in the UI, so a send can still be blocked when these flags look fine.",
   "input_schema": {
@@ -94,6 +102,68 @@
  {
   "name": "automations__list_workflows",
   "description": "[verification: executed] List all automations with id, name, active/paused state and contact counters (started, holding, completed, stopped).",
+  "input_schema": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
+  "name": "companies__get_all_companies",
+  "description": "[verification: executed] Get all Companies. Retrieve a paginated list of companies with optional filtering, sorting, and search capabilities. Results are sorted by creation date in descending order by default, and can be filtered by attributes, linked contacts, linked deals, or modification/creation timestamps.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "filters[attributes.name]": {
+     "type": "string",
+     "description": "Filter by attributes. If you have a filter for the owner on your side please send it as filters[attributes.owner] and utilize the account email for the filtering."
+    },
+    "linkedContactsIds": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Filter by linked contacts ids"
+    },
+    "linkedDealsIds": {
+     "type": "string",
+     "format": "objectID",
+     "description": "Filter by linked Deals ids"
+    },
+    "modifiedSince": {
+     "type": "string",
+     "description": "Filter (urlencoded) the companies modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
+    },
+    "createdSince": {
+     "type": "string",
+     "description": "Filter (urlencoded) the companies created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
+    },
+    "page": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Index of the first document of the page"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Number of documents per page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "title": "CompaniesGetParametersSort",
+     "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
+    },
+    "sortBy": {
+     "type": "string",
+     "description": "The field used to sort field names."
+    }
+   }
+  }
+ },
+ {
+  "name": "companies__get_company_attributes",
+  "description": "[verification: executed] Get company attributes. Retrieve the list of all attributes defined for companies, including both system-default and custom attributes. Each attribute includes its label, internal name, type, required status, and available options for select-type attributes.",
   "input_schema": {
    "type": "object",
    "properties": {}
@@ -227,8 +297,451 @@
   }
  },
  {
+  "name": "contacts__get_attributes",
+  "description": "[verification: executed] List all attributes. Retrieve all contact attributes defined in your Brevo account, grouped by category (normal, transactional, category, calculated, global). Each attribute includes its name, type, and category, along with enumeration values for category-type attributes and options for multiple-choice-type attributes.",
+  "input_schema": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
+  "name": "contacts__get_contact_info",
+  "description": "[verification: executed] Get a contact's details. Follow this format when passing a \"SMS\" phone number as an attribute. Accepted Number Formats 91xxxxxxxxxx +91xxxxxxxxxx 0091xxxxxxxxxx There are 2 ways to get a contact Option 1- https://api.brevo.com/v3/contacts/{identifier} Option 2- https://api.brevo.com/v3/contacts/{identifier}?identifierType={} Option 1 only works if identifierType is email_id (for EMAIL), phone_id (for SMS) or contact_id (for ID of the contact),where you can directly…",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "identifier": {
+     "oneOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "integer"
+      }
+     ],
+     "title": "ContactsIdentifierGetParametersIdentifier",
+     "description": "Email (urlencoded) OR ID of the contact OR its SMS attribute value OR EXT_ID attribute (urlencoded)"
+    },
+    "identifierType": {
+     "type": "string",
+     "enum": [
+      "email_id",
+      "phone_id",
+      "contact_id",
+      "ext_id",
+      "whatsapp_id",
+      "landline_number_id"
+     ],
+     "title": "ContactsIdentifierGetParametersIdentifierType",
+     "description": "email_id for Email, phone_id for SMS attribute, contact_id for ID of the contact, ext_id for EXT_ID attribute, whatsapp_id for WHATSAPP attribute, landline_number_id for LANDLINE_NUMBER attribute"
+    },
+    "startDate": {
+     "type": "string",
+     "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be lower than equal to endDate. Must not be greater than the current date."
+    },
+    "endDate": {
+     "type": "string",
+     "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be greater than equal to startDate. Must not be greater than the current date."
+    }
+   },
+   "required": [
+    "identifier"
+   ]
+  }
+ },
+ {
+  "name": "contacts__get_contact_stats",
+  "description": "[verification: executed] Get email campaigns' statistics for a contact. Retrieve email campaign statistics for a specific contact identified by email address or numeric ID. Statistics include messages sent, opens, clicks, hard/soft bounces, deliveries, unsubscriptions, complaints, and transactional attributes. By default, data covers the last 90 days; use startDate and endDate parameters (YYYY-MM-DD) to specify a custom range with a maximum span of 90 days.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "identifier": {
+     "oneOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "integer"
+      }
+     ],
+     "title": "ContactsIdentifierCampaignStatsGetParametersIdentifier",
+     "description": "Email (urlencoded) OR ID of the contact"
+    },
+    "startDate": {
+     "type": "string",
+     "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be lower than equal to endDate. Must not be greater than the current date."
+    },
+    "endDate": {
+     "type": "string",
+     "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be greater than equal to startDate. Must not be greater than the current date. Maximum difference between startDate and endDate should not be greater than 90 days."
+    }
+   },
+   "required": [
+    "identifier"
+   ]
+  }
+ },
+ {
+  "name": "contacts__get_contacts",
+  "description": "[verification: executed] Get all the contacts. Retrieve all contacts from your Brevo account with support for pagination, filtering, and sorting. Results default to 50 contacts per page (maximum 1000) sorted in descending order of creation, and can be filtered by modification date, creation date, contact IDs (up to 20), list IDs, segment ID, or contact attributes using the equals operator. Note that either listIds or segmentId can be passed but not both simultaneously.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 1,
+     "maximum": 1000,
+     "default": 50,
+     "description": "Number of documents per page"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Index of the first document of the page"
+    },
+    "modifiedSince": {
+     "type": "string",
+     "description": "Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
+    },
+    "createdSince": {
+     "type": "string",
+     "description": "Filter (urlencoded) the contacts created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "ContactsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    },
+    "ids": {
+     "type": "array",
+     "items": {
+      "type": "integer",
+      "format": "int64"
+     },
+     "description": "Filter by a list of contact IDs. You can pass a **maximum of 20 IDs**. All elements must be integers."
+    },
+    "segmentId": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 1,
+     "description": "Id of the segment. **Either listIds or segmentId can be passed.** Must be a positive integer (minimum value of 1)."
+    },
+    "listIds": {
+     "type": "array",
+     "items": {
+      "type": "integer",
+      "format": "int64"
+     },
+     "description": "Ids of the list. **Either listIds or segmentId can be passed.**"
+    },
+    "filter": {
+     "type": "string",
+     "description": "Filter the contacts on the basis of attributes. **Allowed operator: equals. For multiple-choice options, the filter will apply an AND condition between the options. For category attributes, the filter will work with both id and value. (e.g. filter=equals(FIRSTNAME,\"Antoine\"), filter=equals(B1,…"
+    }
+   }
+  }
+ },
+ {
+  "name": "contacts__get_contacts_from_list",
+  "description": "[verification: executed] Get contacts in a list. Retrieve all contacts belonging to a specific list, identified by its list ID. Results are paginated with a default of 50 contacts per page (maximum 500) and sorted in descending order of creation. You can optionally filter contacts by their modification date using the modifiedSince parameter.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "listId": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Id of the list"
+    },
+    "modifiedSince": {
+     "type": "string",
+     "description": "Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 1,
+     "maximum": 500,
+     "default": 50,
+     "description": "Number of documents per page"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Index of the first document of the page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "ContactsListsListIdContactsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    }
+   },
+   "required": [
+    "listId"
+   ]
+  }
+ },
+ {
+  "name": "contacts__get_folder",
+  "description": "[verification: executed] Returns a folder's details. Ongoing changes for this endpoint. We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the attributes will be 0.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "folderId": {
+     "type": "integer",
+     "format": "int64",
+     "description": "id of the folder"
+    }
+   },
+   "required": [
+    "folderId"
+   ]
+  }
+ },
+ {
+  "name": "contacts__get_folder_lists",
+  "description": "[verification: executed] Get lists in a folder. Ongoing changes for this endpoint. We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the attributes will be 0.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "folderId": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Id of the folder"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 0,
+     "maximum": 50,
+     "default": 10,
+     "description": "Number of documents per page"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Index of the first document of the page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "ContactsFoldersFolderIdListsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    }
+   },
+   "required": [
+    "folderId"
+   ]
+  }
+ },
+ {
+  "name": "contacts__get_folders",
+  "description": "[verification: executed] Get all folders. Ongoing changes for this endpoint We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the attributes will be 0. The uniqueSubscribers field is deprecated",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 0,
+     "maximum": 50,
+     "default": 10,
+     "description": "Number of documents per page"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Index of the first document of the page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "ContactsFoldersGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    }
+   }
+  }
+ },
+ {
+  "name": "contacts__get_list",
+  "description": "[verification: executed] Get a list's details. Retrieve the details of a specific contact list by its ID, including its name, folder ID, creation date, subscriber counts, and campaign statistics. You can optionally filter campaign statistics by providing startDate and endDate parameters (both must be used together in YYYY-MM-DD format).",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "listId": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Id of the list"
+    },
+    "startDate": {
+     "type": "string",
+     "description": "**Mandatory if endDate is used**. Starting (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to aggregate the sent email campaigns for a specific list id. **Prefer to pass your timezone in date-time format for accurate result**"
+    },
+    "endDate": {
+     "type": "string",
+     "description": "**Mandatory if startDate is used**. Ending (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to aggregate the sent email campaigns for a specific list id. **Prefer to pass your timezone in date-time format for accurate result**"
+    }
+   },
+   "required": [
+    "listId"
+   ]
+  }
+ },
+ {
   "name": "contacts__get_lists",
   "description": "[verification: executed] List contact lists with id, name, contact count and parent folder id. Use to find a list id before adding contacts or targeting a campaign.",
+  "input_schema": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
+  "name": "contacts__get_segments",
+  "description": "[verification: executed] Get all the segments. Retrieve all contact segments defined in your Brevo account with support for pagination and sorting. Results default to 10 segments per page (maximum 50) sorted in descending order of creation. Each segment includes its ID, name, category name, and last update timestamp.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 0,
+     "maximum": 50,
+     "default": 10,
+     "description": "Number of documents per page"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Index of the first document of the page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "ContactsSegmentsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    }
+   }
+  }
+ },
+ {
+  "name": "deals__get_all_deals",
+  "description": "[verification: executed] Get all deals. Retrieve a paginated list of deals with optional filtering, sorting, and search capabilities. Results can be filtered by attributes such as deal name or owner, linked companies, linked contacts, or modification/creation timestamps. Default sort order is descending by creation date.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "filters[attributes.deal_name]": {
+     "type": "string",
+     "description": "Filter by attributes. If you have a filter for the owner on your end, please send it as filters[attributes.deal_owner] and utilize the account email for the filtering."
+    },
+    "filters[attributes.deal_owner]": {
+     "type": "string",
+     "description": "Filter by the deal owner. Pass the account email address of the deal owner."
+    },
+    "filters[attributes.deal_stage]": {
+     "type": "string",
+     "description": "Filter by the deal stage. Pass the stage id, retrievable from GET /crm/pipeline/details/{pipelineID}."
+    },
+    "filters[attributes.pipeline]": {
+     "type": "string",
+     "description": "Filter by the pipeline. Pass the pipeline id, retrievable from GET /crm/pipeline/details/{pipelineID}."
+    },
+    "filters[linkedCompaniesIds]": {
+     "type": "string",
+     "description": "Filter by linked companies ids"
+    },
+    "filters[linkedContactsIds]": {
+     "type": "string",
+     "description": "Filter by linked contacts ids"
+    },
+    "modifiedSince": {
+     "type": "string",
+     "description": "Filter (urlencoded) the deals modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
+    },
+    "createdSince": {
+     "type": "string",
+     "description": "Filter (urlencoded) the deals created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Index of the first document of the page"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "default": 50,
+     "description": "Number of documents per page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "title": "CrmDealsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
+    },
+    "sortBy": {
+     "type": "string",
+     "description": "The field used to sort field names."
+    }
+   }
+  }
+ },
+ {
+  "name": "deals__get_all_pipelines",
+  "description": "[verification: executed] Get all pipelines. Retrieve the list of all deal pipelines configured for your account, including each pipeline''s stages and settings. If no pipelines have been configured yet, a default pipeline is automatically created and returned.",
+  "input_schema": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
+  "name": "deals__get_deal_attributes",
+  "description": "[verification: executed] Get deal attributes. Retrieve the list of all attributes defined for deals, including both system-default and custom attributes. Each attribute includes its label, internal name, type, required status, and available options for select-type attributes.",
+  "input_schema": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
+  "name": "deals__get_pipeline_stages",
+  "description": "[verification: executed] Get pipeline stages. This endpoint is deprecated. Prefer /crm/pipeline/details/{pipelineID} instead.",
+  "input_schema": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
+  "name": "domains__get_domains",
+  "description": "[verification: executed] Get the list of all sender domains. Retrieves all domains associated with the account. Use this to: - List all domains - Verify domain existence - Check domain authentication and verification status - Monitor domain configuration and provider information - Review domain creation history and ownership Key information returned: - Domain details (ID, name, authentication status) - Verification and authentication states - Associated IP addresses and DNS providers - Creator…",
   "input_schema": {
    "type": "object",
    "properties": {}
@@ -269,6 +782,140 @@
   "input_schema": {
    "type": "object",
    "properties": {}
+  }
+ },
+ {
+  "name": "email_campaigns__get_email_campaign",
+  "description": "[verification: executed] Get an email campaign report. Retrieve detailed information about a specific email campaign by its ID, including recipients, statistics, and HTML content. Use the statistics query parameter to select which statistics to include (globalStats, linksStats, statsByDomain, statsByDevice, or statsByBrowser); statsByDevice and statsByBrowser are only available on this single-campaign endpoint. You can exclude HTML content from the response by setting excludeHtmlContent to true.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "campaignId": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Id of the campaign"
+    },
+    "statistics": {
+     "type": "string",
+     "enum": [
+      "globalStats",
+      "linksStats",
+      "statsByDomain",
+      "statsByDevice",
+      "statsByBrowser"
+     ],
+     "title": "EmailCampaignsCampaignIdGetParametersStatistics",
+     "description": "Filter on the type of statistics required. Example: **globalStats** value will only fetch globalStats info of the campaign in the returned response. `statsByDevice` and `statsByBrowser` are only available when retrieving a single campaign (not in the list endpoint)."
+    },
+    "excludeHtmlContent": {
+     "type": "boolean",
+     "description": "Use this flag to exclude htmlContent from the response body. If set to **true**, htmlContent field will be returned as empty string in the response body"
+    }
+   },
+   "required": [
+    "campaignId"
+   ]
+  }
+ },
+ {
+  "name": "email_campaigns__get_email_campaigns",
+  "description": "[verification: executed] Return all your created email campaigns. The response payload for this endpoint has changed You now need to specify which type of statistics you would like to retrieve. For more information visit [this page](https://developers.brevo.com/changelog/2023/2/7).",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "classic",
+      "trigger"
+     ],
+     "title": "EmailCampaignsGetParametersType",
+     "description": "Filter on the type of the campaigns"
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "suspended",
+      "archive",
+      "sent",
+      "queued",
+      "draft",
+      "inProcess",
+      "inReview",
+      "cancelling",
+      "cancelled"
+     ],
+     "title": "EmailCampaignsGetParametersStatus",
+     "description": "Filter on the status of the campaign"
+    },
+    "statistics": {
+     "type": "string",
+     "enum": [
+      "globalStats",
+      "linksStats",
+      "statsByDomain"
+     ],
+     "title": "EmailCampaignsGetParametersStatistics",
+     "description": "Filter on the type of statistics required. Example: **globalStats** value will only fetch globalStats info of the campaign in the returned response. This option only returns data for events that occurred in the last 6 months. For older campaigns, it is advisable to use the **Get Campaign Report**…"
+    },
+    "startDate": {
+     "type": "string",
+     "description": "**Mandatory if endDate is used.** Starting (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the sent email campaigns. **Prefer to pass your timezone in date-time format for accurate result.** Only available if `status` is not passed or is set to `sent`. The date range between…"
+    },
+    "endDate": {
+     "type": "string",
+     "description": "**Mandatory if startDate is used.** Ending (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the sent email campaigns. **Prefer to pass your timezone in date-time format for accurate result.** Only available if `status` is not passed or is set to `sent`. The date range between…"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 1,
+     "maximum": 100,
+     "default": 50,
+     "description": "Number of documents per page"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Index of the first document in the page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "EmailCampaignsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    },
+    "excludeHtmlContent": {
+     "type": "boolean",
+     "description": "Use this flag to exclude htmlContent from the response body. If set to **true**, the htmlContent field will be returned as an empty string in the response body."
+    },
+    "excludePdfAttachment": {
+     "type": "boolean",
+     "description": "Use this flag to filter out campaigns that have a PDF attachment. If set to **true**, only campaigns without a PDF attachment (or with no attachment at all) will be returned."
+    }
+   }
+  }
+ },
+ {
+  "name": "email_campaigns__get_shared_template_url",
+  "description": "[verification: executed] Get a shared template url. Get a unique URL to share & import an email template from one Brevo account to another.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "campaignId": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Id of the campaign or template"
+    }
+   },
+   "required": [
+    "campaignId"
+   ]
   }
  },
  {
@@ -504,6 +1151,109 @@
   }
  },
  {
+  "name": "event__get_events",
+  "description": "[verification: executed] Get events. This endpoint currently only supports custom events. Retrieve a list of events filtered by various criteria.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "contact_id": {
+     "type": "array",
+     "items": {
+      "type": "integer",
+      "format": "int64"
+     },
+     "description": "Filter by contact ID (repeatable)"
+    },
+    "event_name": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "Filter by event name (repeatable)"
+    },
+    "object_type": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "Filter by object type (repeatable)"
+    },
+    "startDate": {
+     "type": "string",
+     "description": "Mandatory if endDate is used. Start of date range (YYYY-MM-DD or RFC3339). Defaults to 6 months ago when omitted alongside endDate. Must be ≤ endDate."
+    },
+    "endDate": {
+     "type": "string",
+     "description": "Mandatory if startDate is used. End of date range (YYYY-MM-DD or RFC3339). Must be ≥ startDate."
+    },
+    "limit": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 10000,
+     "default": 100,
+     "description": "Max events to return. Default 100, min 1, max 10000."
+    },
+    "offset": {
+     "type": "integer",
+     "minimum": 0,
+     "default": 0,
+     "description": "Events to skip for pagination. Default 0, min 0."
+    }
+   }
+  }
+ },
+ {
+  "name": "files__get_all_files",
+  "description": "[verification: executed] Get all files. Retrieve a paginated list of CRM files with optional filtering by entity type, entity IDs, and date range. Results are sorted by creation date in descending order by default, with a default limit of 50 files per page.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "entity": {
+     "type": "string",
+     "enum": [
+      "companies",
+      "deals",
+      "contacts"
+     ],
+     "title": "CrmFilesGetParametersEntity",
+     "description": "Filter by file entity type"
+    },
+    "entityIds": {
+     "type": "string",
+     "description": "Filter by file entity IDs"
+    },
+    "dateFrom": {
+     "type": "integer",
+     "description": "dateFrom to date range filter type (timestamp in milliseconds)"
+    },
+    "dateTo": {
+     "type": "integer",
+     "description": "dateTo to date range filter type (timestamp in milliseconds)"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Index of the first document of the page"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "default": 50,
+     "description": "Number of documents per page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "title": "CrmFilesGetParametersSort",
+     "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
+    }
+   }
+  }
+ },
+ {
   "name": "forms__create_form",
   "description": "[verification: executed] Create a subscription (sign-up) form that collects contacts. Free plan allows full-page/embedded forms; pop-up forms need the Professional plan. The UI also has Unsubscribe and Profile update form types, whose type values were not captured. The public API has no form endpoints.",
   "input_schema": {
@@ -536,6 +1286,171 @@
   "input_schema": {
    "type": "object",
    "properties": {}
+  }
+ },
+ {
+  "name": "inbound_parsing__get_inbound_email_events",
+  "description": "[verification: executed] Get the list of all the events for the received emails.. This endpoint will show the list of all the events for the received emails. When no date range is provided, the last 30 days of events are returned by default.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "sender": {
+     "type": "string",
+     "description": "Email address of the sender."
+    },
+    "startDate": {
+     "type": "string",
+     "description": "Mandatory if endDate is used. Starting date (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.SSSZ) from which you want to fetch the list. Maximum time period that can be selected is 30 days. Must not be in the future."
+    },
+    "endDate": {
+     "type": "string",
+     "description": "Mandatory if startDate is used. Ending date (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.SSSZ) till which you want to fetch the list. Maximum time period that can be selected is 30 days. Must not be in the future."
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 0,
+     "maximum": 500,
+     "default": 100,
+     "description": "Number of documents returned per page"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Index of the first document on the page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "InboundEventsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation"
+    }
+   }
+  }
+ },
+ {
+  "name": "notes__get_all_notes",
+  "description": "[verification: executed] Get all notes. Retrieve a paginated list of CRM notes with optional filtering by entity type, entity IDs, and date range. Results are sorted by creation date in descending order by default, with a default limit of 50 notes per page.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "entity": {
+     "type": "string",
+     "enum": [
+      "companies",
+      "deals",
+      "contacts"
+     ],
+     "title": "CrmNotesGetParametersEntity",
+     "description": "Filter by note entity type"
+    },
+    "entityIds": {
+     "type": "string",
+     "description": "Filter by note entity IDs"
+    },
+    "dateFrom": {
+     "type": "integer",
+     "description": "dateFrom to date range filter type (timestamp in milliseconds)"
+    },
+    "dateTo": {
+     "type": "integer",
+     "description": "dateTo to date range filter type (timestamp in milliseconds)"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Index of the first document of the page"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "default": 50,
+     "description": "Number of documents per page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "title": "CrmNotesGetParametersSort",
+     "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
+    }
+   }
+  }
+ },
+ {
+  "name": "process__get_processes",
+  "description": "[verification: executed] Get background processes. Retrieves a list of background processes from your Brevo account with filtering and pagination. **Use this to:** - Monitor background process activity and status - Track long-running operations and tasks - Find process IDs for detailed status checking - Review process history and performance - Identify failed or stuck processes for troubleshooting **Key information returned:** - Process details (ID, name, status) - Export download URLs for…",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 1,
+     "maximum": 50,
+     "default": 10,
+     "description": "Number limitation for the result returned"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Beginning point in the list to retrieve from."
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "ProcessesGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    }
+   }
+  }
+ },
+ {
+  "name": "program__get_lplist",
+  "description": "[verification: executed] Get loyalty program list. Returns list of loyalty programs",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "limit": {
+     "type": "integer",
+     "description": "Number of documents per page"
+    },
+    "offset": {
+     "type": "integer",
+     "description": "Index of the first document in the page"
+    },
+    "sort_field": {
+     "type": "string",
+     "enum": [
+      "name",
+      "created_at",
+      "updated_at"
+     ],
+     "title": "LoyaltyConfigProgramsGetParametersSortField",
+     "description": "Sort documents by field"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "title": "LoyaltyConfigProgramsGetParametersSort",
+     "description": "Sort order"
+    }
+   }
   }
  },
  {
@@ -734,6 +1649,513 @@
   }
  },
  {
+  "name": "senders__get_ips",
+  "description": "[verification: executed] Get all the dedicated IPs for your account. Retrieves all dedicated IPs associated with your Brevo account. Use this to: - List all your dedicated IPs - Check the status of your dedicated IPs (active/inactive) - Find IP addresses and associated domains for configuration purposes - Monitor your IP reputation and deliverability - Verify available IPs for sender configuration Key information returned: - IP ID and address - Associated domain - Active status - IP configuration details",
+  "input_schema": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
+  "name": "senders__get_senders",
+  "description": "[verification: executed] Get email senders. Retrieves a list of all email senders from your Brevo account with optional filtering. **Use this to:** - Get all available senders for email campaign setup - Find sender details including ID, name, and email address - Filter senders by IP address for dedicated IP users - Filter senders by domain for domain-specific configurations - Monitor sender configuration and status **Key information returned:** - Sender details (ID, name, email address)…",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "ip": {
+     "type": "string",
+     "description": "Filter your senders for a specific ip. **Available for dedicated IP usage only**"
+    },
+    "domain": {
+     "type": "string",
+     "description": "Filter your senders for a specific domain"
+    }
+   }
+  }
+ },
+ {
+  "name": "sms_campaigns__get_sms_campaigns",
+  "description": "[verification: executed] Returns the information for all your created SMS campaigns. Retrieve a paginated list of all your SMS campaigns with their statistics and recipient information. Results can be filtered by status and date range, with a default limit of 500 and maximum of 1000 per page. The sort order defaults to descending by creation date; date filters are only available when status is not passed or is set to sent.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "status": {
+     "type": "string",
+     "enum": [
+      "suspended",
+      "archive",
+      "sent",
+      "queued",
+      "draft",
+      "inProcess"
+     ],
+     "title": "SmsCampaignsGetParametersStatus",
+     "description": "Status of campaign."
+    },
+    "startDate": {
+     "type": "string",
+     "description": "**Mandatory if endDate is used.** Starting (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the sent SMS campaigns. **Prefer to pass your timezone in date-time format for accurate result.** Only available if `status` is not passed or is set to `sent`. `startDate` must not be in the…"
+    },
+    "endDate": {
+     "type": "string",
+     "description": "**Mandatory if startDate is used.** Ending (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the sent SMS campaigns. **Prefer to pass your timezone in date-time format for accurate result.** Only available if `status` is not passed or is set to `sent`. `endDate` must not be in the…"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 1,
+     "maximum": 1000,
+     "default": 500,
+     "description": "Number of documents per page"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Beginning point in the list to retrieve from."
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "SmsCampaignsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    }
+   }
+  }
+ },
+ {
+  "name": "tasks__get_all_task_types",
+  "description": "[verification: executed] Get all task types. Retrieve the list of all available task types, such as Email, Call, Meeting, Todo, Lunch, Deadline, and LinkedIn. If no task types exist yet, the default set is automatically created and returned. Use the task type ID when creating or updating tasks.",
+  "input_schema": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
+  "name": "tasks__get_all_tasks",
+  "description": "[verification: executed] Get all tasks. Retrieve a paginated list of CRM tasks with optional filtering by task type, status, date range, assignee, and linked entities (contacts, deals, companies). Results are sorted by creation date in descending order by default, with a default limit of 50 tasks per page.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "filter[type]": {
+     "type": "string",
+     "description": "Filter by task type (ID)"
+    },
+    "filter[status]": {
+     "type": "string",
+     "enum": [
+      "done",
+      "undone"
+     ],
+     "title": "CrmTasksGetParametersFilterStatus",
+     "description": "Filter by task status"
+    },
+    "filter[date]": {
+     "type": "string",
+     "enum": [
+      "overdue",
+      "today",
+      "tomorrow",
+      "week",
+      "range"
+     ],
+     "title": "CrmTasksGetParametersFilterDate",
+     "description": "Filter by date"
+    },
+    "filter[assignTo]": {
+     "type": "string",
+     "description": "Filter by the \"assignTo\" ID. You can utilize account emails for the \"assignTo\" attribute."
+    },
+    "filter[contacts]": {
+     "type": "string",
+     "description": "Filter by contact ids"
+    },
+    "filter[deals]": {
+     "type": "string",
+     "description": "Filter by deals ids"
+    },
+    "filter[companies]": {
+     "type": "string",
+     "description": "Filter by companies ids"
+    },
+    "dateFrom": {
+     "type": "integer",
+     "description": "dateFrom to date range filter type (timestamp in milliseconds)"
+    },
+    "dateTo": {
+     "type": "integer",
+     "description": "dateTo to date range filter type (timestamp in milliseconds)"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Index of the first document of the page"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "default": 50,
+     "description": "Number of documents per page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "title": "CrmTasksGetParametersSort",
+     "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
+    },
+    "sortBy": {
+     "type": "string",
+     "description": "The field used to sort field names."
+    }
+   }
+  }
+ },
+ {
+  "name": "transactional_emails__get_aggregated_smtp_report",
+  "description": "[verification: executed] Get your transactional email activity aggregated over a period of time. This endpoint will show the aggregated stats for past 90 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can not exceed 90 days",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "startDate": {
+     "type": "string",
+     "description": "**Mandatory if endDate is used.** Starting date of the report (YYYY-MM-DD). Must be lower than equal to endDate"
+    },
+    "endDate": {
+     "type": "string",
+     "description": "**Mandatory if startDate is used.** Ending date of the report (YYYY-MM-DD). Must be greater than equal to startDate"
+    },
+    "days": {
+     "type": "integer",
+     "format": "int64",
+     "maximum": 90,
+     "description": "Number of days in the past including today (positive integer, maximum 90). _Not compatible with 'startDate' and 'endDate'_. Defaults to 90 if neither dates nor days are provided."
+    },
+    "tag": {
+     "type": "string",
+     "description": "Tag of the emails"
+    }
+   }
+  }
+ },
+ {
+  "name": "transactional_emails__get_blocked_domains",
+  "description": "[verification: executed] Get the list of blocked domains",
+  "input_schema": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
+  "name": "transactional_emails__get_email_event_report",
+  "description": "[verification: executed] Get all your transactional email activity (unaggregated events). This endpoint will show the aggregated stats for past 30 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can not exceed 90 days",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 0,
+     "maximum": 5000,
+     "default": 2500,
+     "description": "Number limitation for the result returned"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Beginning point in the list to retrieve from."
+    },
+    "startDate": {
+     "type": "string",
+     "description": "**Mandatory if endDate is used.** Starting date of the report (YYYY-MM-DD). Must be lower than equal to endDate"
+    },
+    "endDate": {
+     "type": "string",
+     "description": "**Mandatory if startDate is used.** Ending date of the report (YYYY-MM-DD). Must be greater than equal to startDate"
+    },
+    "days": {
+     "type": "integer",
+     "format": "int64",
+     "maximum": 90,
+     "description": "Number of days in the past including today (positive integer, maximum 90). _Not compatible with 'startDate' and 'endDate'_. Defaults to 30 if neither dates nor days are provided."
+    },
+    "email": {
+     "type": "string",
+     "format": "email",
+     "description": "Filter the report for a specific email addresses"
+    },
+    "event": {
+     "type": "string",
+     "enum": [
+      "bounces",
+      "hardBounces",
+      "softBounces",
+      "delivered",
+      "spam",
+      "requests",
+      "opened",
+      "clicks",
+      "invalid",
+      "deferred",
+      "blocked",
+      "unsubscribed",
+      "error",
+      "loadedByProxy"
+     ],
+     "title": "SmtpStatisticsEventsGetParametersEvent",
+     "description": "Filter the report for a specific event type"
+    },
+    "tags": {
+     "type": "string",
+     "description": "Filter the report for tags (serialized and urlencoded array)"
+    },
+    "messageId": {
+     "type": "string",
+     "description": "Filter on a specific message id"
+    },
+    "templateId": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Filter on a specific template id"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "SmtpStatisticsEventsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    }
+   }
+  }
+ },
+ {
+  "name": "transactional_emails__get_smtp_report",
+  "description": "[verification: executed] Get your transactional email activity aggregated per day. This endpoint will show the aggregated stats per day for the past 10 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can not exceed 30 days.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 0,
+     "maximum": 30,
+     "default": 10,
+     "description": "Number of documents returned per page"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Index of the first document on the page"
+    },
+    "startDate": {
+     "type": "string",
+     "description": "**Mandatory if endDate is used.** Starting date of the report (YYYY-MM-DD)"
+    },
+    "endDate": {
+     "type": "string",
+     "description": "**Mandatory if startDate is used.** Ending date of the report (YYYY-MM-DD)"
+    },
+    "days": {
+     "type": "integer",
+     "format": "int64",
+     "maximum": 30,
+     "description": "Number of days in the past including today (positive integer, maximum 30). _Not compatible with 'startDate' and 'endDate'_"
+    },
+    "tag": {
+     "type": "string",
+     "description": "Tag of the emails"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "SmtpStatisticsReportsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    }
+   }
+  }
+ },
+ {
+  "name": "transactional_emails__get_smtp_templates",
+  "description": "[verification: executed] Get the list of email templates. Retrieve a paginated list of all transactional email templates (including automation templates) with their details such as name, subject, sender, status, HTML content, and timestamps. Results default to 50 per page (max 1000) and are sorted in descending creation order unless overridden. You can filter by active/inactive status using `templateStatus` and by editor type using `editorType` (currently only `richTextEditor` is supported).",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "templateStatus": {
+     "type": "boolean",
+     "description": "Filter on the status of the template. Active = true, inactive = false"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 0,
+     "maximum": 1000,
+     "default": 50,
+     "description": "Number of documents returned per page"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Index of the first document in the page"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "SmtpTemplatesGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    },
+    "editorType": {
+     "type": "string",
+     "enum": [
+      "richTextEditor"
+     ],
+     "title": "SmtpTemplatesGetParametersEditorType",
+     "description": "Filter on the editor type used to create the template. Currently only `richTextEditor` is supported as a filter value."
+    }
+   }
+  }
+ },
+ {
+  "name": "transactional_emails__get_transac_blocked_contacts",
+  "description": "[verification: executed] Get the list of blocked or unsubscribed transactional contacts. Retrieve a paginated list of transactional contacts that have been blocked or unsubscribed, along with the reason for blocking (e.g. hard bounce, admin blocked, spam complaint, or unsubscription via email/API/Marketing Automation). Both `startDate` and `endDate` must be provided together when filtering by date range, and neither date can be in the future. Results default to 50 per page (max 100) and are sorted in descending order of record…",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "startDate": {
+     "type": "string",
+     "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) from which you want to fetch the blocked or unsubscribed contacts"
+    },
+    "endDate": {
+     "type": "string",
+     "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) till which you want to fetch the blocked or unsubscribed contacts"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 0,
+     "maximum": 100,
+     "default": 50,
+     "description": "Number of documents returned per page"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Index of the first document on the page"
+    },
+    "senders": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "Comma separated list of emails of the senders from which contacts are blocked or unsubscribed"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "SmtpBlockedContactsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    }
+   }
+  }
+ },
+ {
+  "name": "transactional_whats_app__get_whatsapp_event_report",
+  "description": "[verification: executed] Get all your WhatsApp activity (unaggregated events). This endpoint will show the unaggregated statistics for WhatsApp activity (30 days by default if `startDate` and `endDate` or `days` is not passed. The date range can not exceed 90 days)",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "limit": {
+     "type": "integer",
+     "format": "int64",
+     "minimum": 0,
+     "maximum": 10000,
+     "default": 2500,
+     "description": "Number limitation for the result returned"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64",
+     "default": 0,
+     "description": "Beginning point in the list to retrieve from"
+    },
+    "startDate": {
+     "type": "string",
+     "description": "**Mandatory if endDate is used.** Starting date of the report (YYYY-MM-DD). Must be lower than equal to endDate"
+    },
+    "endDate": {
+     "type": "string",
+     "description": "**Mandatory if startDate is used.** Ending date of the report (YYYY-MM-DD). Must be greater than equal to startDate"
+    },
+    "days": {
+     "type": "integer",
+     "format": "int64",
+     "description": "Number of days in the past including today (positive integer). _Not compatible with 'startDate' and 'endDate'_"
+    },
+    "contactNumber": {
+     "type": "string",
+     "format": "mobile",
+     "description": "Filter results for specific contact (WhatsApp Number with country code. Example, 85264318721)"
+    },
+    "event": {
+     "type": "string",
+     "enum": [
+      "sent",
+      "delivered",
+      "read",
+      "error",
+      "unsubscribe",
+      "reply",
+      "soft-bounce"
+     ],
+     "title": "WhatsappStatisticsEventsGetParametersEvent",
+     "description": "Filter the report for a specific event type"
+    },
+    "sort": {
+     "type": "string",
+     "enum": [
+      "asc",
+      "desc"
+     ],
+     "default": "desc",
+     "title": "WhatsappStatisticsEventsGetParametersSort",
+     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+    }
+   }
+  }
+ },
+ {
+  "name": "user__get_invited_users_list",
+  "description": "[verification: executed] Get the list of all your users. Retrieves the list of all users associated with your organization, including both active and pending invited users. Each user entry includes their email address, owner status, current invitation status, and feature access levels for marketing, CRM, and conversations.",
+  "input_schema": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
   "name": "automations__assign_tag",
   "description": "[verification: observed] [paid plan] Tag an automation to organize and filter the list.",
   "input_schema": {
@@ -817,16 +2239,8 @@
   }
  },
  {
-  "name": "account__get_account",
-  "description": "[verification: documented] Get account details. Retrieves details of your Brevo account. **Use this to:** - Get account information (email, name, company, address) - Check plan details (type, credits, expiration) - Get relay information (for transactional emails) - Check Marketing Automation status - Access organization and user identifiers **Key information returned:** - Complete account details (organization ID, user ID, company information) - Address and contact information - Plan…",
-  "input_schema": {
-   "type": "object",
-   "properties": {}
-  }
- },
- {
   "name": "account__get_account_activity",
-  "description": "[verification: documented] Get user activity logs. Retrieves user activity logs from your organization for security monitoring and audit compliance. Use this to: - Monitor user login activities and access patterns - Track account modifications and configuration changes - Generate security audit reports and compliance documentation - Investigate suspicious activities and unauthorized access - Monitor team member actions and account usage Key information returned: - Complete user activity details…",
+  "description": "[verification: documented] [paid plan] Get user activity logs. Retrieves user activity logs from your organization for security monitoring and audit compliance. Use this to: - Monitor user login activities and access patterns - Track account modifications and configuration changes - Generate security audit reports and compliance documentation - Investigate suspicious activities and unauthorized access - Monitor team member actions and account usage Key information returned: - Complete user activity details…",
   "input_schema": {
    "type": "object",
    "properties": {
@@ -2052,68 +3466,6 @@
   }
  },
  {
-  "name": "companies__get_all_companies",
-  "description": "[verification: documented] Get all Companies. Retrieve a paginated list of companies with optional filtering, sorting, and search capabilities. Results are sorted by creation date in descending order by default, and can be filtered by attributes, linked contacts, linked deals, or modification/creation timestamps.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "filters[attributes.name]": {
-     "type": "string",
-     "description": "Filter by attributes. If you have a filter for the owner on your side please send it as filters[attributes.owner] and utilize the account email for the filtering."
-    },
-    "linkedContactsIds": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Filter by linked contacts ids"
-    },
-    "linkedDealsIds": {
-     "type": "string",
-     "format": "objectID",
-     "description": "Filter by linked Deals ids"
-    },
-    "modifiedSince": {
-     "type": "string",
-     "description": "Filter (urlencoded) the companies modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
-    },
-    "createdSince": {
-     "type": "string",
-     "description": "Filter (urlencoded) the companies created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
-    },
-    "page": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Index of the first document of the page"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Number of documents per page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "title": "CompaniesGetParametersSort",
-     "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
-    },
-    "sortBy": {
-     "type": "string",
-     "description": "The field used to sort field names."
-    }
-   }
-  }
- },
- {
-  "name": "companies__get_company_attributes",
-  "description": "[verification: documented] Get company attributes. Retrieve the list of all attributes defined for companies, including both system-default and custom attributes. Each attribute includes its label, internal name, type, required status, and available options for select-type attributes.",
-  "input_schema": {
-   "type": "object",
-   "properties": {}
-  }
- },
- {
   "name": "companies__import_companies_creation_and_updation",
   "description": "[verification: documented] Import companies(creation and updation). Import companies from a CSV file with mapping options.",
   "input_schema": {
@@ -2286,7 +3638,7 @@
  },
  {
   "name": "consent_groups__get_consent_groups",
-  "description": "[verification: documented] List all consent groups. Returns a paginated list of consent groups for the account. This endpoint is only available when the Consent Groups feature is enabled for your account. Returns `403` if the feature is not activated.",
+  "description": "[verification: documented] [paid plan] List all consent groups. Returns a paginated list of consent groups for the account. This endpoint is only available when the Consent Groups feature is enabled for your account. Returns `403` if the feature is not activated.",
   "input_schema": {
    "type": "object",
    "properties": {
@@ -2657,352 +4009,6 @@
     "multipleChoiceAttribute",
     "multipleChoiceAttributeOption"
    ]
-  }
- },
- {
-  "name": "contacts__get_attributes",
-  "description": "[verification: documented] List all attributes. Retrieve all contact attributes defined in your Brevo account, grouped by category (normal, transactional, category, calculated, global). Each attribute includes its name, type, and category, along with enumeration values for category-type attributes and options for multiple-choice-type attributes.",
-  "input_schema": {
-   "type": "object",
-   "properties": {}
-  }
- },
- {
-  "name": "contacts__get_contact_info",
-  "description": "[verification: documented] Get a contact's details. Follow this format when passing a \"SMS\" phone number as an attribute. Accepted Number Formats 91xxxxxxxxxx +91xxxxxxxxxx 0091xxxxxxxxxx There are 2 ways to get a contact Option 1- https://api.brevo.com/v3/contacts/{identifier} Option 2- https://api.brevo.com/v3/contacts/{identifier}?identifierType={} Option 1 only works if identifierType is email_id (for EMAIL), phone_id (for SMS) or contact_id (for ID of the contact),where you can directly…",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "identifier": {
-     "oneOf": [
-      {
-       "type": "string"
-      },
-      {
-       "type": "integer"
-      }
-     ],
-     "title": "ContactsIdentifierGetParametersIdentifier",
-     "description": "Email (urlencoded) OR ID of the contact OR its SMS attribute value OR EXT_ID attribute (urlencoded)"
-    },
-    "identifierType": {
-     "type": "string",
-     "enum": [
-      "email_id",
-      "phone_id",
-      "contact_id",
-      "ext_id",
-      "whatsapp_id",
-      "landline_number_id"
-     ],
-     "title": "ContactsIdentifierGetParametersIdentifierType",
-     "description": "email_id for Email, phone_id for SMS attribute, contact_id for ID of the contact, ext_id for EXT_ID attribute, whatsapp_id for WHATSAPP attribute, landline_number_id for LANDLINE_NUMBER attribute"
-    },
-    "startDate": {
-     "type": "string",
-     "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be lower than equal to endDate. Must not be greater than the current date."
-    },
-    "endDate": {
-     "type": "string",
-     "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be greater than equal to startDate. Must not be greater than the current date."
-    }
-   },
-   "required": [
-    "identifier"
-   ]
-  }
- },
- {
-  "name": "contacts__get_contact_stats",
-  "description": "[verification: documented] Get email campaigns' statistics for a contact. Retrieve email campaign statistics for a specific contact identified by email address or numeric ID. Statistics include messages sent, opens, clicks, hard/soft bounces, deliveries, unsubscriptions, complaints, and transactional attributes. By default, data covers the last 90 days; use startDate and endDate parameters (YYYY-MM-DD) to specify a custom range with a maximum span of 90 days.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "identifier": {
-     "oneOf": [
-      {
-       "type": "string"
-      },
-      {
-       "type": "integer"
-      }
-     ],
-     "title": "ContactsIdentifierCampaignStatsGetParametersIdentifier",
-     "description": "Email (urlencoded) OR ID of the contact"
-    },
-    "startDate": {
-     "type": "string",
-     "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be lower than equal to endDate. Must not be greater than the current date."
-    },
-    "endDate": {
-     "type": "string",
-     "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be greater than equal to startDate. Must not be greater than the current date. Maximum difference between startDate and endDate should not be greater than 90 days."
-    }
-   },
-   "required": [
-    "identifier"
-   ]
-  }
- },
- {
-  "name": "contacts__get_contacts",
-  "description": "[verification: documented] Get all the contacts. Retrieve all contacts from your Brevo account with support for pagination, filtering, and sorting. Results default to 50 contacts per page (maximum 1000) sorted in descending order of creation, and can be filtered by modification date, creation date, contact IDs (up to 20), list IDs, segment ID, or contact attributes using the equals operator. Note that either listIds or segmentId can be passed but not both simultaneously.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 1,
-     "maximum": 1000,
-     "default": 50,
-     "description": "Number of documents per page"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Index of the first document of the page"
-    },
-    "modifiedSince": {
-     "type": "string",
-     "description": "Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
-    },
-    "createdSince": {
-     "type": "string",
-     "description": "Filter (urlencoded) the contacts created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "ContactsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    },
-    "ids": {
-     "type": "array",
-     "items": {
-      "type": "integer",
-      "format": "int64"
-     },
-     "description": "Filter by a list of contact IDs. You can pass a **maximum of 20 IDs**. All elements must be integers."
-    },
-    "segmentId": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 1,
-     "description": "Id of the segment. **Either listIds or segmentId can be passed.** Must be a positive integer (minimum value of 1)."
-    },
-    "listIds": {
-     "type": "array",
-     "items": {
-      "type": "integer",
-      "format": "int64"
-     },
-     "description": "Ids of the list. **Either listIds or segmentId can be passed.**"
-    },
-    "filter": {
-     "type": "string",
-     "description": "Filter the contacts on the basis of attributes. **Allowed operator: equals. For multiple-choice options, the filter will apply an AND condition between the options. For category attributes, the filter will work with both id and value. (e.g. filter=equals(FIRSTNAME,\"Antoine\"), filter=equals(B1,…"
-    }
-   }
-  }
- },
- {
-  "name": "contacts__get_contacts_from_list",
-  "description": "[verification: documented] Get contacts in a list. Retrieve all contacts belonging to a specific list, identified by its list ID. Results are paginated with a default of 50 contacts per page (maximum 500) and sorted in descending order of creation. You can optionally filter contacts by their modification date using the modifiedSince parameter.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "listId": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Id of the list"
-    },
-    "modifiedSince": {
-     "type": "string",
-     "description": "Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 1,
-     "maximum": 500,
-     "default": 50,
-     "description": "Number of documents per page"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Index of the first document of the page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "ContactsListsListIdContactsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    }
-   },
-   "required": [
-    "listId"
-   ]
-  }
- },
- {
-  "name": "contacts__get_folder",
-  "description": "[verification: documented] Returns a folder's details. Ongoing changes for this endpoint. We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the attributes will be 0.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "folderId": {
-     "type": "integer",
-     "format": "int64",
-     "description": "id of the folder"
-    }
-   },
-   "required": [
-    "folderId"
-   ]
-  }
- },
- {
-  "name": "contacts__get_folder_lists",
-  "description": "[verification: documented] Get lists in a folder. Ongoing changes for this endpoint. We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the attributes will be 0.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "folderId": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Id of the folder"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 0,
-     "maximum": 50,
-     "default": 10,
-     "description": "Number of documents per page"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Index of the first document of the page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "ContactsFoldersFolderIdListsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    }
-   },
-   "required": [
-    "folderId"
-   ]
-  }
- },
- {
-  "name": "contacts__get_folders",
-  "description": "[verification: documented] Get all folders. Ongoing changes for this endpoint We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the attributes will be 0. The uniqueSubscribers field is deprecated",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 0,
-     "maximum": 50,
-     "default": 10,
-     "description": "Number of documents per page"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Index of the first document of the page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "ContactsFoldersGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    }
-   }
-  }
- },
- {
-  "name": "contacts__get_list",
-  "description": "[verification: documented] Get a list's details. Retrieve the details of a specific contact list by its ID, including its name, folder ID, creation date, subscriber counts, and campaign statistics. You can optionally filter campaign statistics by providing startDate and endDate parameters (both must be used together in YYYY-MM-DD format).",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "listId": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Id of the list"
-    },
-    "startDate": {
-     "type": "string",
-     "description": "**Mandatory if endDate is used**. Starting (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to aggregate the sent email campaigns for a specific list id. **Prefer to pass your timezone in date-time format for accurate result**"
-    },
-    "endDate": {
-     "type": "string",
-     "description": "**Mandatory if startDate is used**. Ending (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to aggregate the sent email campaigns for a specific list id. **Prefer to pass your timezone in date-time format for accurate result**"
-    }
-   },
-   "required": [
-    "listId"
-   ]
-  }
- },
- {
-  "name": "contacts__get_segments",
-  "description": "[verification: documented] Get all the segments. Retrieve all contact segments defined in your Brevo account with support for pagination and sorting. Results default to 10 segments per page (maximum 50) sorted in descending order of creation. Each segment includes its ID, name, category name, and last update timestamp.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 0,
-     "maximum": 50,
-     "default": 10,
-     "description": "Number of documents per page"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Index of the first document of the page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "ContactsSegmentsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    }
-   }
   }
  },
  {
@@ -4070,79 +5076,6 @@
   }
  },
  {
-  "name": "deals__get_all_deals",
-  "description": "[verification: documented] Get all deals. Retrieve a paginated list of deals with optional filtering, sorting, and search capabilities. Results can be filtered by attributes such as deal name or owner, linked companies, linked contacts, or modification/creation timestamps. Default sort order is descending by creation date.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "filters[attributes.deal_name]": {
-     "type": "string",
-     "description": "Filter by attributes. If you have a filter for the owner on your end, please send it as filters[attributes.deal_owner] and utilize the account email for the filtering."
-    },
-    "filters[attributes.deal_owner]": {
-     "type": "string",
-     "description": "Filter by the deal owner. Pass the account email address of the deal owner."
-    },
-    "filters[attributes.deal_stage]": {
-     "type": "string",
-     "description": "Filter by the deal stage. Pass the stage id, retrievable from GET /crm/pipeline/details/{pipelineID}."
-    },
-    "filters[attributes.pipeline]": {
-     "type": "string",
-     "description": "Filter by the pipeline. Pass the pipeline id, retrievable from GET /crm/pipeline/details/{pipelineID}."
-    },
-    "filters[linkedCompaniesIds]": {
-     "type": "string",
-     "description": "Filter by linked companies ids"
-    },
-    "filters[linkedContactsIds]": {
-     "type": "string",
-     "description": "Filter by linked contacts ids"
-    },
-    "modifiedSince": {
-     "type": "string",
-     "description": "Filter (urlencoded) the deals modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
-    },
-    "createdSince": {
-     "type": "string",
-     "description": "Filter (urlencoded) the deals created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Index of the first document of the page"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "default": 50,
-     "description": "Number of documents per page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "title": "CrmDealsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
-    },
-    "sortBy": {
-     "type": "string",
-     "description": "The field used to sort field names."
-    }
-   }
-  }
- },
- {
-  "name": "deals__get_all_pipelines",
-  "description": "[verification: documented] Get all pipelines. Retrieve the list of all deal pipelines configured for your account, including each pipeline''s stages and settings. If no pipelines have been configured yet, a default pipeline is automatically created and returned.",
-  "input_schema": {
-   "type": "object",
-   "properties": {}
-  }
- },
- {
   "name": "deals__get_apipeline",
   "description": "[verification: documented] Get a pipeline. Retrieve the details of a specific deal pipeline by its identifier, including its stages, stage ordering, and configuration. Use this endpoint to obtain the pipeline and stage IDs needed when creating or updating deals.",
   "input_schema": {
@@ -4155,22 +5088,6 @@
    "required": [
     "pipelineID"
    ]
-  }
- },
- {
-  "name": "deals__get_deal_attributes",
-  "description": "[verification: documented] Get deal attributes. Retrieve the list of all attributes defined for deals, including both system-default and custom attributes. Each attribute includes its label, internal name, type, required status, and available options for select-type attributes.",
-  "input_schema": {
-   "type": "object",
-   "properties": {}
-  }
- },
- {
-  "name": "deals__get_pipeline_stages",
-  "description": "[verification: documented] Get pipeline stages. This endpoint is deprecated. Prefer /crm/pipeline/details/{pipelineID} instead.",
-  "input_schema": {
-   "type": "object",
-   "properties": {}
   }
  },
  {
@@ -4330,14 +5247,6 @@
    "required": [
     "domainName"
    ]
-  }
- },
- {
-  "name": "domains__get_domains",
-  "description": "[verification: documented] Get the list of all sender domains. Retrieves all domains associated with the account. Use this to: - List all domains - Verify domain existence - Check domain authentication and verification status - Monitor domain configuration and provider information - Review domain creation history and ownership Key information returned: - Domain details (ID, name, authentication status) - Verification and authentication states - Associated IP addresses and DNS providers - Creator…",
-  "input_schema": {
-   "type": "object",
-   "properties": {}
   }
  },
  {
@@ -5209,7 +6118,7 @@
  },
  {
   "name": "ecommerce__get_categories",
-  "description": "[verification: documented] Return all your categories. Retrieve a paginated list of all ecommerce categories stored in your Brevo account. Results are sorted by creation date in descending order by default, and can be filtered by category IDs, name, modification date, creation date, or deletion status. The response includes a `count` field with the total number of matching categories, and pagination defaults to 50 categories per page (maximum 100).",
+  "description": "[verification: documented] [paid plan] Return all your categories. Retrieve a paginated list of all ecommerce categories stored in your Brevo account. Results are sorted by creation date in descending order by default, and can be filtered by category IDs, name, modification date, creation date, or deletion status. The response includes a `count` field with the total number of matching categories, and pagination defaults to 50 categories per page (maximum 100).",
   "input_schema": {
    "type": "object",
    "properties": {
@@ -5308,7 +6217,7 @@
  },
  {
   "name": "ecommerce__get_orders",
-  "description": "[verification: documented] Get order details. Get all the orders",
+  "description": "[verification: documented] [paid plan] Get order details. Get all the orders",
   "input_schema": {
    "type": "object",
    "properties": {
@@ -5369,7 +6278,7 @@
  },
  {
   "name": "ecommerce__get_products",
-  "description": "[verification: documented] Return all your products. Retrieve a paginated list of all ecommerce products stored in your Brevo account. Results are sorted by creation date in descending order by default, and can be filtered by product IDs, name (minimum 3 characters), price range, category IDs, modification date, creation date, or deletion status. Use the `search` parameter to query across SKU, name, and ID simultaneously — results are prioritized as exact SKU match > SKU prefix match > name match…",
+  "description": "[verification: documented] [paid plan] Return all your products. Retrieve a paginated list of all ecommerce products stored in your Brevo account. Results are sorted by creation date in descending order by default, and can be filtered by product IDs, name (minimum 3 characters), price range, category IDs, modification date, creation date, or deletion status. Use the `search` parameter to query across SKU, name, and ID simultaneously — results are prioritized as exact SKU match > SKU prefix match > name match…",
   "input_schema": {
    "type": "object",
    "properties": {
@@ -5852,140 +6761,6 @@
      "type": "integer",
      "format": "int64",
      "description": "Id of the A/B test campaign"
-    }
-   },
-   "required": [
-    "campaignId"
-   ]
-  }
- },
- {
-  "name": "email_campaigns__get_email_campaign",
-  "description": "[verification: documented] Get an email campaign report. Retrieve detailed information about a specific email campaign by its ID, including recipients, statistics, and HTML content. Use the statistics query parameter to select which statistics to include (globalStats, linksStats, statsByDomain, statsByDevice, or statsByBrowser); statsByDevice and statsByBrowser are only available on this single-campaign endpoint. You can exclude HTML content from the response by setting excludeHtmlContent to true.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "campaignId": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Id of the campaign"
-    },
-    "statistics": {
-     "type": "string",
-     "enum": [
-      "globalStats",
-      "linksStats",
-      "statsByDomain",
-      "statsByDevice",
-      "statsByBrowser"
-     ],
-     "title": "EmailCampaignsCampaignIdGetParametersStatistics",
-     "description": "Filter on the type of statistics required. Example: **globalStats** value will only fetch globalStats info of the campaign in the returned response. `statsByDevice` and `statsByBrowser` are only available when retrieving a single campaign (not in the list endpoint)."
-    },
-    "excludeHtmlContent": {
-     "type": "boolean",
-     "description": "Use this flag to exclude htmlContent from the response body. If set to **true**, htmlContent field will be returned as empty string in the response body"
-    }
-   },
-   "required": [
-    "campaignId"
-   ]
-  }
- },
- {
-  "name": "email_campaigns__get_email_campaigns",
-  "description": "[verification: documented] Return all your created email campaigns. The response payload for this endpoint has changed You now need to specify which type of statistics you would like to retrieve. For more information visit [this page](https://developers.brevo.com/changelog/2023/2/7).",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "type": {
-     "type": "string",
-     "enum": [
-      "classic",
-      "trigger"
-     ],
-     "title": "EmailCampaignsGetParametersType",
-     "description": "Filter on the type of the campaigns"
-    },
-    "status": {
-     "type": "string",
-     "enum": [
-      "suspended",
-      "archive",
-      "sent",
-      "queued",
-      "draft",
-      "inProcess",
-      "inReview",
-      "cancelling",
-      "cancelled"
-     ],
-     "title": "EmailCampaignsGetParametersStatus",
-     "description": "Filter on the status of the campaign"
-    },
-    "statistics": {
-     "type": "string",
-     "enum": [
-      "globalStats",
-      "linksStats",
-      "statsByDomain"
-     ],
-     "title": "EmailCampaignsGetParametersStatistics",
-     "description": "Filter on the type of statistics required. Example: **globalStats** value will only fetch globalStats info of the campaign in the returned response. This option only returns data for events that occurred in the last 6 months. For older campaigns, it is advisable to use the **Get Campaign Report**…"
-    },
-    "startDate": {
-     "type": "string",
-     "description": "**Mandatory if endDate is used.** Starting (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the sent email campaigns. **Prefer to pass your timezone in date-time format for accurate result.** Only available if `status` is not passed or is set to `sent`. The date range between…"
-    },
-    "endDate": {
-     "type": "string",
-     "description": "**Mandatory if startDate is used.** Ending (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the sent email campaigns. **Prefer to pass your timezone in date-time format for accurate result.** Only available if `status` is not passed or is set to `sent`. The date range between…"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 1,
-     "maximum": 100,
-     "default": 50,
-     "description": "Number of documents per page"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Index of the first document in the page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "EmailCampaignsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    },
-    "excludeHtmlContent": {
-     "type": "boolean",
-     "description": "Use this flag to exclude htmlContent from the response body. If set to **true**, the htmlContent field will be returned as an empty string in the response body."
-    },
-    "excludePdfAttachment": {
-     "type": "boolean",
-     "description": "Use this flag to filter out campaigns that have a PDF attachment. If set to **true**, only campaigns without a PDF attachment (or with no attachment at all) will be returned."
-    }
-   }
-  }
- },
- {
-  "name": "email_campaigns__get_shared_template_url",
-  "description": "[verification: documented] Get a shared template url. Get a unique URL to share & import an email template from one Brevo account to another.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "campaignId": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Id of the campaign or template"
     }
    },
    "required": [
@@ -6668,58 +7443,6 @@
   }
  },
  {
-  "name": "event__get_events",
-  "description": "[verification: documented] Get events. This endpoint currently only supports custom events. Retrieve a list of events filtered by various criteria.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "contact_id": {
-     "type": "array",
-     "items": {
-      "type": "integer",
-      "format": "int64"
-     },
-     "description": "Filter by contact ID (repeatable)"
-    },
-    "event_name": {
-     "type": "array",
-     "items": {
-      "type": "string"
-     },
-     "description": "Filter by event name (repeatable)"
-    },
-    "object_type": {
-     "type": "array",
-     "items": {
-      "type": "string"
-     },
-     "description": "Filter by object type (repeatable)"
-    },
-    "startDate": {
-     "type": "string",
-     "description": "Mandatory if endDate is used. Start of date range (YYYY-MM-DD or RFC3339). Defaults to 6 months ago when omitted alongside endDate. Must be ≤ endDate."
-    },
-    "endDate": {
-     "type": "string",
-     "description": "Mandatory if startDate is used. End of date range (YYYY-MM-DD or RFC3339). Must be ≥ startDate."
-    },
-    "limit": {
-     "type": "integer",
-     "minimum": 1,
-     "maximum": 10000,
-     "default": 100,
-     "description": "Max events to return. Default 100, min 1, max 10000."
-    },
-    "offset": {
-     "type": "integer",
-     "minimum": 0,
-     "default": 0,
-     "description": "Events to skip for pagination. Default 0, min 0."
-    }
-   }
-  }
- },
- {
   "name": "external_feeds__create_external_feed",
   "description": "[verification: documented] Create external feed. Creates a new external feed for dynamic content in email campaigns. **Use this to:** - Set up external data sources for dynamic content - Configure authentication for protected feeds - Enable real-time content updates in campaigns - Establish connections to product catalogs, blogs, or APIs **Key information returned:** - Created feed UUID for reference in campaigns - Success confirmation **Important considerations:** - Feed URL must be…",
   "input_schema": {
@@ -6817,7 +7540,7 @@
  },
  {
   "name": "external_feeds__get_all_external_feeds",
-  "description": "[verification: documented] Get all external feeds. Retrieves all external feeds from your Brevo account with filtering and pagination. **Use this to:** - Get an overview of all external data feeds - Find feeds by name using search functionality - Filter feeds by creation date range - Browse feeds by authentication type - Monitor feed library organization and usage **Key information returned:** - Feed details (UUID, name, URL, authentication type) - Feed configuration and settings - Creation and…",
+  "description": "[verification: documented] [paid plan] Get all external feeds. Retrieves all external feeds from your Brevo account with filtering and pagination. **Use this to:** - Get an overview of all external data feeds - Find feeds by name using search functionality - Filter feeds by creation date range - Browse feeds by authentication type - Monitor feed library organization and usage **Key information returned:** - Feed details (UUID, name, URL, authentication type) - Feed configuration and settings - Creation and…",
   "input_schema": {
    "type": "object",
    "properties": {
@@ -7002,57 +7725,6 @@
   }
  },
  {
-  "name": "files__get_all_files",
-  "description": "[verification: documented] Get all files. Retrieve a paginated list of CRM files with optional filtering by entity type, entity IDs, and date range. Results are sorted by creation date in descending order by default, with a default limit of 50 files per page.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "entity": {
-     "type": "string",
-     "enum": [
-      "companies",
-      "deals",
-      "contacts"
-     ],
-     "title": "CrmFilesGetParametersEntity",
-     "description": "Filter by file entity type"
-    },
-    "entityIds": {
-     "type": "string",
-     "description": "Filter by file entity IDs"
-    },
-    "dateFrom": {
-     "type": "integer",
-     "description": "dateFrom to date range filter type (timestamp in milliseconds)"
-    },
-    "dateTo": {
-     "type": "integer",
-     "description": "dateTo to date range filter type (timestamp in milliseconds)"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Index of the first document of the page"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "default": 50,
-     "description": "Number of documents per page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "title": "CrmFilesGetParametersSort",
-     "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
-    }
-   }
-  }
- },
- {
   "name": "files__get_file_details",
   "description": "[verification: documented] Get file details. Retrieve the metadata and details of a specific CRM file by its identifier. This returns information such as the file name, size, type, creation date, and associated entities, but does not include the file content itself.",
   "input_schema": {
@@ -7090,51 +7762,6 @@
    "required": [
     "downloadToken"
    ]
-  }
- },
- {
-  "name": "inbound_parsing__get_inbound_email_events",
-  "description": "[verification: documented] Get the list of all the events for the received emails.. This endpoint will show the list of all the events for the received emails. When no date range is provided, the last 30 days of events are returned by default.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "sender": {
-     "type": "string",
-     "description": "Email address of the sender."
-    },
-    "startDate": {
-     "type": "string",
-     "description": "Mandatory if endDate is used. Starting date (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.SSSZ) from which you want to fetch the list. Maximum time period that can be selected is 30 days. Must not be in the future."
-    },
-    "endDate": {
-     "type": "string",
-     "description": "Mandatory if startDate is used. Ending date (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.SSSZ) till which you want to fetch the list. Maximum time period that can be selected is 30 days. Must not be in the future."
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 0,
-     "maximum": 500,
-     "default": 100,
-     "description": "Number of documents returned per page"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Index of the first document on the page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "InboundEventsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation"
-    }
-   }
   }
  },
  {
@@ -7565,7 +8192,7 @@
  },
  {
   "name": "master_account__get_corporate_invited_users_list",
-  "description": "[verification: documented] Get the list of all admin users. This endpoint allows you to list all Admin users of your Admin account. You can filter users by type (active or pending) and paginate results using offset and limit.",
+  "description": "[verification: documented] [paid plan] Get the list of all admin users. This endpoint allows you to list all Admin users of your Admin account. You can filter users by type (active or pending) and paginate results using offset and limit.",
   "input_schema": {
    "type": "object",
    "properties": {
@@ -7619,7 +8246,7 @@
  },
  {
   "name": "master_account__get_sub_account_groups",
-  "description": "[verification: documented] Get the list of groups. This endpoint allows you to list all groups created on your Admin account.",
+  "description": "[verification: documented] [paid plan] Get the list of groups. This endpoint allows you to list all groups created on your Admin account.",
   "input_schema": {
    "type": "object",
    "properties": {}
@@ -7627,7 +8254,7 @@
  },
  {
   "name": "master_account__get_the_details_of_requested_master_account",
-  "description": "[verification: documented] Get the details of requested master account. This endpoint will provide the details of the master account.",
+  "description": "[verification: documented] [paid plan] Get the details of requested master account. This endpoint will provide the details of the master account.",
   "input_schema": {
    "type": "object",
    "properties": {}
@@ -7728,7 +8355,7 @@
  },
  {
   "name": "master_account__list_of_all_ips",
-  "description": "[verification: documented] List of all IPs. This endpoint allows you to retrieve the list of active IPs on your Admin account",
+  "description": "[verification: documented] [paid plan] List of all IPs. This endpoint allows you to retrieve the list of active IPs on your Admin account",
   "input_schema": {
    "type": "object",
    "properties": {}
@@ -8007,57 +8634,6 @@
   }
  },
  {
-  "name": "notes__get_all_notes",
-  "description": "[verification: documented] Get all notes. Retrieve a paginated list of CRM notes with optional filtering by entity type, entity IDs, and date range. Results are sorted by creation date in descending order by default, with a default limit of 50 notes per page.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "entity": {
-     "type": "string",
-     "enum": [
-      "companies",
-      "deals",
-      "contacts"
-     ],
-     "title": "CrmNotesGetParametersEntity",
-     "description": "Filter by note entity type"
-    },
-    "entityIds": {
-     "type": "string",
-     "description": "Filter by note entity IDs"
-    },
-    "dateFrom": {
-     "type": "integer",
-     "description": "dateFrom to date range filter type (timestamp in milliseconds)"
-    },
-    "dateTo": {
-     "type": "integer",
-     "description": "dateTo to date range filter type (timestamp in milliseconds)"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Index of the first document of the page"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "default": 50,
-     "description": "Number of documents per page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "title": "CrmNotesGetParametersSort",
-     "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
-    }
-   }
-  }
- },
- {
   "name": "notes__get_anote",
   "description": "[verification: documented] Get a note. Retrieve the full details of a single CRM note by its identifier. The response includes the note''s text content, creation date, author, and any associated contacts, companies, or deals.",
   "input_schema": {
@@ -8257,39 +8833,6 @@
   }
  },
  {
-  "name": "process__get_processes",
-  "description": "[verification: documented] Get background processes. Retrieves a list of background processes from your Brevo account with filtering and pagination. **Use this to:** - Monitor background process activity and status - Track long-running operations and tasks - Find process IDs for detailed status checking - Review process history and performance - Identify failed or stuck processes for troubleshooting **Key information returned:** - Process details (ID, name, status) - Export download URLs for…",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 1,
-     "maximum": 50,
-     "default": 10,
-     "description": "Number limitation for the result returned"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Beginning point in the list to retrieve from."
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "ProcessesGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    }
-   }
-  }
- },
- {
   "name": "program__create_new_lp",
   "description": "[verification: documented] Create loyalty program. Creates loyalty program",
   "input_schema": {
@@ -8398,42 +8941,6 @@
    "required": [
     "pid"
    ]
-  }
- },
- {
-  "name": "program__get_lplist",
-  "description": "[verification: documented] Get loyalty program list. Returns list of loyalty programs",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "limit": {
-     "type": "integer",
-     "description": "Number of documents per page"
-    },
-    "offset": {
-     "type": "integer",
-     "description": "Index of the first document in the page"
-    },
-    "sort_field": {
-     "type": "string",
-     "enum": [
-      "name",
-      "created_at",
-      "updated_at"
-     ],
-     "title": "LoyaltyConfigProgramsGetParametersSortField",
-     "description": "Sort documents by field"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "title": "LoyaltyConfigProgramsGetParametersSort",
-     "description": "Sort order"
-    }
-   }
   }
  },
  {
@@ -9237,14 +9744,6 @@
   }
  },
  {
-  "name": "senders__get_ips",
-  "description": "[verification: documented] Get all the dedicated IPs for your account. Retrieves all dedicated IPs associated with your Brevo account. Use this to: - List all your dedicated IPs - Check the status of your dedicated IPs (active/inactive) - Find IP addresses and associated domains for configuration purposes - Monitor your IP reputation and deliverability - Verify available IPs for sender configuration Key information returned: - IP ID and address - Associated domain - Active status - IP configuration details",
-  "input_schema": {
-   "type": "object",
-   "properties": {}
-  }
- },
- {
   "name": "senders__get_ips_from_sender",
   "description": "[verification: documented] Get all the dedicated IPs for a specific sender. Retrieves the dedicated IPs associated with a specific sender. Use this to: - Check IP configuration for a sender - Verify dedicated IP associations - Get IP details for troubleshooting - Monitor sender IP configuration Key information returned: - List of associated dedicated IPs - IP addresses and domain configurations - IP status and settings",
   "input_schema": {
@@ -9259,23 +9758,6 @@
    "required": [
     "senderId"
    ]
-  }
- },
- {
-  "name": "senders__get_senders",
-  "description": "[verification: documented] Get email senders. Retrieves a list of all email senders from your Brevo account with optional filtering. **Use this to:** - Get all available senders for email campaign setup - Find sender details including ID, name, and email address - Filter senders by IP address for dedicated IP users - Filter senders by domain for domain-specific configurations - Monitor sender configuration and status **Key information returned:** - Sender details (ID, name, email address)…",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "ip": {
-     "type": "string",
-     "description": "Filter your senders for a specific ip. **Available for dedicated IP usage only**"
-    },
-    "domain": {
-     "type": "string",
-     "description": "Filter your senders for a specific domain"
-    }
-   }
   }
  },
  {
@@ -9458,60 +9940,6 @@
    "required": [
     "campaignId"
    ]
-  }
- },
- {
-  "name": "sms_campaigns__get_sms_campaigns",
-  "description": "[verification: documented] Returns the information for all your created SMS campaigns. Retrieve a paginated list of all your SMS campaigns with their statistics and recipient information. Results can be filtered by status and date range, with a default limit of 500 and maximum of 1000 per page. The sort order defaults to descending by creation date; date filters are only available when status is not passed or is set to sent.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "status": {
-     "type": "string",
-     "enum": [
-      "suspended",
-      "archive",
-      "sent",
-      "queued",
-      "draft",
-      "inProcess"
-     ],
-     "title": "SmsCampaignsGetParametersStatus",
-     "description": "Status of campaign."
-    },
-    "startDate": {
-     "type": "string",
-     "description": "**Mandatory if endDate is used.** Starting (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the sent SMS campaigns. **Prefer to pass your timezone in date-time format for accurate result.** Only available if `status` is not passed or is set to `sent`. `startDate` must not be in the…"
-    },
-    "endDate": {
-     "type": "string",
-     "description": "**Mandatory if startDate is used.** Ending (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the sent SMS campaigns. **Prefer to pass your timezone in date-time format for accurate result.** Only available if `status` is not passed or is set to `sent`. `endDate` must not be in the…"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 1,
-     "maximum": 1000,
-     "default": 500,
-     "description": "Number of documents per page"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Beginning point in the list to retrieve from."
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "SmsCampaignsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    }
-   }
   }
  },
  {
@@ -9866,96 +10294,6 @@
    "required": [
     "id"
    ]
-  }
- },
- {
-  "name": "tasks__get_all_task_types",
-  "description": "[verification: documented] Get all task types. Retrieve the list of all available task types, such as Email, Call, Meeting, Todo, Lunch, Deadline, and LinkedIn. If no task types exist yet, the default set is automatically created and returned. Use the task type ID when creating or updating tasks.",
-  "input_schema": {
-   "type": "object",
-   "properties": {}
-  }
- },
- {
-  "name": "tasks__get_all_tasks",
-  "description": "[verification: documented] Get all tasks. Retrieve a paginated list of CRM tasks with optional filtering by task type, status, date range, assignee, and linked entities (contacts, deals, companies). Results are sorted by creation date in descending order by default, with a default limit of 50 tasks per page.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "filter[type]": {
-     "type": "string",
-     "description": "Filter by task type (ID)"
-    },
-    "filter[status]": {
-     "type": "string",
-     "enum": [
-      "done",
-      "undone"
-     ],
-     "title": "CrmTasksGetParametersFilterStatus",
-     "description": "Filter by task status"
-    },
-    "filter[date]": {
-     "type": "string",
-     "enum": [
-      "overdue",
-      "today",
-      "tomorrow",
-      "week",
-      "range"
-     ],
-     "title": "CrmTasksGetParametersFilterDate",
-     "description": "Filter by date"
-    },
-    "filter[assignTo]": {
-     "type": "string",
-     "description": "Filter by the \"assignTo\" ID. You can utilize account emails for the \"assignTo\" attribute."
-    },
-    "filter[contacts]": {
-     "type": "string",
-     "description": "Filter by contact ids"
-    },
-    "filter[deals]": {
-     "type": "string",
-     "description": "Filter by deals ids"
-    },
-    "filter[companies]": {
-     "type": "string",
-     "description": "Filter by companies ids"
-    },
-    "dateFrom": {
-     "type": "integer",
-     "description": "dateFrom to date range filter type (timestamp in milliseconds)"
-    },
-    "dateTo": {
-     "type": "integer",
-     "description": "dateTo to date range filter type (timestamp in milliseconds)"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Index of the first document of the page"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "default": 50,
-     "description": "Number of documents per page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "title": "CrmTasksGetParametersSort",
-     "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
-    },
-    "sortBy": {
-     "type": "string",
-     "description": "The field used to sort field names."
-    }
-   }
   }
  },
  {
@@ -10761,127 +11099,6 @@
   }
  },
  {
-  "name": "transactional_emails__get_aggregated_smtp_report",
-  "description": "[verification: documented] Get your transactional email activity aggregated over a period of time. This endpoint will show the aggregated stats for past 90 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can not exceed 90 days",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "startDate": {
-     "type": "string",
-     "description": "**Mandatory if endDate is used.** Starting date of the report (YYYY-MM-DD). Must be lower than equal to endDate"
-    },
-    "endDate": {
-     "type": "string",
-     "description": "**Mandatory if startDate is used.** Ending date of the report (YYYY-MM-DD). Must be greater than equal to startDate"
-    },
-    "days": {
-     "type": "integer",
-     "format": "int64",
-     "maximum": 90,
-     "description": "Number of days in the past including today (positive integer, maximum 90). _Not compatible with 'startDate' and 'endDate'_. Defaults to 90 if neither dates nor days are provided."
-    },
-    "tag": {
-     "type": "string",
-     "description": "Tag of the emails"
-    }
-   }
-  }
- },
- {
-  "name": "transactional_emails__get_blocked_domains",
-  "description": "[verification: documented] Get the list of blocked domains",
-  "input_schema": {
-   "type": "object",
-   "properties": {}
-  }
- },
- {
-  "name": "transactional_emails__get_email_event_report",
-  "description": "[verification: documented] Get all your transactional email activity (unaggregated events). This endpoint will show the aggregated stats for past 30 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can not exceed 90 days",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 0,
-     "maximum": 5000,
-     "default": 2500,
-     "description": "Number limitation for the result returned"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Beginning point in the list to retrieve from."
-    },
-    "startDate": {
-     "type": "string",
-     "description": "**Mandatory if endDate is used.** Starting date of the report (YYYY-MM-DD). Must be lower than equal to endDate"
-    },
-    "endDate": {
-     "type": "string",
-     "description": "**Mandatory if startDate is used.** Ending date of the report (YYYY-MM-DD). Must be greater than equal to startDate"
-    },
-    "days": {
-     "type": "integer",
-     "format": "int64",
-     "maximum": 90,
-     "description": "Number of days in the past including today (positive integer, maximum 90). _Not compatible with 'startDate' and 'endDate'_. Defaults to 30 if neither dates nor days are provided."
-    },
-    "email": {
-     "type": "string",
-     "format": "email",
-     "description": "Filter the report for a specific email addresses"
-    },
-    "event": {
-     "type": "string",
-     "enum": [
-      "bounces",
-      "hardBounces",
-      "softBounces",
-      "delivered",
-      "spam",
-      "requests",
-      "opened",
-      "clicks",
-      "invalid",
-      "deferred",
-      "blocked",
-      "unsubscribed",
-      "error",
-      "loadedByProxy"
-     ],
-     "title": "SmtpStatisticsEventsGetParametersEvent",
-     "description": "Filter the report for a specific event type"
-    },
-    "tags": {
-     "type": "string",
-     "description": "Filter the report for tags (serialized and urlencoded array)"
-    },
-    "messageId": {
-     "type": "string",
-     "description": "Filter on a specific message id"
-    },
-    "templateId": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Filter on a specific template id"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "SmtpStatisticsEventsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    }
-   }
-  }
- },
- {
   "name": "transactional_emails__get_scheduled_email_by_id",
   "description": "[verification: documented] Fetch scheduled emails by batchId or messageId. Fetch scheduled batch of emails by batchId or single scheduled email by messageId (Can retrieve data upto 30 days old)",
   "input_schema": {
@@ -10942,57 +11159,6 @@
   }
  },
  {
-  "name": "transactional_emails__get_smtp_report",
-  "description": "[verification: documented] Get your transactional email activity aggregated per day. This endpoint will show the aggregated stats per day for the past 10 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can not exceed 30 days.",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 0,
-     "maximum": 30,
-     "default": 10,
-     "description": "Number of documents returned per page"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Index of the first document on the page"
-    },
-    "startDate": {
-     "type": "string",
-     "description": "**Mandatory if endDate is used.** Starting date of the report (YYYY-MM-DD)"
-    },
-    "endDate": {
-     "type": "string",
-     "description": "**Mandatory if startDate is used.** Ending date of the report (YYYY-MM-DD)"
-    },
-    "days": {
-     "type": "integer",
-     "format": "int64",
-     "maximum": 30,
-     "description": "Number of days in the past including today (positive integer, maximum 30). _Not compatible with 'startDate' and 'endDate'_"
-    },
-    "tag": {
-     "type": "string",
-     "description": "Tag of the emails"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "SmtpStatisticsReportsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    }
-   }
-  }
- },
- {
   "name": "transactional_emails__get_smtp_template",
   "description": "[verification: documented] Returns the template information. Retrieve the full details of a specific transactional email template by its numeric ID or custom template identifier string. The response includes the template name, subject, sender information, HTML content, active status, creation and modification timestamps, reply-to address, tag, and a `doiTemplate` flag indicating whether the template is a double opt-in template (detected by the presence of optin-related tags or variables in the content).",
   "input_schema": {
@@ -11015,99 +11181,6 @@
    "required": [
     "templateId"
    ]
-  }
- },
- {
-  "name": "transactional_emails__get_smtp_templates",
-  "description": "[verification: documented] Get the list of email templates. Retrieve a paginated list of all transactional email templates (including automation templates) with their details such as name, subject, sender, status, HTML content, and timestamps. Results default to 50 per page (max 1000) and are sorted in descending creation order unless overridden. You can filter by active/inactive status using `templateStatus` and by editor type using `editorType` (currently only `richTextEditor` is supported).",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "templateStatus": {
-     "type": "boolean",
-     "description": "Filter on the status of the template. Active = true, inactive = false"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 0,
-     "maximum": 1000,
-     "default": 50,
-     "description": "Number of documents returned per page"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Index of the first document in the page"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "SmtpTemplatesGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    },
-    "editorType": {
-     "type": "string",
-     "enum": [
-      "richTextEditor"
-     ],
-     "title": "SmtpTemplatesGetParametersEditorType",
-     "description": "Filter on the editor type used to create the template. Currently only `richTextEditor` is supported as a filter value."
-    }
-   }
-  }
- },
- {
-  "name": "transactional_emails__get_transac_blocked_contacts",
-  "description": "[verification: documented] Get the list of blocked or unsubscribed transactional contacts. Retrieve a paginated list of transactional contacts that have been blocked or unsubscribed, along with the reason for blocking (e.g. hard bounce, admin blocked, spam complaint, or unsubscription via email/API/Marketing Automation). Both `startDate` and `endDate` must be provided together when filtering by date range, and neither date can be in the future. Results default to 50 per page (max 100) and are sorted in descending order of record…",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "startDate": {
-     "type": "string",
-     "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) from which you want to fetch the blocked or unsubscribed contacts"
-    },
-    "endDate": {
-     "type": "string",
-     "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) till which you want to fetch the blocked or unsubscribed contacts"
-    },
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 0,
-     "maximum": 100,
-     "default": 50,
-     "description": "Number of documents returned per page"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Index of the first document on the page"
-    },
-    "senders": {
-     "type": "array",
-     "items": {
-      "type": "string"
-     },
-     "description": "Comma separated list of emails of the senders from which contacts are blocked or unsubscribed"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "SmtpBlockedContactsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    }
-   }
   }
  },
  {
@@ -11889,71 +11962,6 @@
   }
  },
  {
-  "name": "transactional_whats_app__get_whatsapp_event_report",
-  "description": "[verification: documented] Get all your WhatsApp activity (unaggregated events). This endpoint will show the unaggregated statistics for WhatsApp activity (30 days by default if `startDate` and `endDate` or `days` is not passed. The date range can not exceed 90 days)",
-  "input_schema": {
-   "type": "object",
-   "properties": {
-    "limit": {
-     "type": "integer",
-     "format": "int64",
-     "minimum": 0,
-     "maximum": 10000,
-     "default": 2500,
-     "description": "Number limitation for the result returned"
-    },
-    "offset": {
-     "type": "integer",
-     "format": "int64",
-     "default": 0,
-     "description": "Beginning point in the list to retrieve from"
-    },
-    "startDate": {
-     "type": "string",
-     "description": "**Mandatory if endDate is used.** Starting date of the report (YYYY-MM-DD). Must be lower than equal to endDate"
-    },
-    "endDate": {
-     "type": "string",
-     "description": "**Mandatory if startDate is used.** Ending date of the report (YYYY-MM-DD). Must be greater than equal to startDate"
-    },
-    "days": {
-     "type": "integer",
-     "format": "int64",
-     "description": "Number of days in the past including today (positive integer). _Not compatible with 'startDate' and 'endDate'_"
-    },
-    "contactNumber": {
-     "type": "string",
-     "format": "mobile",
-     "description": "Filter results for specific contact (WhatsApp Number with country code. Example, 85264318721)"
-    },
-    "event": {
-     "type": "string",
-     "enum": [
-      "sent",
-      "delivered",
-      "read",
-      "error",
-      "unsubscribe",
-      "reply",
-      "soft-bounce"
-     ],
-     "title": "WhatsappStatisticsEventsGetParametersEvent",
-     "description": "Filter the report for a specific event type"
-    },
-    "sort": {
-     "type": "string",
-     "enum": [
-      "asc",
-      "desc"
-     ],
-     "default": "desc",
-     "title": "WhatsappStatisticsEventsGetParametersSort",
-     "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
-    }
-   }
-  }
- },
- {
   "name": "transactional_whats_app__send_whatsapp_message",
   "description": "[verification: documented] [DESTRUCTIVE: confirm with the user first] Send a WhatsApp message. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating Whatsapp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account This endpoint is used to send a WhatsApp message. (**The first message you send using the API must contain a Template ID. You must create a template on WhatsApp on the Brevo platform to…",
   "input_schema": {
@@ -12066,14 +12074,6 @@
     "email",
     "privileges"
    ]
-  }
- },
- {
-  "name": "user__get_invited_users_list",
-  "description": "[verification: documented] Get the list of all your users. Retrieves the list of all users associated with your organization, including both active and pending invited users. Each user entry includes their email address, owner status, current invitation status, and feature access levels for marketing, CRM, and conversations.",
-  "input_schema": {
-   "type": "object",
-   "properties": {}
   }
  },
  {
@@ -12706,7 +12706,7 @@
  },
  {
   "name": "whats_app_campaigns__get_whats_app_campaign",
-  "description": "[verification: documented] Get a WhatsApp campaign. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating Whatsapp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account This API requires the List and Segment ids as recipients in Body params.You can use the below Contact endpoints to get the required information. [Get all the…",
+  "description": "[verification: documented] [paid plan] Get a WhatsApp campaign. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating Whatsapp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account This API requires the List and Segment ids as recipients in Body params.You can use the below Contact endpoints to get the required information. [Get all the…",
   "input_schema": {
    "type": "object",
    "properties": {
@@ -12723,7 +12723,7 @@
  },
  {
   "name": "whats_app_campaigns__get_whats_app_campaigns",
-  "description": "[verification: documented] Return all your created WhatsApp campaigns. Retrieve a paginated list of all your WhatsApp campaigns with their statistics and metadata. Results can be filtered by creation date range using startDate and endDate, with a default limit of 50 and maximum of 100 per page. The sort order defaults to descending by modification date.",
+  "description": "[verification: documented] [paid plan] Return all your created WhatsApp campaigns. Retrieve a paginated list of all your WhatsApp campaigns with their statistics and metadata. Results can be filtered by creation date range using startDate and endDate, with a default limit of 50 and maximum of 100 per page. The sort order defaults to descending by modification date.",
   "input_schema": {
    "type": "object",
    "properties": {
@@ -12764,7 +12764,7 @@
  },
  {
   "name": "whats_app_campaigns__get_whats_app_config",
-  "description": "[verification: documented] Get your WhatsApp API account information. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating WhatsApp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account",
+  "description": "[verification: documented] [paid plan] Get your WhatsApp API account information. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating WhatsApp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account",
   "input_schema": {
    "type": "object",
    "properties": {}
@@ -12772,7 +12772,7 @@
  },
  {
   "name": "whats_app_campaigns__get_whats_app_templates",
-  "description": "[verification: documented] Return all your created WhatsApp templates. Retrieve a paginated list of all your WhatsApp templates with their status, category, language, and metadata. Results can be filtered by creation date range and optionally by source (Automation or Conversations), with a default limit of 50 and maximum of 100 per page. The sort order defaults to descending by modification date.",
+  "description": "[verification: documented] [paid plan] Return all your created WhatsApp templates. Retrieve a paginated list of all your WhatsApp templates with their status, category, language, and metadata. Results can be filtered by creation date range and optionally by source (Automation or Conversations), with a default limit of 50 and maximum of 100 per page. The sort order defaults to descending by modification date.",
   "input_schema": {
    "type": "object",
    "properties": {

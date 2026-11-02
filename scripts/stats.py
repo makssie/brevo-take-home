@@ -74,6 +74,8 @@ def main():
         f"| Flagged destructive (delete or send) | {sum(a.get('destructive', False) for a in actions)} |",
         f"| With observed error cases and recovery advice | {sum('errors' in a for a in actions)} |",
         f"| Plan-gated | {sum('plan_gated' in a for a in actions)} |",
+        f"| Real responses that contradict the public spec's schema | "
+        f"{sum('differs from the documented output schema' in a['verification'].get('notes', '') for a in actions)} |",
         "",
         "## UI coverage (23 sidebar screens, keyword-mapped)",
         "",

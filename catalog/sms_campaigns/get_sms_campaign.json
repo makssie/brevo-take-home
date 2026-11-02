@@ -205,6 +205,17 @@
     "level": "documented",
     "date": "2026-11-02",
     "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#smsCampaigns_getSmsCampaign",
-    "notes": "Generated from the public OpenAPI spec. Not executed."
-  }
+    "notes": "Generated from the public OpenAPI spec. A read-only call failed on the free account (HTTP 404); see errors."
+  },
+  "errors": [
+    {
+      "when": "Read-only test call on a free-plan account, with known test ids or no inputs",
+      "status": 404,
+      "response": {
+        "code": "document_not_found",
+        "message": "campaign does not exist"
+      },
+      "agent_should": "The feature or resource is not set up on this account. Tell the user."
+    }
+  ]
 }

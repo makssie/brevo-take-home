@@ -1,0 +1,618 @@
+{
+ "account.get_account": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_issues": [
+   {
+    "path": "$.plan[0].credits",
+    "rule": "type"
+   }
+  ],
+  "schema_ok": false,
+  "status": 200
+ },
+ "account.get_account_activity": {
+  "date": "2026-11-02",
+  "error_code": "bad_request",
+  "error_message": "Upgrade to Enterprise plan to access this API.",
+  "ok": false,
+  "status": 400
+ },
+ "balance.get_active_balances_api": {
+  "skipped": "needs pid, contactId, balanceDefinitionId"
+ },
+ "balance.get_balance_definition": {
+  "skipped": "needs pid, bdid"
+ },
+ "balance.get_balance_definition_list": {
+  "skipped": "needs pid"
+ },
+ "balance.get_balance_limit": {
+  "skipped": "needs pid, bdid, blid"
+ },
+ "balance.get_contact_balances": {
+  "skipped": "needs pid, balanceDefinitionId"
+ },
+ "balance.get_subscription_balances": {
+  "skipped": "needs pid, cid"
+ },
+ "balance.get_transaction_history_api": {
+  "skipped": "needs pid, contactId, balanceDefinitionId"
+ },
+ "companies.get_acompany": {
+  "skipped": "needs id"
+ },
+ "companies.get_all_companies": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "companies.get_company_attributes": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "consent_groups.get_consent_group": {
+  "skipped": "needs id"
+ },
+ "consent_groups.get_consent_groups": {
+  "date": "2026-11-02",
+  "error_code": "CONSENT_GROUP_NOT_ENABLED",
+  "error_message": "consent group is not enabled for this client",
+  "ok": false,
+  "status": 403
+ },
+ "contacts.get_attributes": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "contacts.get_contact_info": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "contacts.get_contact_stats": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "contacts.get_contacts": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_issues": [
+   {
+    "path": "$.contacts[0].listUnsubscribed",
+    "rule": "type"
+   },
+   {
+    "path": "$.contacts[1].listUnsubscribed",
+    "rule": "type"
+   },
+   {
+    "path": "$.contacts[2].listUnsubscribed",
+    "rule": "type"
+   }
+  ],
+  "schema_ok": false,
+  "status": 200
+ },
+ "contacts.get_contacts_from_list": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "contacts.get_folder": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "contacts.get_folder_lists": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "contacts.get_folders": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "contacts.get_list": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "contacts.get_segments": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "conversations.get_amessage": {
+  "skipped": "needs id"
+ },
+ "conversations.get_an_automated_message": {
+  "skipped": "needs id"
+ },
+ "coupons.get_coupon_collection": {
+  "skipped": "needs id"
+ },
+ "coupons.get_coupon_collections": {
+  "date": "2026-11-02",
+  "error_code": null,
+  "error_message": "Forbidden",
+  "ok": false,
+  "status": 403
+ },
+ "custom_objects.get_associated_records": {
+  "skipped": "needs object_type"
+ },
+ "custom_objects.getrecords": {
+  "skipped": "needs object_type, page_num"
+ },
+ "deals.get_adeal": {
+  "skipped": "needs id"
+ },
+ "deals.get_all_deals": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "deals.get_all_pipelines": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "deals.get_apipeline": {
+  "skipped": "needs pipelineID"
+ },
+ "deals.get_deal_attributes": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "deals.get_pipeline_stages": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "domains.get_domain_configuration": {
+  "skipped": "needs domainName"
+ },
+ "domains.get_domains": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "ecommerce.get_attributed_product_sales_for_asingle_brevo_campaign_or_workflow": {
+  "skipped": "needs conversionSource, conversionSourceId"
+ },
+ "ecommerce.get_attribution_metrics_for_one_or_more_brevo_campaigns_or_workflows": {
+  "date": "2026-11-02",
+  "error_code": null,
+  "error_message": "Forbidden",
+  "ok": false,
+  "status": 403
+ },
+ "ecommerce.get_categories": {
+  "date": "2026-11-02",
+  "error_code": "permission_denied",
+  "error_message": "Your eCommerce section is not yet activated.",
+  "ok": false,
+  "status": 403
+ },
+ "ecommerce.get_category_info": {
+  "skipped": "needs id"
+ },
+ "ecommerce.get_detailed_attribution_metrics_for_asingle_brevo_campaign_or_workflow": {
+  "skipped": "needs conversionSource, conversionSourceId"
+ },
+ "ecommerce.get_orders": {
+  "date": "2026-11-02",
+  "error_code": "permission_denied",
+  "error_message": "Your eCommerce section is not yet activated.",
+  "ok": false,
+  "status": 403
+ },
+ "ecommerce.get_product_info": {
+  "skipped": "needs id"
+ },
+ "ecommerce.get_products": {
+  "date": "2026-11-02",
+  "error_code": "permission_denied",
+  "error_message": "Your eCommerce section is not yet activated.",
+  "ok": false,
+  "status": 403
+ },
+ "ecommerce.get_the_iso4217_compliant_display_currency_code_for_your_brevo_account": {
+  "date": "2026-11-02",
+  "error_code": null,
+  "error_message": "Forbidden",
+  "ok": false,
+  "status": 403
+ },
+ "email_campaigns.get_ab_test_campaign_result": {
+  "date": "2026-11-02",
+  "error_code": "invalid_parameter",
+  "error_message": "Campaign is not an A/B test campaign",
+  "ok": false,
+  "status": 400
+ },
+ "email_campaigns.get_email_campaign": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_issues": [
+   {
+    "path": "$.statistics.globalStats.opensRate",
+    "rule": "type"
+   },
+   {
+    "path": "$.statistics.globalStats.trackableViewsRate",
+    "rule": "type"
+   }
+  ],
+  "schema_ok": false,
+  "status": 200
+ },
+ "email_campaigns.get_email_campaigns": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_issues": [
+   {
+    "path": "$.campaigns[0].statistics.globalStats.opensRate",
+    "rule": "type"
+   },
+   {
+    "path": "$.campaigns[0].statistics.globalStats.trackableViewsRate",
+    "rule": "type"
+   },
+   {
+    "path": "$.campaigns[1].statistics.globalStats.opensRate",
+    "rule": "type"
+   },
+   {
+    "path": "$.campaigns[1].statistics.globalStats.trackableViewsRate",
+    "rule": "type"
+   }
+  ],
+  "schema_ok": false,
+  "status": 200
+ },
+ "email_campaigns.get_shared_template_url": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "event.get_events": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "external_feeds.get_all_external_feeds": {
+  "date": "2026-11-02",
+  "error_code": "permission_denied",
+  "error_message": "This feature is only available to customers with an Enterprise plan. To enable it, please contact your customer success manager.",
+  "ok": false,
+  "status": 403
+ },
+ "external_feeds.get_external_feed_by_uuid": {
+  "skipped": "needs uuid"
+ },
+ "files.download_afile": {
+  "skipped": "needs id"
+ },
+ "files.get_all_files": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "files.get_file_details": {
+  "skipped": "needs id"
+ },
+ "inbound_parsing.get_inbound_email_attachment": {
+  "skipped": "needs downloadToken"
+ },
+ "inbound_parsing.get_inbound_email_events": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "inbound_parsing.get_inbound_email_events_by_uuid": {
+  "skipped": "needs uuid"
+ },
+ "master_account.get_agroup_details": {
+  "skipped": "needs id"
+ },
+ "master_account.get_corporate_invited_users_list": {
+  "date": "2026-11-02",
+  "error_code": "permission_denied",
+  "error_message": "Current account is not a corporate user",
+  "ok": false,
+  "status": 403
+ },
+ "master_account.get_corporate_user_permission": {
+  "skipped": "needs email"
+ },
+ "master_account.get_sub_account_details": {
+  "skipped": "needs id"
+ },
+ "master_account.get_sub_account_groups": {
+  "date": "2026-11-02",
+  "error_code": "permission_denied",
+  "error_message": "Current account is not a corporate user",
+  "ok": false,
+  "status": 403
+ },
+ "master_account.get_the_details_of_requested_master_account": {
+  "date": "2026-11-02",
+  "error_code": "permission_denied",
+  "error_message": "Current account is not a corporate user",
+  "ok": false,
+  "status": 403
+ },
+ "master_account.get_the_list_of_all_the_sub_accounts_of_the_master_account": {
+  "skipped": "needs offset"
+ },
+ "master_account.list_of_all_ips": {
+  "date": "2026-11-02",
+  "error_code": "permission_denied",
+  "error_message": "Current account is not a corporate user",
+  "ok": false,
+  "status": 403
+ },
+ "notes.get_all_notes": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "notes.get_anote": {
+  "skipped": "needs id"
+ },
+ "payments.get_payment_request": {
+  "skipped": "needs id"
+ },
+ "process.get_process": {
+  "skipped": "needs processId"
+ },
+ "process.get_processes": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "program.get_loyalty_program_info": {
+  "skipped": "needs pid"
+ },
+ "program.get_lplist": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "program.get_parameter_subscription_info": {
+  "skipped": "needs pid"
+ },
+ "reward.get_code_count": {
+  "skipped": "needs pid, cpid"
+ },
+ "reward.get_reward_information": {
+  "skipped": "needs pid, rid"
+ },
+ "reward.get_reward_page_api": {
+  "skipped": "needs pid"
+ },
+ "reward.get_voucher_for_acontact": {
+  "skipped": "needs pid, contactId"
+ },
+ "senders.get_ips": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "senders.get_ips_from_sender": {
+  "skipped": "needs senderId"
+ },
+ "senders.get_senders": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "sms_campaigns.get_sms_campaign": {
+  "date": "2026-11-02",
+  "error_code": "document_not_found",
+  "error_message": "campaign does not exist",
+  "ok": false,
+  "status": 404
+ },
+ "sms_campaigns.get_sms_campaigns": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "tasks.get_all_task_types": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "tasks.get_all_tasks": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "tasks.get_atask": {
+  "skipped": "needs id"
+ },
+ "tier.get_list_of_tier_groups": {
+  "skipped": "needs pid"
+ },
+ "tier.get_loyalty_program_tier": {
+  "skipped": "needs pid"
+ },
+ "tier.get_tier_group": {
+  "skipped": "needs pid, gid"
+ },
+ "transactional_emails.get_aggregated_smtp_report": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "transactional_emails.get_blocked_domains": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "transactional_emails.get_email_event_report": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "transactional_emails.get_scheduled_email_by_id": {
+  "date": "2026-11-02",
+  "error_code": "invalid_parameter",
+  "error_message": "Please enter valid UUIDv4 batch ID or message ID",
+  "ok": false,
+  "status": 400
+ },
+ "transactional_emails.get_smtp_report": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "transactional_emails.get_smtp_template": {
+  "skipped": "needs templateId"
+ },
+ "transactional_emails.get_smtp_templates": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "transactional_emails.get_transac_blocked_contacts": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "transactional_emails.get_transac_email_content": {
+  "skipped": "needs uuid"
+ },
+ "transactional_emails.get_transac_emails_list": {
+  "date": "2026-11-02",
+  "error_code": "missing_parameter",
+  "error_message": "Please pass atleast one of the following filters: email, messageId, templateId",
+  "ok": false,
+  "status": 400
+ },
+ "transactional_sms.get_sms_events": {
+  "date": "2026-11-02",
+  "error_code": "invalid_request",
+  "error_message": "Invalid Request",
+  "ok": false,
+  "status": 500
+ },
+ "transactional_sms.get_transac_aggregated_sms_report": {
+  "date": "2026-11-02",
+  "error_code": "invalid_request",
+  "error_message": "Invalid Request",
+  "ok": false,
+  "status": 500
+ },
+ "transactional_sms.get_transac_sms_report": {
+  "date": "2026-11-02",
+  "error_code": "invalid_request",
+  "error_message": "Invalid Request",
+  "ok": false,
+  "status": 500
+ },
+ "transactional_whats_app.get_whatsapp_event_report": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_ok": true,
+  "status": 200
+ },
+ "user.get_invited_users_list": {
+  "date": "2026-11-02",
+  "ok": true,
+  "schema_issues": [
+   {
+    "path": "$.users[0].is_owner",
+    "rule": "type"
+   }
+  ],
+  "schema_ok": false,
+  "status": 200
+ },
+ "user.get_user_permission": {
+  "skipped": "needs email"
+ },
+ "wallet.get_wallet_pass_install_url": {
+  "skipped": "needs passId, contactId"
+ },
+ "webhooks.get_webhook": {
+  "skipped": "needs webhookId"
+ },
+ "webhooks.get_webhooks": {
+  "date": "2026-11-02",
+  "error_code": "document_not_found",
+  "error_message": "Webhook record does not exist",
+  "ok": false,
+  "status": 400
+ },
+ "whats_app_campaigns.get_whats_app_campaign": {
+  "date": "2026-11-02",
+  "error_code": null,
+  "error_message": "plan not eligible for using whatsapp",
+  "ok": false,
+  "status": 403
+ },
+ "whats_app_campaigns.get_whats_app_campaigns": {
+  "date": "2026-11-02",
+  "error_code": null,
+  "error_message": "plan not eligible for using whatsapp",
+  "ok": false,
+  "status": 403
+ },
+ "whats_app_campaigns.get_whats_app_config": {
+  "date": "2026-11-02",
+  "error_code": null,
+  "error_message": "plan not eligible for using whatsapp",
+  "ok": false,
+  "status": 403
+ },
+ "whats_app_campaigns.get_whats_app_templates": {
+  "date": "2026-11-02",
+  "error_code": null,
+  "error_message": "plan not eligible for using whatsapp",
+  "ok": false,
+  "status": 403
+ }
+}

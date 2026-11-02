@@ -38,9 +38,9 @@
   "destructive": false,
   "reversible": true,
   "verification": {
-    "level": "documented",
+    "level": "executed",
     "date": "2026-11-02",
-    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getBlockedDomains",
-    "notes": "Generated from the public OpenAPI spec. Not executed."
+    "evidence": "GET with an API key on the owner's free account returned HTTP 200. Spec: https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getBlockedDomains",
+    "notes": "Generated from the public OpenAPI spec. The real response matched the documented output schema."
   }
 }

@@ -96,6 +96,17 @@
     "level": "documented",
     "date": "2026-11-02",
     "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getScheduledEmailById",
-    "notes": "Generated from the public OpenAPI spec. Not executed."
-  }
+    "notes": "Generated from the public OpenAPI spec. A read-only call failed on the free account (HTTP 400); see errors."
+  },
+  "errors": [
+    {
+      "when": "Read-only test call on a free-plan account, with known test ids or no inputs",
+      "status": 400,
+      "response": {
+        "code": "invalid_parameter",
+        "message": "Please enter valid UUIDv4 batch ID or message ID"
+      },
+      "agent_should": "A required parameter is missing or invalid. Check inputs before retrying."
+    }
+  ]
 }

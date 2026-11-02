@@ -120,7 +120,7 @@ def convert(name, spec, verb, path, path_item, op):
     summary = clean(op.get("summary"), 120)
     detail = clean(op.get("description"), 450)
     description = summary if not detail or detail == summary else f"{summary}. {detail}"
-    return {
+    action = {
         "id": f"{tag}.{action_slug}",
         "name": summary or action_slug.replace("_", " ").capitalize(),
         "category": tag,
@@ -143,6 +143,46 @@ def convert(name, spec, verb, path, path_item, op):
             "notes": "Generated from the public OpenAPI spec. Not executed.",
         },
     }
+    return apply_public_read(action)
+
+
+PUBLIC_READS = json.loads(READS.read_text()) if (READS := ROOT / "verification" / "public_reads.json").exists() else {}
+ADVICE = {
+    400: "A required parameter is missing or invalid. Check inputs before retrying.",
+    401: "The API key is missing, wrong, or blocked by IP restrictions. Ask the user to check it.",
+    403: "Likely a plan or permission restriction. Tell the user instead of retrying.",
+    404: "The feature or resource is not set up on this account. Tell the user.",
+}
+
+
+def apply_public_read(action):
+    """Promote an action to executed when verify_public_reads.py called it successfully."""
+    r = PUBLIC_READS.get(action["id"])
+    if not r or "status" not in r:
+        return action
+    v = action["verification"]
+    if r["ok"]:
+        v["level"], v["date"] = "executed", r["date"]
+        v["evidence"] = f"GET with an API key on the owner's free account returned HTTP {r['status']}. Spec: {v['evidence']}"
+        if r.get("schema_ok") is False:
+            where = ", ".join(f"{i['path']} ({i['rule']})" for i in r["schema_issues"])
+            v["notes"] = f"Generated from the public OpenAPI spec. The real response differs from the documented output schema at: {where}."
+        elif r.get("schema_ok"):
+            v["notes"] = "Generated from the public OpenAPI spec. The real response matched the documented output schema."
+        else:
+            v["notes"] = "Generated from the public OpenAPI spec. Call succeeded; no output schema to compare."
+    else:
+        message = r.get("error_message") or ""
+        if re.search(r"plan|enterprise|corporate|not yet activated|not enabled", message, re.I):
+            action["plan_gated"] = f"Refused on the free plan: {message}"
+        action.setdefault("errors", []).append({
+            "when": "Read-only test call on a free-plan account, with known test ids or no inputs",
+            "status": r["status"],
+            "response": {"code": r.get("error_code"), "message": r.get("error_message")},
+            "agent_should": ADVICE.get(r["status"], "Report the error to the user; do not retry blindly."),
+        })
+        v["notes"] = f"Generated from the public OpenAPI spec. A read-only call failed on the free account (HTTP {r['status']}); see errors."
+    return action
 
 
 def main():
