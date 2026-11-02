@@ -1,0 +1,100 @@
+{
+  "id": "senders.create_sender",
+  "name": "Create email sender",
+  "category": "senders",
+  "area": "accounts-and-settings",
+  "description": "Create email sender. Creates a new email sender in your Brevo account. **Use this to:** - Add new senders for email campaigns - Configure sender identity (name and email) - Associate dedicated IPs with the sender (for dedicated IP accounts) - Set up domain-based sender configurations **Key information returned:** - Created sender ID - DKIM and SPF configuration status - Success confirmation **Important considerations:** - Verification email sent to specified sender…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "format": "email",
+        "description": "From email to use for the sender. A verification email will be\nsent to this address."
+      },
+      "ips": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "Domain of the IP"
+            },
+            "ip": {
+              "type": "string",
+              "description": "Dedicated IP available in your account"
+            },
+            "weight": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Weight to apply to the IP. Sum of all IP weights must be\n100. Should be passed for either ALL or NONE of the IPs.\nIf it's not passed, the sending will be equally balanced\non all IPs."
+            }
+          },
+          "required": [
+            "domain",
+            "ip"
+          ],
+          "title": "SendersPostRequestBodyContentApplicationJsonSchemaIpsItems"
+        },
+        "description": "**Mandatory in case of dedicated IP**. IPs to associate to the\nsender. Not required for standard accounts."
+      },
+      "name": {
+        "type": "string",
+        "description": "From Name to use for the sender"
+      }
+    },
+    "required": [
+      "email",
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "dkimError": {
+          "type": "boolean",
+          "description": "Status of DKIM configuration for the sender (true = DKIM not\nwell configured, false = DKIM well configured)"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the Sender created"
+        },
+        "spfError": {
+          "type": "boolean",
+          "description": "Status of SPF configuration for the sender (true = SPF not\nwell configured, false = SPF well configured)"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "Senders_createSender_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/senders",
+      "body_template": {
+        "email": "{{email}}",
+        "ips": "{{ips}}",
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#senders_createSender",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

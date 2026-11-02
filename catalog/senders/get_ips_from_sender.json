@@ -1,0 +1,82 @@
+{
+  "id": "senders.get_ips_from_sender",
+  "name": "Get all the dedicated IPs for a specific sender",
+  "category": "senders",
+  "area": "accounts-and-settings",
+  "description": "Get all the dedicated IPs for a specific sender. Retrieves the dedicated IPs associated with a specific sender. Use this to: - Check IP configuration for a sender - Verify dedicated IP associations - Get IP details for troubleshooting - Monitor sender IP configuration Key information returned: - List of associated dedicated IPs - IP addresses and domain configurations - IP status and settings",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "senderId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the sender"
+      }
+    },
+    "required": [
+      "senderId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ips": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string",
+                "description": "Domain associated to the IP"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "ID of the dedicated IP"
+              },
+              "ip": {
+                "type": "string",
+                "description": "Dedicated IP address"
+              },
+              "weight": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Weight of the IP for this sender"
+              }
+            },
+            "required": [
+              "domain",
+              "id",
+              "ip",
+              "weight"
+            ],
+            "title": "SendersSenderIdIpsGetResponsesContentApplicationJsonSchemaIpsItems"
+          },
+          "description": "Dedicated IP(s) linked to a sender. Returns empty array for standard accounts\nwithout dedicated IPs."
+        }
+      },
+      "required": [
+        "ips"
+      ],
+      "title": "Senders_getIpsFromSender_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/senders/{{senderId}}/ips"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#senders_getIpsFromSender",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

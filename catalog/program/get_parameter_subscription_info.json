@@ -1,0 +1,293 @@
+{
+  "id": "program.get_parameter_subscription_info",
+  "name": "Get Subscription Data",
+  "category": "program",
+  "area": "loyalty",
+  "description": "Get Subscription Data. Get Information of balances, tiers, rewards and subscription members for a subscription",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID. A unique identifier for the loyalty program."
+      },
+      "contactId": {
+        "type": "string",
+        "description": "The contact ID to filter by."
+      },
+      "params": {
+        "type": "string",
+        "description": "A list of filter parameters for querying the subscription info."
+      },
+      "loyaltySubscriptionId": {
+        "type": "string",
+        "description": "The loyalty subscription ID to filter by."
+      },
+      "includeInternal": {
+        "type": "boolean",
+        "description": "Include balances tied to internal definitions."
+      }
+    },
+    "required": [
+      "pid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "balance": {
+          "type": "object",
+          "properties": {
+            "balances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "balanceDefinitionId": {
+                    "type": "string",
+                    "description": "Unique identifier for the balance definition)."
+                  },
+                  "balanceDefinitionName": {
+                    "type": "string",
+                    "description": "Name of the balance definition."
+                  },
+                  "value": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "The amount of the balance."
+                  }
+                },
+                "title": "LoyaltyConfigProgramsPidAccountInfoGetResponsesContentApplicationJsonSchemaBalanceBalancesItems"
+              },
+              "description": "List of balance details associated with the contact."
+            },
+            "contactId": {
+              "type": "integer",
+              "description": "Unique identifier of the contact."
+            },
+            "loyaltyProgramId": {
+              "type": "string",
+              "description": "Unique identifier of the loyalty program."
+            }
+          },
+          "description": "Balance details for the subscription.",
+          "title": "LoyaltyConfigProgramsPidAccountInfoGetResponsesContentApplicationJsonSchemaBalance"
+        },
+        "loyaltyProgramName": {
+          "type": "string",
+          "description": "Name of the loyalty program."
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "description": "Timestamp when the member was created."
+              },
+              "memberContactId": {
+                "type": "integer",
+                "description": "Unique identifier of the member."
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Timestamp when the member was last updated."
+              }
+            },
+            "title": "LoyaltyConfigProgramsPidAccountInfoGetResponsesContentApplicationJsonSchemaMembersItems"
+          },
+          "description": "List of members associated with the subscription."
+        },
+        "membership": {
+          "type": "object",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when the subscription was created."
+            },
+            "loyaltySubscriptionId": {
+              "type": "string",
+              "description": "Unique identifier of the loyalty subscription."
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when the subscription was last updated."
+            }
+          },
+          "description": "Membership details of the subscription. Returned when the subscription could be resolved from the provided `contactId` or `loyaltySubscriptionId`.",
+          "title": "LoyaltyConfigProgramsPidAccountInfoGetResponsesContentApplicationJsonSchemaMembership"
+        },
+        "reward": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Reward code assigned to the contact."
+              },
+              "contactId": {
+                "type": "integer",
+                "description": "Unique identifier of the contact."
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Timestamp when the reward was created."
+              },
+              "expirationDate": {
+                "type": "string",
+                "description": "Expiration date of the reward."
+              },
+              "id": {
+                "type": "string",
+                "description": "Unique identifier of the reward."
+              },
+              "loyaltyProgramId": {
+                "type": "string",
+                "description": "Unique identifier of the loyalty program."
+              },
+              "meta": {
+                "type": "object",
+                "additionalProperties": {
+                  "description": "Any type"
+                },
+                "description": "Additional metadata related to the reward."
+              },
+              "publicDescription": {
+                "type": "string",
+                "description": "Customer-facing description of the reward, as configured on the reward definition."
+              },
+              "rewardId": {
+                "type": "string",
+                "description": "Unique identifier of the reward definition."
+              },
+              "rewardName": {
+                "type": "string",
+                "description": "Customer-facing name of the reward. Falls back to the internal reward name when no public name is set."
+              },
+              "unit": {
+                "type": "string",
+                "enum": [
+                  "PERCENT",
+                  "EUR",
+                  "USD",
+                  "MXN",
+                  "GBP",
+                  "INR",
+                  "CAD",
+                  "SGD",
+                  "RON",
+                  "JPY",
+                  "MYR",
+                  "CLP",
+                  "PEN",
+                  "MAD",
+                  "AUD",
+                  "CHF",
+                  "BRL"
+                ],
+                "description": "Unit the reward's value is expressed in — one of the currency codes listed below, or PERCENT. Omitted when the reward has no unit (e.g. free-product rewards).",
+                "title": "LoyaltyConfigProgramsPidAccountInfoGetResponsesContentApplicationJsonSchemaRewardItemsUnit"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the reward was last updated."
+              },
+              "validFrom": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date from which the voucher becomes valid."
+              },
+              "value": {
+                "type": "number",
+                "format": "double",
+                "description": "The value recorded when this reward was attributed to the contact — a snapshot, not necessarily the reward's current configured value. Omitted when not set."
+              }
+            },
+            "title": "LoyaltyConfigProgramsPidAccountInfoGetResponsesContentApplicationJsonSchemaRewardItems"
+          },
+          "description": "List of rewards associated with the subscription."
+        },
+        "tier": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "contactId": {
+                "type": "integer",
+                "description": "Unique identifier of the contact."
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Timestamp when the tier was assigned."
+              },
+              "groupId": {
+                "type": "string",
+                "description": "Unique identifier of the group associated with the tier."
+              },
+              "groupName": {
+                "type": "string",
+                "description": "Name of the group associated with the tier."
+              },
+              "loyaltyProgramId": {
+                "type": "string",
+                "description": "Unique identifier of the loyalty program."
+              },
+              "meta": {
+                "type": "object",
+                "additionalProperties": {
+                  "description": "Any type"
+                },
+                "description": "Additional metadata related to the tier."
+              },
+              "tierId": {
+                "type": "string",
+                "description": "Unique identifier of the tier."
+              },
+              "tierName": {
+                "type": "string",
+                "description": "Name of the tier."
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Timestamp when the tier was last updated"
+              }
+            },
+            "title": "LoyaltyConfigProgramsPidAccountInfoGetResponsesContentApplicationJsonSchemaTierItems"
+          },
+          "description": "List of tier assignments for the subscription."
+        }
+      },
+      "title": "Program_getParameterSubscriptionInfo_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/config/programs/{{pid}}/account-info",
+      "query_params": [
+        "contactId",
+        "params",
+        "loyaltySubscriptionId",
+        "includeInternal"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#program_getParameterSubscriptionInfo",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

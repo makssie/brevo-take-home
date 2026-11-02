@@ -1,0 +1,41 @@
+{
+  "id": "tasks.delete_atask",
+  "name": "Delete a task",
+  "category": "tasks",
+  "area": "sales-crm",
+  "description": "Delete a task. Permanently delete a CRM task by its identifier. This removes the task and cancels any associated reminders. The requesting user must be the task assignee or have manage permission on tasks.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/crm/tasks/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#tasks_deleteATask",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

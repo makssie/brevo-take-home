@@ -1,0 +1,181 @@
+{
+  "id": "whats_app_campaigns.get_whats_app_campaigns",
+  "name": "Return all your created WhatsApp campaigns",
+  "category": "whats_app_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Return all your created WhatsApp campaigns. Retrieve a paginated list of all your WhatsApp campaigns with their statistics and metadata. Results can be filtered by creation date range using startDate and endDate, with a default limit of 50 and maximum of 100 per page. The sort order defaults to descending by modification date.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used**. Starting (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the WhatsApp campaigns created. **Prefer to pass your timezone in date-time format for accurate result**"
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used**. Ending (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the WhatsApp campaigns created. **Prefer to pass your timezone in date-time format for accurate result**"
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 100,
+        "default": 50,
+        "description": "Number of documents per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document in the page"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "WhatsappCampaignsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record modification. Default order is **descending** if `sort` is not passed"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "campaigns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "campaignName": {
+                "type": "string",
+                "description": "Name of the WhatsApp Campaign"
+              },
+              "campaignStatus": {
+                "type": "string",
+                "enum": [
+                  "draft",
+                  "scheduled",
+                  "pending",
+                  "approved",
+                  "running",
+                  "suspended",
+                  "rejected",
+                  "sent"
+                ],
+                "description": "Status of the Whatsapp Campaign",
+                "title": "WhatsappCampaignsGetResponsesContentApplicationJsonSchemaCampaignsItemsCampaignStatus"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Creation UTC date-time of the WhatsApp campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "errorReason": {
+                "type": "string",
+                "description": "Error Reason associated with the WhatsApp campaign sending"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "ID of the WhatsApp Campaign"
+              },
+              "invalidatedContacts": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Count of invalidated contacts"
+              },
+              "modifiedAt": {
+                "type": "string",
+                "description": "UTC date-time of last modification of the WhatsApp campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "readPercentage": {
+                "type": "string",
+                "title": "float",
+                "description": "Read percentage of the the whatsapp campaign created"
+              },
+              "scheduledAt": {
+                "type": "string",
+                "description": "UTC date-time on which WhatsApp campaign is scheduled. Should be in YYYY-MM-DDTHH:mm:ss.SSSZ format"
+              },
+              "stats": {
+                "type": "object",
+                "properties": {
+                  "delivered": {
+                    "type": "integer"
+                  },
+                  "notSent": {
+                    "type": "integer"
+                  },
+                  "read": {
+                    "type": "integer"
+                  },
+                  "sent": {
+                    "type": "integer"
+                  },
+                  "unsubscribe": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "delivered",
+                  "notSent",
+                  "read",
+                  "sent",
+                  "unsubscribe"
+                ],
+                "title": "WhatsappCampStats"
+              },
+              "templateId": {
+                "type": "string",
+                "description": "Id of the WhatsApp template"
+              }
+            },
+            "required": [
+              "campaignName",
+              "campaignStatus",
+              "createdAt",
+              "id",
+              "modifiedAt",
+              "scheduledAt",
+              "templateId"
+            ],
+            "title": "WhatsappCampaignsGetResponsesContentApplicationJsonSchemaCampaignsItems"
+          }
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of WhatsApp campaigns retrieved"
+        }
+      },
+      "title": "WhatsApp Campaigns_getWhatsAppCampaigns_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/whatsappCampaigns",
+      "query_params": [
+        "startDate",
+        "endDate",
+        "limit",
+        "offset",
+        "sort"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#whatsAppCampaigns_getWhatsAppCampaigns",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

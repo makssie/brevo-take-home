@@ -1,0 +1,206 @@
+{
+  "id": "transactional_emails.get_email_event_report",
+  "name": "Get all your transactional email activity (unaggregated events)",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Get all your transactional email activity (unaggregated events). This endpoint will show the aggregated stats for past 30 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can not exceed 90 days",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 5000,
+        "default": 2500,
+        "description": "Number limitation for the result returned"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Beginning point in the list to retrieve from."
+      },
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used.** Starting date of the report (YYYY-MM-DD). Must be lower than equal to endDate"
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used.** Ending date of the report (YYYY-MM-DD). Must be greater than equal to startDate"
+      },
+      "days": {
+        "type": "integer",
+        "format": "int64",
+        "maximum": 90,
+        "description": "Number of days in the past including today (positive integer, maximum 90). _Not compatible with 'startDate' and 'endDate'_. Defaults to 30 if neither dates nor days are provided."
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "description": "Filter the report for a specific email addresses"
+      },
+      "event": {
+        "type": "string",
+        "enum": [
+          "bounces",
+          "hardBounces",
+          "softBounces",
+          "delivered",
+          "spam",
+          "requests",
+          "opened",
+          "clicks",
+          "invalid",
+          "deferred",
+          "blocked",
+          "unsubscribed",
+          "error",
+          "loadedByProxy"
+        ],
+        "title": "SmtpStatisticsEventsGetParametersEvent",
+        "description": "Filter the report for a specific event type"
+      },
+      "tags": {
+        "type": "string",
+        "description": "Filter the report for tags (serialized and urlencoded array)"
+      },
+      "messageId": {
+        "type": "string",
+        "description": "Filter on a specific message id"
+      },
+      "templateId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Filter on a specific template id"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "SmtpStatisticsEventsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "description": "UTC date-time on which the event has been generated"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "Email address which generates the event"
+              },
+              "event": {
+                "type": "string",
+                "enum": [
+                  "bounces",
+                  "hardBounces",
+                  "softBounces",
+                  "delivered",
+                  "spam",
+                  "requests",
+                  "opened",
+                  "clicks",
+                  "invalid",
+                  "deferred",
+                  "blocked",
+                  "unsubscribed",
+                  "error",
+                  "loadedByProxy"
+                ],
+                "description": "Event which occurred",
+                "title": "SmtpStatisticsEventsGetResponsesContentApplicationJsonSchemaEventsItemsEvent"
+              },
+              "from": {
+                "type": "string",
+                "format": "email",
+                "description": "Sender email from which the emails are sent"
+              },
+              "ip": {
+                "type": "string",
+                "description": "IP from which the user has opened the email or clicked on the link (only available if the event is opened or clicks)"
+              },
+              "link": {
+                "type": "string",
+                "description": "The link which is sent to the user (only available if the event is requests or opened or clicks)"
+              },
+              "messageId": {
+                "type": "string",
+                "description": "Message ID which generated the event"
+              },
+              "reason": {
+                "type": "string",
+                "description": "Reason of bounce (only available if the event is hardbounce or softbounce)"
+              },
+              "subject": {
+                "type": "string",
+                "description": "Subject of the event"
+              },
+              "tag": {
+                "type": "string",
+                "description": "Tag of the email which generated the event"
+              },
+              "templateId": {
+                "type": "integer",
+                "format": "int64",
+                "description": "ID of the template (only available if the email is template based)"
+              }
+            },
+            "required": [
+              "date",
+              "email",
+              "event",
+              "messageId"
+            ],
+            "title": "SmtpStatisticsEventsGetResponsesContentApplicationJsonSchemaEventsItems"
+          }
+        }
+      },
+      "title": "Transactional emails_getEmailEventReport_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/smtp/statistics/events",
+      "query_params": [
+        "limit",
+        "offset",
+        "startDate",
+        "endDate",
+        "days",
+        "email",
+        "event",
+        "tags",
+        "messageId",
+        "templateId",
+        "sort"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getEmailEventReport",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

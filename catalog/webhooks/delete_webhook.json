@@ -1,0 +1,43 @@
+{
+  "id": "webhooks.delete_webhook",
+  "name": "Delete a webhook",
+  "category": "webhooks",
+  "area": "accounts-and-settings",
+  "description": "Delete a webhook. Permanently deletes a webhook and stops all event notifications. Use this to: - Remove unused or obsolete webhook configurations - Clean up webhook endpoints and subscriptions - Stop event notifications to specific URLs - Maintain organized webhook management Key information returned: - Success confirmation of webhook deletion",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "webhookId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the webhook"
+      }
+    },
+    "required": [
+      "webhookId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/webhooks/{{webhookId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#webhooks_deleteWebhook",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

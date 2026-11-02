@@ -1,0 +1,278 @@
+{
+  "id": "email_campaigns.get_ab_test_campaign_result",
+  "name": "Get an A/B test email campaign results",
+  "category": "email_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Get an A/B test email campaign results. Obtain winning version of an A/B test email campaign",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the A/B test campaign"
+      }
+    },
+    "required": [
+      "campaignId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "clickRate": {
+          "type": "string",
+          "description": "Click rate for current winning version"
+        },
+        "clickedLinks": {
+          "type": "object",
+          "properties": {
+            "Version A": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "clickRate": {
+                    "type": "string",
+                    "description": "Percentage of clicks of link with respect to total clicks"
+                  },
+                  "clicksCount": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Number of times a link is clicked"
+                  },
+                  "link": {
+                    "type": "string",
+                    "description": "URL of the link"
+                  }
+                },
+                "required": [
+                  "clickRate",
+                  "clicksCount",
+                  "link"
+                ],
+                "title": "AbTestVersionClicksItems"
+              },
+              "description": "Information on clicked links for a particular version",
+              "title": "abTestVersionClicks"
+            },
+            "Version B": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "clickRate": {
+                    "type": "string",
+                    "description": "Percentage of clicks of link with respect to total clicks"
+                  },
+                  "clicksCount": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Number of times a link is clicked"
+                  },
+                  "link": {
+                    "type": "string",
+                    "description": "URL of the link"
+                  }
+                },
+                "required": [
+                  "clickRate",
+                  "clicksCount",
+                  "link"
+                ],
+                "title": "AbTestVersionClicksItems"
+              },
+              "description": "Information on clicked links for a particular version",
+              "title": "abTestVersionClicks"
+            }
+          },
+          "required": [
+            "Version A",
+            "Version B"
+          ],
+          "title": "EmailCampaignsCampaignIdAbTestCampaignResultGetResponsesContentApplicationJsonSchemaClickedLinks"
+        },
+        "openRate": {
+          "type": "string",
+          "description": "Open rate for current winning version"
+        },
+        "statistics": {
+          "type": "object",
+          "properties": {
+            "clicks": {
+              "type": "object",
+              "properties": {
+                "Version A": {
+                  "type": "string",
+                  "description": "percentage of an event for version A"
+                },
+                "Version B": {
+                  "type": "string",
+                  "description": "percentage of an event for version B"
+                }
+              },
+              "required": [
+                "Version A",
+                "Version B"
+              ],
+              "description": "Percentage of a particular event for both versions",
+              "title": "abTestVersionStats"
+            },
+            "complaints": {
+              "type": "object",
+              "properties": {
+                "Version A": {
+                  "type": "string",
+                  "description": "percentage of an event for version A"
+                },
+                "Version B": {
+                  "type": "string",
+                  "description": "percentage of an event for version B"
+                }
+              },
+              "required": [
+                "Version A",
+                "Version B"
+              ],
+              "description": "Percentage of a particular event for both versions",
+              "title": "abTestVersionStats"
+            },
+            "hardBounces": {
+              "type": "object",
+              "properties": {
+                "Version A": {
+                  "type": "string",
+                  "description": "percentage of an event for version A"
+                },
+                "Version B": {
+                  "type": "string",
+                  "description": "percentage of an event for version B"
+                }
+              },
+              "required": [
+                "Version A",
+                "Version B"
+              ],
+              "description": "Percentage of a particular event for both versions",
+              "title": "abTestVersionStats"
+            },
+            "openers": {
+              "type": "object",
+              "properties": {
+                "Version A": {
+                  "type": "string",
+                  "description": "percentage of an event for version A"
+                },
+                "Version B": {
+                  "type": "string",
+                  "description": "percentage of an event for version B"
+                }
+              },
+              "required": [
+                "Version A",
+                "Version B"
+              ],
+              "description": "Percentage of a particular event for both versions",
+              "title": "abTestVersionStats"
+            },
+            "softBounces": {
+              "type": "object",
+              "properties": {
+                "Version A": {
+                  "type": "string",
+                  "description": "percentage of an event for version A"
+                },
+                "Version B": {
+                  "type": "string",
+                  "description": "percentage of an event for version B"
+                }
+              },
+              "required": [
+                "Version A",
+                "Version B"
+              ],
+              "description": "Percentage of a particular event for both versions",
+              "title": "abTestVersionStats"
+            },
+            "unsubscribed": {
+              "type": "object",
+              "properties": {
+                "Version A": {
+                  "type": "string",
+                  "description": "percentage of an event for version A"
+                },
+                "Version B": {
+                  "type": "string",
+                  "description": "percentage of an event for version B"
+                }
+              },
+              "required": [
+                "Version A",
+                "Version B"
+              ],
+              "description": "Percentage of a particular event for both versions",
+              "title": "abTestVersionStats"
+            }
+          },
+          "required": [
+            "clicks",
+            "complaints",
+            "hardBounces",
+            "openers",
+            "softBounces",
+            "unsubscribed"
+          ],
+          "title": "EmailCampaignsCampaignIdAbTestCampaignResultGetResponsesContentApplicationJsonSchemaStatistics"
+        },
+        "winningCriteria": {
+          "type": "string",
+          "enum": [
+            "Open",
+            "Click"
+          ],
+          "description": "Criteria chosen for winning version (Open/Click)",
+          "title": "EmailCampaignsCampaignIdAbTestCampaignResultGetResponsesContentApplicationJsonSchemaWinningCriteria"
+        },
+        "winningSubjectLine": {
+          "type": "string",
+          "description": "Subject Line of current winning version"
+        },
+        "winningVersion": {
+          "type": "string",
+          "enum": [
+            "notAvailable",
+            "pending",
+            "tie",
+            "A",
+            "B"
+          ],
+          "description": "Winning Campaign Info. pending = Campaign has been picked for sending and winning version is yet to be decided, tie = A tie happened between both the versions, notAvailable = Campaign has not yet been picked for sending.",
+          "title": "EmailCampaignsCampaignIdAbTestCampaignResultGetResponsesContentApplicationJsonSchemaWinningVersion"
+        },
+        "winningVersionRate": {
+          "type": "string",
+          "description": "Open/Click rate for the winner version"
+        }
+      },
+      "title": "Email Campaigns_getAbTestCampaignResult_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/emailCampaigns/{{campaignId}}/abTestCampaignResult"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#emailCampaigns_getAbTestCampaignResult",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

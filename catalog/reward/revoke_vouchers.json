@@ -1,0 +1,50 @@
+{
+  "id": "reward.revoke_vouchers",
+  "name": "Revoke vouchers",
+  "category": "reward",
+  "area": "loyalty",
+  "description": "Revoke vouchers. Revoke attributed vouchers.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "attributedRewardIds": {
+        "type": "string",
+        "description": "Reward Attribution IDs (comma seperated)"
+      }
+    },
+    "required": [
+      "pid"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/loyalty/offer/programs/{{pid}}/rewards/revoke",
+      "query_params": [
+        "attributedRewardIds"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#reward_revokeVouchers",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

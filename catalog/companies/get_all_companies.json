@@ -1,0 +1,129 @@
+{
+  "id": "companies.get_all_companies",
+  "name": "Get all Companies",
+  "category": "companies",
+  "area": "sales-crm",
+  "description": "Get all Companies. Retrieve a paginated list of companies with optional filtering, sorting, and search capabilities. Results are sorted by creation date in descending order by default, and can be filtered by attributes, linked contacts, linked deals, or modification/creation timestamps.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "filters[attributes.name]": {
+        "type": "string",
+        "description": "Filter by attributes. If you have a filter for the owner on your side please send it as filters[attributes.owner] and utilize the account email for the filtering."
+      },
+      "linkedContactsIds": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Filter by linked contacts ids"
+      },
+      "linkedDealsIds": {
+        "type": "string",
+        "format": "objectID",
+        "description": "Filter by linked Deals ids"
+      },
+      "modifiedSince": {
+        "type": "string",
+        "description": "Filter (urlencoded) the companies modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
+      },
+      "createdSince": {
+        "type": "string",
+        "description": "Filter (urlencoded) the companies created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
+      },
+      "page": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Index of the first document of the page"
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Number of documents per page"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "title": "CompaniesGetParametersSort",
+        "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
+      },
+      "sortBy": {
+        "type": "string",
+        "description": "The field used to sort field names."
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "attributes": {
+                "type": "object",
+                "properties": {},
+                "description": "Company attributes with values",
+                "title": "CompanyAttributes"
+              },
+              "id": {
+                "type": "string",
+                "description": "Unique company id"
+              },
+              "linkedContactsIds": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "Contact ids for contacts linked to this company"
+              },
+              "linkedDealsIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Deal ids for deals linked to this company"
+              }
+            },
+            "description": "Company Details",
+            "title": "Company"
+          },
+          "description": "List of companies"
+        }
+      },
+      "description": "List of companies",
+      "title": "Companies_getAllCompanies_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/companies",
+      "query_params": [
+        "filters[attributes.name]",
+        "linkedContactsIds",
+        "linkedDealsIds",
+        "modifiedSince",
+        "createdSince",
+        "page",
+        "limit",
+        "sort",
+        "sortBy"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#companies_getAllCompanies",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

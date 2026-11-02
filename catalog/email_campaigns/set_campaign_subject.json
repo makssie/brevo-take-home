@@ -1,0 +1,67 @@
+{
+  "id": "email_campaigns.set_campaign_subject",
+  "name": "Set a campaign's subject line",
+  "category": "email_campaigns",
+  "area": "web-app-internal",
+  "description": "Set the subject (and optional preview text) of a draft campaign.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "subject": {
+        "type": "string"
+      },
+      "preheaderSetup": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "default": null,
+        "description": "Preview text settings. Shape not captured."
+      },
+      "subjectLineSource": {
+        "type": "string",
+        "default": "manual",
+        "description": "'manual' when typed by a person."
+      },
+      "subjectModifiedAfterAIUse": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "required": [
+      "id",
+      "subject"
+    ]
+  },
+  "outputs": {
+    "status": 204
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "POST",
+      "url": "https://email-campaigns-backend.brevo.com/email-campaign/api/{{id}}/save-subject",
+      "body_template": {
+        "subject": "{{subject}}",
+        "preheaderSetup": "{{preheaderSetup}}",
+        "subjectLineSource": "{{subjectLineSource}}",
+        "subjectModifiedAfterAIUse": "{{subjectModifiedAfterAIUse}}"
+      }
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Executed through the UI with request capture."
+  },
+  "preconditions": [
+    "A campaign draft exists."
+  ]
+}

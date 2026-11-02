@@ -1,0 +1,42 @@
+{
+  "id": "conversations.delete_an_automated_message",
+  "name": "Delete an automated message",
+  "category": "conversations",
+  "area": "conversations",
+  "description": "Delete an automated message. Delete an automated (pushed) message by its ID.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "ID of the message"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/conversations/pushedMessages/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/conversations.json#conversations_deleteAnAutomatedMessage",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

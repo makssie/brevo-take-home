@@ -1,0 +1,36 @@
+{
+  "id": "ecommerce.activate_the_ecommerce_app",
+  "name": "Activate the eCommerce app",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Activate the eCommerce app. Getting access to Brevo eCommerce.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "description": "Empty response body",
+      "title": "Ecommerce_activateTheECommerceApp_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/ecommerce/activate"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_activateTheECommerceApp",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

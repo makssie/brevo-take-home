@@ -1,0 +1,174 @@
+{
+  "id": "balance.update_balance_limit",
+  "name": "Updates balance limit",
+  "category": "balance",
+  "area": "loyalty",
+  "description": "Updates balance limit",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program Id"
+      },
+      "bdid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Balance Definition Id"
+      },
+      "blid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Balance Limit Id"
+      },
+      "constraintType": {
+        "type": "string",
+        "enum": [
+          "transaction",
+          "amount"
+        ],
+        "description": "Defines whether the limit applies to transaction count or amount.",
+        "title": "LoyaltyBalanceProgramsPidBalanceDefinitionsBdidLimitsBlidPutRequestBodyContentApplicationJsonSchemaConstraintType"
+      },
+      "durationUnit": {
+        "type": "string",
+        "enum": [
+          "day",
+          "week",
+          "month",
+          "year"
+        ],
+        "description": "Unit of time for which the limit is applicable.",
+        "title": "LoyaltyBalanceProgramsPidBalanceDefinitionsBdidLimitsBlidPutRequestBodyContentApplicationJsonSchemaDurationUnit"
+      },
+      "durationValue": {
+        "type": "integer",
+        "description": "Number of time units for the balance limit."
+      },
+      "slidingSchedule": {
+        "type": "boolean",
+        "description": "Determines if the limit resets on a rolling schedule."
+      },
+      "transactionType": {
+        "type": "string",
+        "enum": [
+          "credit",
+          "debit"
+        ],
+        "description": "Specifies whether the limit applies to credit or debit transactions.",
+        "title": "LoyaltyBalanceProgramsPidBalanceDefinitionsBdidLimitsBlidPutRequestBodyContentApplicationJsonSchemaTransactionType"
+      },
+      "value": {
+        "type": "integer",
+        "description": "Maximum allowed value for the specified constraint type."
+      }
+    },
+    "required": [
+      "pid",
+      "bdid",
+      "blid",
+      "constraintType",
+      "durationUnit",
+      "durationValue",
+      "transactionType",
+      "value"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the balance limit."
+        },
+        "balanceDefinitionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Balance definition ID."
+        },
+        "transactionType": {
+          "type": "string",
+          "enum": [
+            "credit",
+            "debit"
+          ],
+          "description": "Specifies whether the limit applies to credit or debit transactions.",
+          "title": "BalanceLimitTransactionType"
+        },
+        "constraintType": {
+          "type": "string",
+          "enum": [
+            "transaction",
+            "amount"
+          ],
+          "description": "Defines the type of constraint (transaction count or amount).",
+          "title": "BalanceLimitConstraintType"
+        },
+        "durationValue": {
+          "type": "integer",
+          "description": "Number of time units the balance limit applies to."
+        },
+        "durationUnit": {
+          "type": "string",
+          "enum": [
+            "hour",
+            "day",
+            "week",
+            "month",
+            "year"
+          ],
+          "description": "Time unit for the balance limit.",
+          "title": "BalanceLimitDurationUnit"
+        },
+        "value": {
+          "type": "number",
+          "format": "double",
+          "description": "The maximum allowed value for the defined constraint."
+        },
+        "slidingSchedule": {
+          "type": "boolean",
+          "description": "Indicates if the limit resets periodically based on a sliding schedule."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of when the balance limit was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of the last update to the balance limit."
+        }
+      },
+      "title": "balanceLimit"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/loyalty/balance/programs/{{pid}}/balance-definitions/{{bdid}}/limits/{{blid}}",
+      "body_template": {
+        "constraintType": "{{constraintType}}",
+        "durationUnit": "{{durationUnit}}",
+        "durationValue": "{{durationValue}}",
+        "slidingSchedule": "{{slidingSchedule}}",
+        "transactionType": "{{transactionType}}",
+        "value": "{{value}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#balance_updateBalanceLimit",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

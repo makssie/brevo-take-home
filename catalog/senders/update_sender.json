@@ -1,0 +1,86 @@
+{
+  "id": "senders.update_sender",
+  "name": "Update a sender",
+  "category": "senders",
+  "area": "accounts-and-settings",
+  "description": "Update a sender. Updates an existing email sender's configuration. Use this to: - Modify sender display name or email address - Update dedicated IP associations - Change sender configuration settings - Correct sender information Key information returned: - Success confirmation - Updated sender details",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "senderId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the sender"
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "description": "From Email to update the sender"
+      },
+      "ips": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "Domain of the IP"
+            },
+            "ip": {
+              "type": "string",
+              "description": "Dedicated IP available in your account"
+            },
+            "weight": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Weight to apply to the IP. Sum of all IP weights must be\n100. Should be passed for either ALL or NONE of the IPs.\nIf it's not passed, the sending will be equally balanced\non all IPs."
+            }
+          },
+          "required": [
+            "domain",
+            "ip"
+          ],
+          "title": "SendersSenderIdPutRequestBodyContentApplicationJsonSchemaIpsItems"
+        },
+        "description": "**Only in case of dedicated IP**. IPs to associate to the\nsender. If passed, will replace all the existing IPs. Not required for standard accounts."
+      },
+      "name": {
+        "type": "string",
+        "description": "From Name to update the sender"
+      }
+    },
+    "required": [
+      "senderId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/senders/{{senderId}}",
+      "body_template": {
+        "email": "{{email}}",
+        "ips": "{{ips}}",
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#senders_updateSender",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

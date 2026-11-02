@@ -1,0 +1,1018 @@
+{
+  "id": "email_campaigns.get_email_campaign",
+  "name": "Get an email campaign report",
+  "category": "email_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Get an email campaign report. Retrieve detailed information about a specific email campaign by its ID, including recipients, statistics, and HTML content. Use the statistics query parameter to select which statistics to include (globalStats, linksStats, statsByDomain, statsByDevice, or statsByBrowser); statsByDevice and statsByBrowser are only available on this single-campaign endpoint. You can exclude HTML content from the response by setting excludeHtmlContent to true.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the campaign"
+      },
+      "statistics": {
+        "type": "string",
+        "enum": [
+          "globalStats",
+          "linksStats",
+          "statsByDomain",
+          "statsByDevice",
+          "statsByBrowser"
+        ],
+        "title": "EmailCampaignsCampaignIdGetParametersStatistics",
+        "description": "Filter on the type of statistics required. Example: **globalStats** value will only fetch globalStats info of the campaign in the returned response. `statsByDevice` and `statsByBrowser` are only available when retrieving a single campaign (not in the list endpoint)."
+      },
+      "excludeHtmlContent": {
+        "type": "boolean",
+        "description": "Use this flag to exclude htmlContent from the response body. If set to **true**, htmlContent field will be returned as empty string in the response body"
+      }
+    },
+    "required": [
+      "campaignId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "attachmentFile": {
+          "type": "string",
+          "description": "Url of the attachment file. Only available if the campaign has an attachment."
+        },
+        "abTesting": {
+          "type": "boolean",
+          "description": "Status of A/B Test for the campaign. abTesting = false means it is disabled, & abTesting = true means it is enabled."
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the campaign"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the campaign"
+        },
+        "previewText": {
+          "type": "string",
+          "description": "Preview text or preheader of the email campaign"
+        },
+        "scheduledAt": {
+          "type": "string",
+          "description": "UTC date-time on which campaign is scheduled (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "sendAtBestTime": {
+          "type": "boolean",
+          "description": "It is true if you have chosen to send your campaign at best time, otherwise it is false"
+        },
+        "splitRule": {
+          "type": "integer",
+          "description": "The size of your ab-test groups. Only available if `abTesting` flag of the campaign is `true`"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "sent",
+            "archive",
+            "queued",
+            "suspended",
+            "in_process",
+            "in_review",
+            "cancelling",
+            "cancelled"
+          ],
+          "description": "Status of the campaign",
+          "title": "EmailCampaignsCampaignIdGetResponsesContentApplicationJsonSchemaStatus"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Subject of the campaign. Only available if `abTesting` flag of the campaign is `false`"
+        },
+        "subjectA": {
+          "type": "string",
+          "description": "Subject A of the ab-test campaign. Only available if `abTesting` flag of the campaign is `true`"
+        },
+        "subjectB": {
+          "type": "string",
+          "description": "Subject B of the ab-test campaign. Only available if `abTesting` flag of the campaign is `true`"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "classic",
+            "trigger"
+          ],
+          "description": "Type of campaign",
+          "title": "EmailCampaignsCampaignIdGetResponsesContentApplicationJsonSchemaType"
+        },
+        "winnerCriteria": {
+          "type": "string",
+          "description": "Criteria for the winning version. Only available if `abTesting` flag of the campaign is `true`"
+        },
+        "winnerDelay": {
+          "type": "integer",
+          "description": "The duration of the test in hours at the end of which the winning version will be sent. Only available if `abTesting` flag of the campaign is `true`"
+        },
+        "attachmentUrl": {
+          "type": "string",
+          "description": "URL of the attachment file associated with the campaign. Empty string if no attachment is present."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation UTC date-time of the campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "emailExpirationDate": {
+          "type": "object",
+          "properties": {
+            "duration": {
+              "type": "integer",
+              "format": "int64",
+              "description": "Duration of the email expiry"
+            },
+            "unit": {
+              "type": "string",
+              "enum": [
+                "days",
+                "weeks",
+                "months"
+              ],
+              "description": "Unit of the duration",
+              "title": "EmailCampaignsCampaignIdGetResponsesContentApplicationJsonSchemaEmailExpirationDateUnit"
+            }
+          },
+          "description": "Expiration date configuration for the email campaign, if set. Contains the duration and unit of the email expiry.",
+          "title": "EmailCampaignsCampaignIdGetResponsesContentApplicationJsonSchemaEmailExpirationDate"
+        },
+        "footer": {
+          "type": "string",
+          "description": "Footer of the campaign"
+        },
+        "header": {
+          "type": "string",
+          "description": "Header of the campaign"
+        },
+        "htmlContent": {
+          "type": "string",
+          "description": "HTML content of the campaign"
+        },
+        "inlineImageActivation": {
+          "type": "boolean",
+          "description": "Status of inline image. inlineImageActivation = false means image can’t be embedded, & inlineImageActivation = true means image can be embedded, in the email."
+        },
+        "mirrorActive": {
+          "type": "boolean",
+          "description": "Status of mirror links in campaign. mirrorActive = false means mirror links are deactivated, & mirrorActive = true means mirror links are activated, in the campaign"
+        },
+        "modifiedAt": {
+          "type": "string",
+          "description": "UTC date-time of last modification of the campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "recurring": {
+          "type": "boolean",
+          "description": "FOR TRIGGER ONLY ! Type of trigger campaign.recurring = false means contact can receive the same Trigger campaign only once, & recurring = true means contact can receive the same Trigger campaign several times"
+        },
+        "replyTo": {
+          "type": "string",
+          "format": "email",
+          "description": "Email defined as the \"Reply to\" of the campaign"
+        },
+        "returnBounce": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of non-delivered campaigns for a particular campaign id."
+        },
+        "sender": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Sender email of the campaign"
+            },
+            "id": {
+              "type": "integer",
+              "format": "int64",
+              "description": "Sender id of the campaign"
+            },
+            "name": {
+              "type": "string",
+              "description": "Sender name of the campaign"
+            }
+          },
+          "title": "EmailCampaignsCampaignIdGetResponsesContentApplicationJsonSchemaSender"
+        },
+        "sentDate": {
+          "type": "string",
+          "description": "Sent UTC date-time of the campaign (YYYY-MM-DDTHH:mm:ss.SSSZ). Only available if 'status' of the campaign is 'sent'"
+        },
+        "shareLink": {
+          "type": "string",
+          "description": "Link to share the campaign on social media. For trigger campaigns, this returns a descriptive message instead of a URL. For classic campaigns that have not been sent, this also returns a descriptive message."
+        },
+        "tag": {
+          "type": "string",
+          "description": "Tag of the campaign"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of tags of the campaign"
+        },
+        "testSent": {
+          "type": "boolean",
+          "description": "Retrieved the status of test email sending. (true=Test email has been sent  false=Test email has not been sent)"
+        },
+        "toField": {
+          "type": "string",
+          "description": "Customisation of the \"to\" field of the campaign"
+        },
+        "utmCampaignValue": {
+          "type": "string",
+          "description": "The utm_campaign value applied to the campaign's tracking links. Falls back to your account's global UTM settings when no custom value was set on the campaign, or the campaign name if neither is configured. Only returned when UTM tracking is enabled on the campaign."
+        },
+        "utmContent": {
+          "type": "string",
+          "description": "The utm_content value applied to the campaign's tracking links. Falls back to your account's global UTM settings when no custom value was set on the campaign. Only returned when UTM tracking is enabled on the campaign and a value is set at one of these levels."
+        },
+        "utmID": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Legacy numeric utm_id value applied to the campaign's tracking links. Present only when UTM tracking is enabled on the campaign and the resolved utm_id is numeric (typically the campaign's ID). For customer-supplied non-numeric values (for example `promo_042`), read `utmId` (string) instead. Kept for backward compatibility."
+        },
+        "utmId": {
+          "type": "string",
+          "description": "The utm_id value applied to the campaign's tracking links, returned verbatim as a string. Falls back to your account's global UTM settings when no custom value was set on the campaign. Only returned when UTM tracking is enabled on the campaign and a value is set at one of these levels. Preferred field for new consumers — covers both numeric IDs and customer-supplied non-numeric strings."
+        },
+        "utmMedium": {
+          "type": "string",
+          "description": "The utm_medium value applied to the campaign's tracking links. Falls back to your account's global UTM settings when no custom value was set on the campaign, or the default `email` if neither is configured. Case is preserved verbatim. Only returned when UTM tracking is enabled on the campaign."
+        },
+        "utmSource": {
+          "type": "string",
+          "description": "The utm_source value applied to the campaign's tracking links. Falls back to your account's global UTM settings when no custom value was set on the campaign, or the account default (`brevo` or `sendinblue`) if neither is configured. Case is preserved verbatim. Only returned when UTM tracking is enabled on the campaign."
+        },
+        "utmTerm": {
+          "type": "string",
+          "description": "The utm_term value applied to the campaign's tracking links. Falls back to your account's global UTM settings when no custom value was set on the campaign. Only returned when UTM tracking is enabled on the campaign and a value is set at one of these levels."
+        },
+        "recipients": {
+          "type": "object",
+          "properties": {
+            "excludedSegments": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "description": "Segment IDs excluded from the campaign"
+            },
+            "exclusionLists": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            "lists": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            "segments": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "description": "Segment IDs included in the campaign"
+            }
+          },
+          "required": [
+            "exclusionLists",
+            "lists"
+          ],
+          "title": "getCampaignRecipients"
+        },
+        "statistics": {
+          "type": "object",
+          "properties": {
+            "campaignStats": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "appleMppOpens": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Numbers of times your email has been opened automatically through Apple MPP."
+                  },
+                  "clickers": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of total clicks for the campaign"
+                  },
+                  "complaints": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of complaints (Spam reports) for the campaign"
+                  },
+                  "deferred": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Number of deferred emails for the campaign"
+                  },
+                  "delivered": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of delivered emails for the campaign"
+                  },
+                  "estimatedViews": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Rate of recipients without any privacy protection option enabled in their email client, applied to all delivered emails"
+                  },
+                  "hardBounces": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of hard bounces for the campaign"
+                  },
+                  "listId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "List Id of email campaign (only in case of get email campaign(s)(not for global stats))"
+                  },
+                  "opensRate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "title": "float",
+                    "description": "Percentage of recipients who open the email out of your total number of recipients. Depending on your Campaign settings, they may include Apple MPP opens."
+                  },
+                  "returnBounce": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Total number of non-delivered campaigns for a particular campaign id."
+                  },
+                  "sent": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of sent emails for the campaign"
+                  },
+                  "softBounces": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of softbounce for the campaign"
+                  },
+                  "trackableViews": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Recipients without any privacy protection option enabled in their email email client"
+                  },
+                  "trackableViewsRate": {
+                    "type": "string",
+                    "title": "float",
+                    "description": "Rate of recipients without any privacy protection option enabled in their email client"
+                  },
+                  "uniqueClicks": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of unique clicks for the campaign"
+                  },
+                  "uniqueViews": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of unique openings for the campaign"
+                  },
+                  "unsubscriptions": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of unsubscription for the campaign"
+                  },
+                  "viewed": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of openings for the campaign"
+                  }
+                },
+                "required": [
+                  "appleMppOpens",
+                  "clickers",
+                  "complaints",
+                  "delivered",
+                  "hardBounces",
+                  "opensRate",
+                  "sent",
+                  "softBounces",
+                  "trackableViews",
+                  "uniqueClicks",
+                  "uniqueViews",
+                  "unsubscriptions",
+                  "viewed"
+                ],
+                "title": "getCampaignStats"
+              },
+              "description": "List-wise statistics of the campaign."
+            },
+            "globalStats": {
+              "type": "object",
+              "properties": {
+                "appleMppOpens": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Numbers of times your email has been opened automatically through Apple MPP."
+                },
+                "clickers": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Number of total clicks for the campaign"
+                },
+                "complaints": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Number of complaints (Spam reports) for the campaign"
+                },
+                "deferred": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "Number of deferred emails for the campaign"
+                },
+                "delivered": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Number of delivered emails for the campaign"
+                },
+                "estimatedViews": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "Rate of recipients without any privacy protection option enabled in their email client, applied to all delivered emails"
+                },
+                "hardBounces": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Number of hard bounces for the campaign"
+                },
+                "listId": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "List Id of email campaign (only in case of get email campaign(s)(not for global stats))"
+                },
+                "opensRate": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "title": "float",
+                  "description": "Percentage of recipients who open the email out of your total number of recipients. Depending on your Campaign settings, they may include Apple MPP opens."
+                },
+                "returnBounce": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "Total number of non-delivered campaigns for a particular campaign id."
+                },
+                "sent": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Number of sent emails for the campaign"
+                },
+                "softBounces": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Number of softbounce for the campaign"
+                },
+                "trackableViews": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Recipients without any privacy protection option enabled in their email email client"
+                },
+                "trackableViewsRate": {
+                  "type": "string",
+                  "title": "float",
+                  "description": "Rate of recipients without any privacy protection option enabled in their email client"
+                },
+                "uniqueClicks": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Number of unique clicks for the campaign"
+                },
+                "uniqueViews": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Number of unique openings for the campaign"
+                },
+                "unsubscriptions": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Number of unsubscription for the campaign"
+                },
+                "viewed": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int64",
+                  "description": "Number of openings for the campaign"
+                }
+              },
+              "required": [
+                "appleMppOpens",
+                "clickers",
+                "complaints",
+                "delivered",
+                "hardBounces",
+                "opensRate",
+                "sent",
+                "softBounces",
+                "trackableViews",
+                "uniqueClicks",
+                "uniqueViews",
+                "unsubscriptions",
+                "viewed"
+              ],
+              "title": "getCampaignStats"
+            },
+            "linksStats": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "description": "Statistics about the number of clicks for each link in the campaign. Keys are the link URLs, values are click counts. Only populated when the `statistics` query parameter is set to `linksStats`."
+            },
+            "mirrorClick": {
+              "type": "integer",
+              "format": "int64",
+              "description": "Number of clicks on mirror link"
+            },
+            "remaining": {
+              "type": "integer",
+              "format": "int64",
+              "description": "Number of remaining emails to send"
+            },
+            "statsByBrowser": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "clickers": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Number of total clicks for the campaign using the particular browser"
+                  },
+                  "uniqueClicks": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Number of unique clicks for the campaign using the particular browser"
+                  },
+                  "uniqueViews": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Number of unique openings for the campaign using the particular browser"
+                  },
+                  "viewed": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Number of openings for the campaign using the particular browser"
+                  }
+                },
+                "required": [
+                  "clickers",
+                  "uniqueClicks",
+                  "uniqueViews",
+                  "viewed"
+                ],
+                "title": "getDeviceBrowserStats"
+              },
+              "description": "Statistics of the campaign grouped by browser. Only available when retrieving a single campaign with the `statistics` query parameter set to `statsByBrowser`."
+            },
+            "statsByDevice": {
+              "type": "object",
+              "properties": {
+                "desktop": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "clickers": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of total clicks for the campaign using the particular browser"
+                      },
+                      "uniqueClicks": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of unique clicks for the campaign using the particular browser"
+                      },
+                      "uniqueViews": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of unique openings for the campaign using the particular browser"
+                      },
+                      "viewed": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of openings for the campaign using the particular browser"
+                      }
+                    },
+                    "required": [
+                      "clickers",
+                      "uniqueClicks",
+                      "uniqueViews",
+                      "viewed"
+                    ],
+                    "title": "getDeviceBrowserStats"
+                  },
+                  "description": "Statistics of the campaign on the basis of desktop devices"
+                },
+                "mobile": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "clickers": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of total clicks for the campaign using the particular browser"
+                      },
+                      "uniqueClicks": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of unique clicks for the campaign using the particular browser"
+                      },
+                      "uniqueViews": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of unique openings for the campaign using the particular browser"
+                      },
+                      "viewed": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of openings for the campaign using the particular browser"
+                      }
+                    },
+                    "required": [
+                      "clickers",
+                      "uniqueClicks",
+                      "uniqueViews",
+                      "viewed"
+                    ],
+                    "title": "getDeviceBrowserStats"
+                  },
+                  "description": "Statistics of the campaign on the basis of mobile devices"
+                },
+                "tablet": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "clickers": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of total clicks for the campaign using the particular browser"
+                      },
+                      "uniqueClicks": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of unique clicks for the campaign using the particular browser"
+                      },
+                      "uniqueViews": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of unique openings for the campaign using the particular browser"
+                      },
+                      "viewed": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of openings for the campaign using the particular browser"
+                      }
+                    },
+                    "required": [
+                      "clickers",
+                      "uniqueClicks",
+                      "uniqueViews",
+                      "viewed"
+                    ],
+                    "title": "getDeviceBrowserStats"
+                  },
+                  "description": "Statistics of the campaign on the basis of tablet devices"
+                },
+                "unknown": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "clickers": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of total clicks for the campaign using the particular browser"
+                      },
+                      "uniqueClicks": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of unique clicks for the campaign using the particular browser"
+                      },
+                      "uniqueViews": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of unique openings for the campaign using the particular browser"
+                      },
+                      "viewed": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Number of openings for the campaign using the particular browser"
+                      }
+                    },
+                    "required": [
+                      "clickers",
+                      "uniqueClicks",
+                      "uniqueViews",
+                      "viewed"
+                    ],
+                    "title": "getDeviceBrowserStats"
+                  },
+                  "description": "Statistics of the campaign on the basis of unknown devices"
+                }
+              },
+              "title": "GetExtendedCampaignStatsStatsByDevice"
+            },
+            "statsByDomain": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "appleMppOpens": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Numbers of times your email has been opened automatically through Apple MPP."
+                  },
+                  "clickers": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of total clicks for the campaign"
+                  },
+                  "complaints": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of complaints (Spam reports) for the campaign"
+                  },
+                  "deferred": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Number of deferred emails for the campaign"
+                  },
+                  "delivered": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of delivered emails for the campaign"
+                  },
+                  "estimatedViews": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Rate of recipients without any privacy protection option enabled in their email client, applied to all delivered emails"
+                  },
+                  "hardBounces": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of hard bounces for the campaign"
+                  },
+                  "listId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "List Id of email campaign (only in case of get email campaign(s)(not for global stats))"
+                  },
+                  "opensRate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "title": "float",
+                    "description": "Percentage of recipients who open the email out of your total number of recipients. Depending on your Campaign settings, they may include Apple MPP opens."
+                  },
+                  "returnBounce": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Total number of non-delivered campaigns for a particular campaign id."
+                  },
+                  "sent": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of sent emails for the campaign"
+                  },
+                  "softBounces": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of softbounce for the campaign"
+                  },
+                  "trackableViews": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Recipients without any privacy protection option enabled in their email email client"
+                  },
+                  "trackableViewsRate": {
+                    "type": "string",
+                    "title": "float",
+                    "description": "Rate of recipients without any privacy protection option enabled in their email client"
+                  },
+                  "uniqueClicks": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of unique clicks for the campaign"
+                  },
+                  "uniqueViews": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of unique openings for the campaign"
+                  },
+                  "unsubscriptions": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of unsubscription for the campaign"
+                  },
+                  "viewed": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of openings for the campaign"
+                  }
+                },
+                "required": [
+                  "appleMppOpens",
+                  "clickers",
+                  "complaints",
+                  "delivered",
+                  "hardBounces",
+                  "opensRate",
+                  "sent",
+                  "softBounces",
+                  "trackableViews",
+                  "uniqueClicks",
+                  "uniqueViews",
+                  "unsubscriptions",
+                  "viewed"
+                ],
+                "title": "getCampaignStats"
+              },
+              "description": "Statistics of the campaign grouped by email domain. Only populated when the `statistics` query parameter is set to `statsByDomain`."
+            }
+          },
+          "required": [
+            "campaignStats",
+            "globalStats",
+            "linksStats",
+            "mirrorClick",
+            "remaining"
+          ],
+          "title": "getExtendedCampaignStats"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "status",
+        "type",
+        "createdAt",
+        "footer",
+        "header",
+        "htmlContent",
+        "modifiedAt",
+        "replyTo",
+        "sender",
+        "testSent",
+        "recipients",
+        "statistics"
+      ],
+      "title": "Email Campaigns_getEmailCampaign_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/emailCampaigns/{{campaignId}}",
+      "query_params": [
+        "statistics",
+        "excludeHtmlContent"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#emailCampaigns_getEmailCampaign",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

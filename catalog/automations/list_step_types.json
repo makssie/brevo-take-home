@@ -1,0 +1,45 @@
+{
+  "id": "automations.list_step_types",
+  "name": "List the trigger, action and condition types an automation can use",
+  "category": "automations",
+  "area": "web-app-internal",
+  "description": "Return every building block of the automation builder. Use before adding steps, because add_trigger needs a trigger key, its source category and its internal_action_id from this response. Observed on the free account: triggers {\"contacts\": [\"added_to_lists\", \"removed_from_lists\", \"contact_match_custom_filter\", \"contact_match_one_segment\", \"automation_date_attribute_contact_trigger_modified\", \"manual_trigger\"], \"email\": [\"email_opened\", \"email_clicked\", \"email_unsubscribed\"], \"forms\": [\"form_submitted\"], \"deals\": [\"deal_created\", \"deal_stage_updated\", \"task_created\", \"task_completed\"], \"product\": [\"back_in_stock\", \"price_drop\", \"back_in_stock_subscribed\", \"back_in_stock_expired\"], \"website\": [\"page_visited\"], \"coupon\": [\"unique_coupon_sent\"], \"WhatsApp\": [\"whatsapp-reply\"], \"custom\": [\"custom\"]}; actions {\"contacts\": [\"add_to_list\", \"remove_from_list\", \"update_contact_attribute\", \"blocklist_contact\", \"assign_a_user_to_a_contact\", \"delete_a_contact\", \"update_company_attribute\"], \"messaging\": [\"send_email\", \"send_sms\", \"sales_send_one_to_one_email_from_mailbox\", \"send_whatsapp\", \"email_notify\", \"migrated_email_notify\"], \"deals\": [\"create_task\", \"update_deal_attribute\", \"copy_a_deal\", \"create_a_deal\"], \"Automations\": [\"start_another_workflow\", \"go_to_step\"], \"Webhooks\": [\"call_webhook\"], \"product\": [\"remove_product_contact_association\"]}; conditions [\"add_delay\", \"if_else_bool_segmentation\", \"percentage_split\", \"wait_until\"].",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "trigger_categories": {
+          "type": "object",
+          "description": "category -> list of {key, action_type, internal_action_id, source, label}"
+        },
+        "action_categories": {
+          "type": "object"
+        },
+        "condition_categories": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "GET",
+      "url": "https://workflow-apis.brevo.com/v1/workflow/getCategoryData"
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Observed in UI traffic, then replayed from inside the logged-in page. Labels are i18n keys, not readable names. Per-step configuration fields live in the 250 KB GET /v1/workflow/unified-ddl definition, which was not parsed."
+  }
+}

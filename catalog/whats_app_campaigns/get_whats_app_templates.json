@@ -1,0 +1,147 @@
+{
+  "id": "whats_app_campaigns.get_whats_app_templates",
+  "name": "Return all your created WhatsApp templates",
+  "category": "whats_app_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Return all your created WhatsApp templates. Retrieve a paginated list of all your WhatsApp templates with their status, category, language, and metadata. Results can be filtered by creation date range and optionally by source (Automation or Conversations), with a default limit of 50 and maximum of 100 per page. The sort order defaults to descending by modification date.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used**. Starting (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the templates created. **Prefer to pass your timezone in date-time format for accurate result**"
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used**. Ending (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to filter the templates created. **Prefer to pass your timezone in date-time format for accurate result**"
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 100,
+        "default": 50,
+        "description": "Number of documents per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document in the page"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "WhatsappCampaignsTemplateListGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record modification. Default order is **descending** if `sort` is not passed"
+      },
+      "source": {
+        "type": "string",
+        "enum": [
+          "Automation",
+          "Conversations"
+        ],
+        "title": "WhatsappCampaignsTemplateListGetParametersSource",
+        "description": "source of the template"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of whatsApp templates retrieved"
+        },
+        "templates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": {
+                "type": "string",
+                "description": "category of the template"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Creation UTC date-time of the whatsApp template (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "errorReason": {
+                "type": "string",
+                "description": "Error reason in the template creation"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "ID of the whatsApp template"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language in which template exists"
+              },
+              "modifiedAt": {
+                "type": "string",
+                "description": "UTC date-time of last modification of the whatsApp template (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the whatsApp template"
+              },
+              "status": {
+                "type": "string",
+                "description": "Status of the whatsApp template"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of the whatsApp template"
+              }
+            },
+            "required": [
+              "category",
+              "createdAt",
+              "id",
+              "language",
+              "modifiedAt",
+              "name",
+              "status",
+              "type"
+            ],
+            "title": "WhatsappCampaignsTemplateListGetResponsesContentApplicationJsonSchemaTemplatesItems"
+          }
+        }
+      },
+      "title": "WhatsApp Campaigns_getWhatsAppTemplates_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/whatsappCampaigns/template-list",
+      "query_params": [
+        "startDate",
+        "endDate",
+        "limit",
+        "offset",
+        "sort",
+        "source"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#whatsAppCampaigns_getWhatsAppTemplates",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

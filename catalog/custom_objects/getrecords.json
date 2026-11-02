@@ -1,0 +1,172 @@
+{
+  "id": "custom_objects.getrecords",
+  "name": "Get the list of object records and total records count for an object.",
+  "category": "custom_objects",
+  "area": "object-management",
+  "description": "Get the list of object records and total records count for an object.. Custom objects are only available to Enterprise plans. This feature is in beta. These are subject to change. This API retrieves a list of object records along with their associated records and provides the total count of records for the specified object. **Note**: Contact as object type is not supported in this endpoint.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "object_type": {
+        "type": "string",
+        "description": "Object type for the records to retrieve. Must be a previously created custom object type. Contact as object type is not supported in this endpoint."
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 1000,
+        "description": "Number of records returned per page"
+      },
+      "page_num": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1,
+        "description": "Page number for pagination. It's used to fetch the object records on a provided page number. Must be a valid positive integer."
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "ObjectsObjectTypeRecordsGetParametersSort",
+        "description": "Sort order, must be 'asc' or 'desc'. Default to 'desc' if not provided."
+      },
+      "association": {
+        "type": "string",
+        "enum": [
+          "true",
+          "false"
+        ],
+        "title": "ObjectsObjectTypeRecordsGetParametersAssociation",
+        "description": "Whether to include associations, must be 'true' or 'false'. Default to 'false' if not provided."
+      }
+    },
+    "required": [
+      "object_type",
+      "limit",
+      "page_num"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of object records for an object type."
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "associations": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "object_type": {
+                          "type": "string",
+                          "description": "Type of the associated object"
+                        },
+                        "records": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "description": "See ObjectsObjectTypeRecordsGetResponsesContentApplicationJsonSchemaRecordsItemsAssociationsItemsOneOf0RecordsItems"
+                          }
+                        }
+                      },
+                      "title": "ObjectsObjectTypeRecordsGetResponsesContentApplicationJsonSchemaRecordsItemsAssociationsItems0"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "object_type": {
+                          "type": "string",
+                          "description": "Type of the associated object"
+                        },
+                        "records": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "description": "See ObjectsObjectTypeRecordsGetResponsesContentApplicationJsonSchemaRecordsItemsAssociationsItemsOneOf1RecordsItems"
+                          }
+                        }
+                      },
+                      "title": "ObjectsObjectTypeRecordsGetResponsesContentApplicationJsonSchemaRecordsItemsAssociationsItems1"
+                    }
+                  ],
+                  "title": "ObjectsObjectTypeRecordsGetResponsesContentApplicationJsonSchemaRecordsItemsAssociationsItems"
+                },
+                "description": "List of associations for the object record. If association query param is true it will return 5 associated records per association."
+              },
+              "attributes": {
+                "type": "object",
+                "properties": {},
+                "description": "Key-value pairs of attribute data for the object record. Each key is the attribute **key** (e.g., `company_name`, `engine_type`), not the attribute label (e.g., \"Company Name\", \"Engine Type\"). Only attributes that already exist in the object schema will be present.\nFor `category` or `multiple_category` attributes, the value is the option **key** (not the option label or option ID).\n",
+                "title": "ObjectsObjectTypeRecordsGetResponsesContentApplicationJsonSchemaRecordsItemsAttributes"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the object record was created"
+              },
+              "identifiers": {
+                "type": "object",
+                "properties": {
+                  "ext_id": {
+                    "type": "string",
+                    "description": "External ID of the record in your system."
+                  },
+                  "id": {
+                    "type": "integer",
+                    "description": "Internal ID of the object record generated by Brevo."
+                  }
+                },
+                "description": "Identifiers for the object record. Supports `id` (singular, not `ids`) or `ext_id`.\n- `ext_id`: Your external system's identifier for this record.\n- `id`: Internal Brevo record ID.\n",
+                "title": "ObjectsObjectTypeRecordsGetResponsesContentApplicationJsonSchemaRecordsItemsIdentifiers"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the object record was last updated"
+              }
+            },
+            "title": "ObjectsObjectTypeRecordsGetResponsesContentApplicationJsonSchemaRecordsItems"
+          }
+        }
+      },
+      "title": "Custom Objects_getrecords_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/objects/{{object_type}}/records",
+      "query_params": [
+        "limit",
+        "page_num",
+        "sort",
+        "association"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/object-management.json#customObjects_getrecords",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "id": "transactional_emails.get_transac_email_content",
+  "name": "Get the personalized content of a sent transactional email",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Get the personalized content of a sent transactional email. You can get the uuid using either of the following methods: Send a GET request to https://api.brevo.com/v3/smtp/emails and pass the message_id in the url. Use your api-key to authenticate the request and you will get your uuid as a response. The uuid can also be fetched from the transactional logs page in your Brevo account, from the address URL.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "Unique id of the transactional email that has been sent to a particular contact"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "attachmentCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Count of the attachments that were sent in the email"
+        },
+        "body": {
+          "type": "string",
+          "description": "Actual content of the transactional email that has been sent"
+        },
+        "date": {
+          "type": "string",
+          "description": "Date on which transactional email was sent"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address to which transactional email has been sent"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the event that occurred on the sent email"
+              },
+              "time": {
+                "type": "string",
+                "description": "Time at which the event occurred"
+              }
+            },
+            "required": [
+              "name",
+              "time"
+            ],
+            "title": "SmtpEmailsUuidGetResponsesContentApplicationJsonSchemaEventsItems"
+          },
+          "description": "Series of events which occurred on the transactional email"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Subject of the sent email"
+        },
+        "templateId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Id of the template"
+        }
+      },
+      "required": [
+        "date",
+        "email",
+        "events",
+        "subject"
+      ],
+      "title": "Transactional emails_getTransacEmailContent_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/smtp/emails/{{uuid}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getTransacEmailContent",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

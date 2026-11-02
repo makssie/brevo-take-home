@@ -1,0 +1,78 @@
+{
+  "id": "segments.list_segments",
+  "name": "List segments",
+  "category": "segments",
+  "area": "web-app-internal",
+  "description": "List saved segments with id, name, folder and last update. Use to find a segment id.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "default": 20
+      },
+      "page": {
+        "type": "integer",
+        "default": 1
+      }
+    },
+    "required": [
+      "limit",
+      "page"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "category_id": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "count_metadata": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "metadata": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "GET",
+      "url": "https://segments-api.brevo.com/segment/listing",
+      "query_params": [
+        "limit",
+        "page"
+      ]
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Observed in UI traffic, then replayed from inside the logged-in page. Both limit and page are required: the server answers 422 'invalid query parameter' otherwise."
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "id": "ecommerce.create_update_batch_category",
+  "name": "Create categories in batch",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Create categories in batch. Create or update multiple ecommerce categories in a single request. The `categories` array accepts up to 100 category objects, each requiring a unique `id`. When `updateEnabled` is `false` (the default), all categories are inserted as new; if any ID already exists, a `400` error is returned. When `updateEnabled` is `true`, existing categories are updated and new ones are created via upsert. Duplicate IDs within the same request payload are…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "categories": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "deletedAt": {
+              "type": "string",
+              "description": "UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) of the category deleted from the shop's database"
+            },
+            "id": {
+              "type": "string",
+              "description": "Unique Category ID as saved in the shop\n"
+            },
+            "isDeleted": {
+              "type": "boolean",
+              "description": "category deleted from the shop's database"
+            },
+            "name": {
+              "type": "string",
+              "description": "**Mandatory in case of creation**. Name of the Category, as displayed in the shop\n"
+            },
+            "url": {
+              "type": "string",
+              "description": "URL to the category"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "title": "CategoriesBatchPostRequestBodyContentApplicationJsonSchemaCategoriesItems"
+        },
+        "description": "array of categories objects"
+      },
+      "updateEnabled": {
+        "type": "boolean",
+        "description": "Facilitate to update the existing categories in the same request (updateEnabled = true)"
+      }
+    },
+    "required": [
+      "categories"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "createdCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of the new created categories"
+        },
+        "updatedCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of the existing categories updated"
+        }
+      },
+      "title": "Ecommerce_createUpdateBatchCategory_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/categories/batch",
+      "body_template": {
+        "categories": "{{categories}}",
+        "updateEnabled": "{{updateEnabled}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_createUpdateBatchCategory",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

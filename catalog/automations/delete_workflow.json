@@ -1,0 +1,35 @@
+{
+  "id": "automations.delete_workflow",
+  "name": "Delete an automation",
+  "category": "automations",
+  "area": "web-app-internal",
+  "description": "Delete an automation from the row menu. Treat as irreversible and confirm with the user first.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {},
+  "execution": {
+    "method": "ui_only",
+    "ui_steps": [
+      "Open Automations > Workflows.",
+      "Open the row's three-dot menu.",
+      "Click 'Delete' and confirm."
+    ]
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "observed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Option seen in the UI menu. Not executed. Deliberately not executed during exploration: deleting data was left to the account owner."
+  }
+}

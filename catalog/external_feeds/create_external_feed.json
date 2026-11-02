@@ -1,0 +1,126 @@
+{
+  "id": "external_feeds.create_external_feed",
+  "name": "Create external feed",
+  "category": "external_feeds",
+  "area": "accounts-and-settings",
+  "description": "Create external feed. Creates a new external feed for dynamic content in email campaigns. **Use this to:** - Set up external data sources for dynamic content - Configure authentication for protected feeds - Enable real-time content updates in campaigns - Establish connections to product catalogs, blogs, or APIs **Key information returned:** - Created feed UUID for reference in campaigns - Success confirmation **Important considerations:** - Feed URL must be…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the feed"
+      },
+      "url": {
+        "type": "string",
+        "format": "url",
+        "description": "URL of the external data source"
+      },
+      "authType": {
+        "type": "string",
+        "enum": [
+          "basic",
+          "token",
+          "noAuth"
+        ],
+        "default": "noAuth",
+        "description": "Authentication type for accessing the feed",
+        "title": "FeedsPostRequestBodyContentApplicationJsonSchemaAuthType"
+      },
+      "username": {
+        "type": "string",
+        "description": "Username for basic authentication (required if authType is 'basic')"
+      },
+      "password": {
+        "type": "string",
+        "description": "Password for basic authentication (required if authType is 'basic')"
+      },
+      "token": {
+        "type": "string",
+        "description": "Token for token-based authentication (required if authType is 'token')"
+      },
+      "maxRetries": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5,
+        "default": 5,
+        "description": "Maximum number of retry attempts for failed requests"
+      },
+      "cache": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether to cache the feed response"
+      },
+      "headers": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Header name"
+            },
+            "value": {
+              "type": "string",
+              "description": "Header value"
+            }
+          },
+          "required": [
+            "name",
+            "value"
+          ],
+          "title": "FeedsPostRequestBodyContentApplicationJsonSchemaHeadersItems"
+        },
+        "description": "Custom HTTP headers for the feed request"
+      }
+    },
+    "required": [
+      "name",
+      "url"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuidv4",
+          "description": "UUID of the created feed"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "External Feeds_createExternalFeed_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/feeds",
+      "body_template": {
+        "name": "{{name}}",
+        "url": "{{url}}",
+        "authType": "{{authType}}",
+        "username": "{{username}}",
+        "password": "{{password}}",
+        "token": "{{token}}",
+        "maxRetries": "{{maxRetries}}",
+        "cache": "{{cache}}",
+        "headers": "{{headers}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#externalFeeds_createExternalFeed",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

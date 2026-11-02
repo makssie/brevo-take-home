@@ -1,0 +1,161 @@
+{
+  "id": "domains.get_domain_configuration",
+  "name": "Get a sender domain configuration",
+  "category": "domains",
+  "area": "accounts-and-settings",
+  "description": "Get a sender domain configuration. Retrieves configuration of a specific domain, to know if the domain is valid or not. Use this to: - Check domain configuration - Validate a domain configuration - Monitor DNS record status - Troubleshoot authentication issues Key information returned: - Domain verification and authentication status - DNS records configuration and validation status - Detailed authentication requirements",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "domainName": {
+        "type": "string",
+        "description": "Domain name"
+      }
+    },
+    "required": [
+      "domainName"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "description": "Domain name"
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "Status of domain verification (true=verified, false=non\nverified)"
+        },
+        "authenticated": {
+          "type": "boolean",
+          "description": "Status of domain authentication (true=authenticated, false=non\nauthenticated)"
+        },
+        "dns_records": {
+          "type": "object",
+          "properties": {
+            "brevo_code": {
+              "type": "object",
+              "properties": {
+                "host_name": {
+                  "type": "string",
+                  "description": "DNS record hostname"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "DNS record type"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "DNS record value"
+                },
+                "status": {
+                  "type": "boolean",
+                  "description": "Whether the record is properly configured"
+                }
+              },
+              "required": [
+                "host_name",
+                "type",
+                "value",
+                "status"
+              ],
+              "description": "Brevo verification code record",
+              "title": "SendersDomainsDomainNameGetResponsesContentApplicationJsonSchemaDnsRecordsBrevoCode"
+            },
+            "dkim_record": {
+              "type": "object",
+              "properties": {
+                "host_name": {
+                  "type": "string",
+                  "description": "DNS record hostname"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "DNS record type"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "DNS record value"
+                },
+                "status": {
+                  "type": "boolean",
+                  "description": "Whether the record is properly configured"
+                }
+              },
+              "required": [
+                "host_name",
+                "type",
+                "value",
+                "status"
+              ],
+              "description": "DKIM authentication record",
+              "title": "SendersDomainsDomainNameGetResponsesContentApplicationJsonSchemaDnsRecordsDkimRecord"
+            },
+            "dmarc_record": {
+              "type": "object",
+              "properties": {
+                "host_name": {
+                  "type": "string",
+                  "description": "DNS record hostname"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "DNS record type"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "DNS record value"
+                },
+                "status": {
+                  "type": "boolean",
+                  "description": "Whether the record is properly configured"
+                }
+              },
+              "required": [
+                "host_name",
+                "type",
+                "value",
+                "status"
+              ],
+              "description": "DMARC policy record",
+              "title": "SendersDomainsDomainNameGetResponsesContentApplicationJsonSchemaDnsRecordsDmarcRecord"
+            }
+          },
+          "required": [
+            "brevo_code",
+            "dkim_record",
+            "dmarc_record"
+          ],
+          "description": "DNS records configuration and status",
+          "title": "SendersDomainsDomainNameGetResponsesContentApplicationJsonSchemaDnsRecords"
+        }
+      },
+      "required": [
+        "domain",
+        "verified",
+        "authenticated",
+        "dns_records"
+      ],
+      "title": "Domains_getDomainConfiguration_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/senders/domains/{{domainName}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#domains_getDomainConfiguration",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

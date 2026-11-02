@@ -1,0 +1,124 @@
+{
+  "id": "domains.get_domains",
+  "name": "Get the list of all sender domains",
+  "category": "domains",
+  "area": "accounts-and-settings",
+  "description": "Get the list of all sender domains. Retrieves all domains associated with the account. Use this to: - List all domains - Verify domain existence - Check domain authentication and verification status - Monitor domain configuration and provider information - Review domain creation history and ownership Key information returned: - Domain details (ID, name, authentication status) - Verification and authentication states - Associated IP addresses and DNS providers - Creator…",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier of the domain"
+              },
+              "domain_name": {
+                "type": "string",
+                "description": "Domain name"
+              },
+              "authenticated": {
+                "type": "boolean",
+                "description": "Status of domain authentication (true=authenticated,\nfalse=non authenticated)"
+              },
+              "verified": {
+                "type": "boolean",
+                "description": "Status of domain verification (true=verified, false=non\nverified)"
+              },
+              "ip": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Dedicated IP associated with domain (null if none)"
+              },
+              "provider": {
+                "type": "string",
+                "description": "DNS provider for the domain"
+              },
+              "creator": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Creator's user ID"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Creator's email address"
+                  },
+                  "creationDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Domain creation date"
+                  }
+                },
+                "required": [
+                  "id",
+                  "email",
+                  "creationDate"
+                ],
+                "description": "Information about who created the domain",
+                "title": "SendersDomainsGetResponsesContentApplicationJsonSchemaDomainsItemsCreator"
+              }
+            },
+            "required": [
+              "id",
+              "domain_name",
+              "authenticated",
+              "verified",
+              "provider",
+              "creator"
+            ],
+            "title": "SendersDomainsGetResponsesContentApplicationJsonSchemaDomainsItems"
+          },
+          "description": "List of the domains available in your account"
+        },
+        "count": {
+          "type": "integer",
+          "description": "Total number of domains"
+        },
+        "current_page": {
+          "type": "integer",
+          "description": "Current page number"
+        },
+        "total_pages": {
+          "type": "integer",
+          "description": "Total number of pages"
+        }
+      },
+      "required": [
+        "domains",
+        "count",
+        "current_page",
+        "total_pages"
+      ],
+      "title": "Domains_getDomains_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/senders/domains"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#domains_getDomains",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

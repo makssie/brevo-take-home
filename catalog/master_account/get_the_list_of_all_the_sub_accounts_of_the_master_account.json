@@ -1,0 +1,109 @@
+{
+  "id": "master_account.get_the_list_of_all_the_sub_accounts_of_the_master_account",
+  "name": "Get the list of all the sub-accounts of the master account.",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Get the list of all the sub-accounts of the master account.. This endpoint will provide the list all the sub-accounts of the master account.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "offset": {
+        "type": "integer",
+        "description": "Index of the first sub-account in the page"
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Number of sub-accounts to be displayed on each page"
+      }
+    },
+    "required": [
+      "offset",
+      "limit"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "description": "Total number of subaccounts"
+        },
+        "subAccounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "active": {
+                "type": "boolean",
+                "description": "Whether the sub-account is active or not"
+              },
+              "companyName": {
+                "type": "string",
+                "description": "Name of the sub-account company"
+              },
+              "createdAt": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Timestamp when the sub-account was created"
+              },
+              "groups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Group identifier"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the group"
+                    }
+                  },
+                  "title": "CorporateSubAccountGetResponsesContentApplicationJsonSchemaSubAccountsItemsGroupsItems"
+                },
+                "description": "Group details"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "id of the sub-account"
+              }
+            },
+            "required": [
+              "active",
+              "companyName",
+              "createdAt",
+              "groups",
+              "id"
+            ],
+            "title": "CorporateSubAccountGetResponsesContentApplicationJsonSchemaSubAccountsItems"
+          }
+        }
+      },
+      "title": "Master account_getTheListOfAllTheSubAccountsOfTheMasterAccount_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/corporate/subAccount",
+      "query_params": [
+        "offset",
+        "limit"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_getTheListOfAllTheSubAccountsOfTheMasterAccount",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

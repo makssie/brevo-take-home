@@ -1,0 +1,109 @@
+{
+  "id": "master_account.invite_admin_user",
+  "name": "Send invitation to an admin user",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Send invitation to an admin user. `This endpoint allows you to invite a member to manage the Admin account Features and their respective permissions are as below: - `my_plan`: - \"all\" - `api`: - \"none\" - `user_management`: - \"all\" - `app_management` | Not available in ENTv2: - \"all\" - `sub_organization_groups` - \"create\" - \"edit_delete\" - `create_sub_organizations` - \"all\" - `manage_sub_organizations` - \"all\" - `analytics` - \"download_data\" - \"create_alerts\" - \"my_looks\" -…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "all_features_access": {
+        "type": "boolean",
+        "description": "All access to the features"
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "description": "Email address for the organization"
+      },
+      "groupIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Ids of Group"
+      },
+      "privileges": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "feature": {
+              "type": "string",
+              "enum": [
+                "my_plan",
+                "api",
+                "user_management",
+                "app_management",
+                "sub_organization_groups",
+                "create_sub_organizations",
+                "manage_sub_organizations",
+                "analytics",
+                "security"
+              ],
+              "description": "Feature name",
+              "title": "CorporateUserInvitationSendPostRequestBodyContentApplicationJsonSchemaPrivilegesItemsFeature"
+            },
+            "permissions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "none",
+                  "create",
+                  "edit_delete",
+                  "download_data",
+                  "create_alerts"
+                ],
+                "title": "CorporateUserInvitationSendPostRequestBodyContentApplicationJsonSchemaPrivilegesItemsPermissionsItems"
+              },
+              "description": "Permissions for a given feature"
+            }
+          },
+          "description": "Privileges given to the user",
+          "title": "CorporateUserInvitationSendPostRequestBodyContentApplicationJsonSchemaPrivilegesItems"
+        }
+      }
+    },
+    "required": [
+      "all_features_access",
+      "email",
+      "privileges"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "title": "Master account_inviteAdminUser_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/corporate/user/invitation/send",
+      "body_template": {
+        "all_features_access": "{{all_features_access}}",
+        "email": "{{email}}",
+        "groupIds": "{{groupIds}}",
+        "privileges": "{{privileges}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_inviteAdminUser",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

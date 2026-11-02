@@ -1,0 +1,64 @@
+{
+  "id": "deals.get_pipeline_stages",
+  "name": "Get pipeline stages",
+  "category": "deals",
+  "area": "sales-crm",
+  "description": "Get pipeline stages. This endpoint is deprecated. Prefer /crm/pipeline/details/{pipelineID} instead.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "pipeline": {
+          "type": "string",
+          "description": "Pipeline id"
+        },
+        "pipeline_name": {
+          "type": "string",
+          "description": "Pipeline Name"
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Stage id"
+              },
+              "name": {
+                "type": "string",
+                "description": "Stage name"
+              }
+            },
+            "description": "Stage details",
+            "title": "PipelineStagesItems"
+          },
+          "description": "List of pipeline stages"
+        }
+      },
+      "description": "Pipeline details with stages",
+      "title": "Pipeline"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/crm/pipeline/details"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#deals_getPipelineStages",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

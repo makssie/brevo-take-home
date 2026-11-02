@@ -1,0 +1,48 @@
+{
+  "id": "whats_app_campaigns.send_whats_app_template_approval",
+  "name": "Send your WhatsApp template for approval",
+  "category": "whats_app_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Send your WhatsApp template for approval. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating WhatsApp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "templateId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "id of the template"
+      }
+    },
+    "required": [
+      "templateId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "description": "Empty response body",
+      "title": "WhatsApp Campaigns_sendWhatsAppTemplateApproval_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/whatsappCampaigns/template/approval/{{templateId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "side_effects": [
+    "Sends real messages to recipients and consumes plan quota. Cannot be undone."
+  ],
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#whatsAppCampaigns_sendWhatsAppTemplateApproval",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

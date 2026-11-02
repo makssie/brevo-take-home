@@ -1,0 +1,56 @@
+{
+  "id": "domains.authenticate_domain",
+  "name": "Authenticate a sender domain",
+  "category": "domains",
+  "area": "accounts-and-settings",
+  "description": "Authenticate a sender domain. Authenticates a specific domain. Use this to: - Authenticate a domain - Verify DNS record configuration - Complete domain setup for sending - Enable domain for email authentication Key information returned: - Authentication success confirmation - Domain readiness status for email sending",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "domainName": {
+        "type": "string",
+        "description": "Domain name"
+      }
+    },
+    "required": [
+      "domainName"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "domain_name": {
+          "type": "string",
+          "description": "Domain name that was authenticated"
+        },
+        "message": {
+          "type": "string",
+          "description": "Success message confirming authentication"
+        }
+      },
+      "required": [
+        "domain_name",
+        "message"
+      ],
+      "title": "Domains_authenticateDomain_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/senders/domains/{{domainName}}/authenticate"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#domains_authenticateDomain",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

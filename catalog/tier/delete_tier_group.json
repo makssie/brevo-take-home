@@ -1,0 +1,49 @@
+{
+  "id": "tier.delete_tier_group",
+  "name": "Delete tier group",
+  "category": "tier",
+  "area": "loyalty",
+  "description": "Delete tier group. Deletes a tier group from a loyalty program. *(The changes will take effect with the next publication of the loyalty program)*",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "gid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Tier group ID"
+      }
+    },
+    "required": [
+      "pid",
+      "gid"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/loyalty/tier/programs/{{pid}}/tier-groups/{{gid}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#tier_deleteTierGroup",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

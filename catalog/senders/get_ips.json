@@ -1,0 +1,72 @@
+{
+  "id": "senders.get_ips",
+  "name": "Get all the dedicated IPs for your account",
+  "category": "senders",
+  "area": "accounts-and-settings",
+  "description": "Get all the dedicated IPs for your account. Retrieves all dedicated IPs associated with your Brevo account. Use this to: - List all your dedicated IPs - Check the status of your dedicated IPs (active/inactive) - Find IP addresses and associated domains for configuration purposes - Monitor your IP reputation and deliverability - Verify available IPs for sender configuration Key information returned: - IP ID and address - Associated domain - Active status - IP configuration details",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ips": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "ID of the dedicated IP"
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Status of the IP (true=active, false=inactive)"
+              },
+              "domain": {
+                "type": "string",
+                "description": "Domain associated to the IP"
+              },
+              "ip": {
+                "type": "string",
+                "description": "Dedicated IP address"
+              }
+            },
+            "required": [
+              "id",
+              "active",
+              "domain",
+              "ip"
+            ],
+            "title": "SendersIpsGetResponsesContentApplicationJsonSchemaIpsItems"
+          },
+          "description": "Dedicated IP(s) available on your account. Returns empty array\nfor standard accounts without dedicated IPs."
+        }
+      },
+      "required": [
+        "ips"
+      ],
+      "title": "Senders_getIps_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/senders/ips"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#senders_getIps",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

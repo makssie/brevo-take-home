@@ -1,0 +1,76 @@
+{
+  "id": "companies.get_company_attributes",
+  "name": "Get company attributes",
+  "category": "companies",
+  "area": "sales-crm",
+  "description": "Get company attributes. Retrieve the list of all attributes defined for companies, including both system-default and custom attributes. Each attribute includes its label, internal name, type, required status, and available options for select-type attributes.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "internalName": {
+            "type": "string",
+            "description": "Internal name of the attribute"
+          },
+          "attributeTypeName": {
+            "type": "string",
+            "description": "Type of the attribute"
+          },
+          "label": {
+            "type": "string",
+            "description": "Display label of the attribute"
+          },
+          "attributeOptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "title": "CrmAttributesCompaniesGetResponsesContentApplicationJsonSchemaItemsAttributeOptionsItems"
+            },
+            "description": "Options for single-select or multi-choice attributes"
+          },
+          "isRequired": {
+            "type": "boolean",
+            "description": "Whether this attribute is required"
+          },
+          "isValueReadonly": {
+            "type": "boolean",
+            "description": "Whether this attribute value is read-only"
+          }
+        },
+        "description": "Company attribute details",
+        "title": "CrmAttributesCompaniesGetResponsesContentApplicationJsonSchemaItems"
+      }
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/crm/attributes/companies"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#companies_getCompanyAttributes",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

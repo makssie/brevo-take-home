@@ -1,0 +1,43 @@
+{
+  "id": "payments.delete_payment_request",
+  "name": "Delete a payment request.",
+  "category": "payments",
+  "area": "ecommerce",
+  "description": "Delete a payment request.. Delete a payment request by its UUID. Once deleted, the payment request can no longer be accessed or paid. Returns a `404` error if no payment request matches the provided ID, and a `403` error if Brevo Payments is not activated or the account is not validated.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "description": "ID of the payment request."
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/payments/requests/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#payments_deletePaymentRequest",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

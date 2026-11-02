@@ -1,0 +1,61 @@
+{
+  "id": "master_account.resend_cancel_admin_user_invitation",
+  "name": "Resend / cancel admin user invitation",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Resend / cancel admin user invitation. This endpoint will allow the user to: - Resend an admin user invitation - Cancel an admin user invitation",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "resend",
+          "cancel"
+        ],
+        "title": "CorporateUserInvitationActionEmailPutParametersAction",
+        "description": "Action to be performed (cancel / resend)"
+      },
+      "email": {
+        "type": "string",
+        "description": "Email address of the recipient"
+      }
+    },
+    "required": [
+      "action",
+      "email"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Action success message"
+        }
+      },
+      "title": "Master account_resendCancelAdminUserInvitation_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/corporate/user/invitation/{{action}}/{{email}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "side_effects": [
+    "Sends real messages to recipients and consumes plan quota. Cannot be undone."
+  ],
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_resendCancelAdminUserInvitation",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

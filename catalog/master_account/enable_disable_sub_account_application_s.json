@@ -1,0 +1,115 @@
+{
+  "id": "master_account.enable_disable_sub_account_application_s",
+  "name": "Enable/disable sub-account application(s)",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Enable/disable sub-account application(s). API endpoint for the Corporate owner to enable/disable applications on the sub-account",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the sub-account organization (mandatory)"
+      },
+      "analytics": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Analytics on the\nsub-account. Requires the master account's plan to include\nAnalytics; otherwise the call returns a 400 error."
+      },
+      "automation": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Automation on the\nsub-account"
+      },
+      "conversations": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Conversations on the\nsub-account"
+      },
+      "crm": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Sales CRM on the sub-account"
+      },
+      "email-campaigns": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Email Campaigns on the\nsub-account"
+      },
+      "facebook-ads": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Facebook ads on the\nsub-account"
+      },
+      "inbox": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Inbox on the sub-account /\nNot applicable on ENTv2"
+      },
+      "landing-pages": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Landing pages on the\nsub-account"
+      },
+      "meetings": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Meetings on the sub-account"
+      },
+      "sms-campaigns": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable SMS Marketing on the\nsub-account"
+      },
+      "transactional-emails": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Transactional Email on the\nsub-account"
+      },
+      "transactional-sms": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Transactional SMS on the\nsub-account"
+      },
+      "web-push": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Web Push on the sub-account"
+      },
+      "whatsapp": {
+        "type": "boolean",
+        "description": "Set this field to enable or disable Whatsapp campaigns on the\nsub-account"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/corporate/subAccount/{{id}}/applications/toggle",
+      "body_template": {
+        "analytics": "{{analytics}}",
+        "automation": "{{automation}}",
+        "conversations": "{{conversations}}",
+        "crm": "{{crm}}",
+        "email-campaigns": "{{email-campaigns}}",
+        "facebook-ads": "{{facebook-ads}}",
+        "inbox": "{{inbox}}",
+        "landing-pages": "{{landing-pages}}",
+        "meetings": "{{meetings}}",
+        "sms-campaigns": "{{sms-campaigns}}",
+        "transactional-emails": "{{transactional-emails}}",
+        "transactional-sms": "{{transactional-sms}}",
+        "web-push": "{{web-push}}",
+        "whatsapp": "{{whatsapp}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_enableDisableSubAccountApplicationS",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

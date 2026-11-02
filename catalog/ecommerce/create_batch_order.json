@@ -1,0 +1,279 @@
+{
+  "id": "ecommerce.create_batch_order",
+  "name": "Create orders in batch",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Create orders in batch. Create multiple orders at one time instead of one order at a time",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "historical": {
+        "type": "boolean",
+        "default": true,
+        "description": "Defines whether you want your orders to be considered as live data or as historical data (import of past data, synchronising data). True: orders will not trigger any automation workflows. False: orders will trigger workflows as usual."
+      },
+      "notifyUrl": {
+        "type": "string",
+        "description": "Webhook URL to receive the status of the batch request"
+      },
+      "orders": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "number",
+              "format": "double",
+              "description": "Total amount of the order, including all shipping expenses, tax and the price of items."
+            },
+            "billing": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string",
+                  "description": "Full billing address."
+                },
+                "city": {
+                  "type": "string",
+                  "description": "Exact city of the address."
+                },
+                "country": {
+                  "type": "string",
+                  "description": "Billing country name."
+                },
+                "countryCode": {
+                  "type": "string",
+                  "description": "Billing country 2-letter ISO code."
+                },
+                "paymentMethod": {
+                  "type": "string",
+                  "description": "How the visitor will pay for the item(s), e.g. paypal, check, etc."
+                },
+                "phone": {
+                  "type": "string",
+                  "description": "Billing phone number."
+                },
+                "postCode": {
+                  "type": "string",
+                  "description": "Billing postcode."
+                },
+                "region": {
+                  "type": "string",
+                  "description": "Exact region (state/province) for billing."
+                }
+              },
+              "description": "Billing details of an order.",
+              "title": "OrderBilling"
+            },
+            "coupons": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Coupons applied to the order. Stored case insensitive."
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Event occurrence UTC date-time (YYYY-MM-DDTHH:mm:ssZ), when order is actually created."
+            },
+            "id": {
+              "type": "string",
+              "description": "Unique ID of the order."
+            },
+            "identifiers": {
+              "type": "object",
+              "properties": {
+                "email_id": {
+                  "type": "string",
+                  "description": "Email of the contact associated with the order"
+                },
+                "ext_id": {
+                  "type": "string",
+                  "description": "ext_id associated with the order"
+                },
+                "loyalty_subscription_id": {
+                  "type": "string",
+                  "description": "loyalty_subscription_id associated with the order"
+                },
+                "phone_id": {
+                  "type": "string",
+                  "description": "Phone number of the contact associated with the order"
+                }
+              },
+              "description": "Identifies the contact associated with the order.",
+              "title": "OrderIdentifiers"
+            },
+            "metaInfo": {
+              "type": "object",
+              "additionalProperties": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "boolean"
+                  }
+                ],
+                "title": "OrderMetaInfo"
+              },
+              "description": "Meta data of order to store additional detail such as custom message, customer type, source."
+            },
+            "products": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "price": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "The price of a unit of product"
+                  },
+                  "productId": {
+                    "type": "string",
+                    "description": "ID of the product."
+                  },
+                  "sku": {
+                    "type": "string",
+                    "description": "Stock Keeping Unit identifier for the product line item. Stored as sent: it is not matched against the product catalog."
+                  },
+                  "variantId": {
+                    "type": "string",
+                    "description": "Product ID of the red color shirts."
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "description": "**Required if quantityFloat is empty.**\n\nNumber of product units added to the cart (whole numbers only, e.g., 10)\n"
+                  },
+                  "quantityFloat": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "**Required if quantity is empty.**\n\nNumber of product units added to the cart(supports decimals, e.g., 20.52)\n"
+                  }
+                },
+                "required": [
+                  "price",
+                  "productId"
+                ],
+                "description": "Details for the Products in an order.",
+                "title": "OrderProductsItems"
+              }
+            },
+            "shipping": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string",
+                  "description": "Full shipping address."
+                },
+                "city": {
+                  "type": "string",
+                  "description": "Exact city of the address."
+                },
+                "country": {
+                  "type": "string",
+                  "description": "Shipping country name."
+                },
+                "countryCode": {
+                  "type": "string",
+                  "description": "Shipping country 2-letter ISO code."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the shipping recipient."
+                },
+                "phone": {
+                  "type": "string",
+                  "description": "Phone number to contact for shipping questions. If invalid, it is dropped and the order is still accepted. Unlike `billing.phone`, it is never used to identify the contact."
+                },
+                "postCode": {
+                  "type": "string",
+                  "description": "Shipping postcode."
+                },
+                "region": {
+                  "type": "string",
+                  "description": "Exact region (state/province) for shipping."
+                }
+              },
+              "description": "Shipping details of an order, when the recipient or ship-to address differs from billing.",
+              "title": "OrderShipping"
+            },
+            "status": {
+              "type": "string",
+              "description": "State of the order."
+            },
+            "storeId": {
+              "type": "string",
+              "description": "ID of store where the order is placed"
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "Event updated UTC date-time (YYYY-MM-DDTHH:mm:ssZ), when the status of the order is actually changed/updated."
+            }
+          },
+          "required": [
+            "amount",
+            "createdAt",
+            "id",
+            "products",
+            "status",
+            "updatedAt"
+          ],
+          "title": "order"
+        },
+        "description": "array of order objects"
+      }
+    },
+    "required": [
+      "orders"
+    ]
+  },
+  "outputs": {
+    "status": 202,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of orders"
+        },
+        "batch_id": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double",
+          "description": "Batch ID of the request"
+        }
+      },
+      "required": [
+        "batch_id"
+      ],
+      "title": "Ecommerce_createBatchOrder_Response_202"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/orders/status/batch",
+      "body_template": {
+        "historical": "{{historical}}",
+        "notifyUrl": "{{notifyUrl}}",
+        "orders": "{{orders}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_createBatchOrder",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

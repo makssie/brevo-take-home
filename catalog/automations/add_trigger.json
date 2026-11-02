@@ -1,0 +1,78 @@
+{
+  "id": "automations.add_trigger",
+  "name": "Add a trigger to an automation",
+  "category": "automations",
+  "area": "web-app-internal",
+  "description": "Place the entry trigger on an automation. The trigger exists but is incomplete (is_complete false) until its own settings are saved, for example the list for added_to_lists. Get valid keys from automations.list_step_types.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "description": "Workflow id."
+      },
+      "trigger_name": {
+        "type": "string",
+        "description": "Block key, e.g. added_to_lists."
+      },
+      "multiple_entry": {
+        "type": "boolean",
+        "default": false,
+        "description": "Let the same contact enter more than once."
+      },
+      "internal_action_id": {
+        "type": "integer",
+        "description": "From list_step_types. 1 for added_to_lists."
+      },
+      "source": {
+        "type": "string",
+        "description": "Trigger category, e.g. contacts."
+      }
+    },
+    "required": [
+      "id",
+      "trigger_name",
+      "internal_action_id",
+      "source"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean"
+        },
+        "start_point_id": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "POST",
+      "url": "https://workflow-apis.brevo.com/v1/workflow/{{id}}/trigger",
+      "body_template": {
+        "trigger_name": "{{trigger_name}}",
+        "multiple_entry": "{{multiple_entry}}",
+        "internal_action_id": "{{internal_action_id}}",
+        "source": "{{source}}"
+      }
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Executed through the UI with request capture. Executed by dragging 'Contact added to list' onto the canvas. The call that saves the trigger's settings (choosing the list) was not captured: no list existed to pick. Adding action and condition steps was not captured."
+  },
+  "preconditions": [
+    "A workflow exists (automations.create_workflow)."
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "id": "ecommerce.create_product_alert",
+  "name": "Create a product alert for a contact",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Create a product alert for a contact. Register a contact to receive an alert for a specific product event, such as `back_in_stock`. At least one contact identifier (`ext_id`, `email`, or `sms`) must be provided; when multiple are given, priority is `ext_id` > `email` > `sms`. Returns a `404` error if the product ID does not exist, and a `403` error if product alerts are not enabled for the account.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Product ID"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "back_in_stock"
+        ],
+        "title": "ProductsIdAlertsTypePostParametersType",
+        "description": "Alert type"
+      },
+      "contactIdentifiers": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address of the contact"
+          },
+          "ext_id": {
+            "type": "string",
+            "description": "Contact ID in your system"
+          },
+          "sms": {
+            "type": "string",
+            "description": "Sms of the contact"
+          }
+        },
+        "title": "ProductsIdAlertsTypePostRequestBodyContentApplicationJsonSchemaContactIdentifiers"
+      }
+    },
+    "required": [
+      "id",
+      "type"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/products/{{id}}/alerts/{{type}}",
+      "body_template": {
+        "contactIdentifiers": "{{contactIdentifiers}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_createProductAlert",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

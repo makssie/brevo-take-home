@@ -1,0 +1,60 @@
+{
+  "id": "conversations.sets_agents_status_to_online_for23_minutes",
+  "name": "Sets agent's status to online for 2-3 minutes",
+  "category": "conversations",
+  "area": "conversations",
+  "description": "Sets agent's status to online for 2-3 minutes. Sets the agent's status to online for 2-3 minutes. We recommend pinging this endpoint every minute for as long as the agent has to be considered online. You must provide either `agentId` alone, or all three of `agentEmail` + `agentName` + `receivedFrom`.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "agentEmail": {
+        "type": "string",
+        "format": "email",
+        "description": "Agent's email address. When sending online pings from a standalone system, it's hard to maintain a 1-to-1 relationship between the users of both systems. In this case, an agent can be specified by their email address. If there's no agent with the specified email address in your Brevo organization, a dummy agent will be created automatically."
+      },
+      "agentId": {
+        "type": "string",
+        "description": "Agent ID. It can be found on the agent's page or received <a href=\"https://developers.brevo.com/docs/conversations-webhooks\">from a webhook</a>. Alternatively, you can use `agentEmail` + `agentName` + `receivedFrom` instead (all 3 fields required)."
+      },
+      "agentName": {
+        "type": "string",
+        "description": "Agent's name."
+      },
+      "receivedFrom": {
+        "type": "string",
+        "description": "Mark your messages to distinguish messages created by you from the others."
+      }
+    }
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "description": "Empty response body",
+      "title": "Conversations_setsAgentsStatusToOnlineFor23Minutes_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/conversations/agentOnlinePing",
+      "body_template": {
+        "agentEmail": "{{agentEmail}}",
+        "agentId": "{{agentId}}",
+        "agentName": "{{agentName}}",
+        "receivedFrom": "{{receivedFrom}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/conversations.json#conversations_setsAgentsStatusToOnlineFor23Minutes",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

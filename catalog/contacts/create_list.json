@@ -1,0 +1,79 @@
+{
+  "id": "contacts.create_list",
+  "name": "Create a contact list",
+  "category": "contacts",
+  "area": "web-app-internal",
+  "description": "Create a static list of contacts inside a folder. Use for fixed audiences; for rule-based audiences use segments.create_segment.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "maxLength": 255
+      },
+      "folder_id": {
+        "type": "integer",
+        "description": "Folder id. The default folder on a new account was 1."
+      },
+      "folder_name": {
+        "type": "string",
+        "description": "The folder's internal name, which can differ from the name shown in the UI (folder 1 is shown as 'Your First Folder' but sent as 'Client_Folder')."
+      },
+      "is_folder": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "required": [
+      "name",
+      "folder_id"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "POST",
+      "url": "https://contacts-api-v2.brevo.com/lists/create",
+      "body_template": {
+        "name": "{{name}}",
+        "is_folder": "{{is_folder}}",
+        "folder_id": "{{folder_id}}",
+        "folder_name": "{{folder_name}}"
+      }
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Executed through the UI with request capture. Created 'Catalogo teste lista' (id 5). Whether folder_name is required was not tested."
+  },
+  "alternative_executions": [
+    {
+      "method": "public_api",
+      "http": {
+        "verb": "POST",
+        "url": "https://api.brevo.com/v3/contacts/lists",
+        "body_template": {
+          "name": "{{name}}",
+          "folderId": "{{folder_id}}"
+        }
+      },
+      "auth": "API key in the api-key header. Not included here."
+    }
+  ]
+}

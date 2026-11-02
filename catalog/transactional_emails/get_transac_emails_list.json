@@ -1,0 +1,151 @@
+{
+  "id": "transactional_emails.get_transac_emails_list",
+  "name": "Get the list of transactional emails on the basis of allowed filters",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Get the list of transactional emails on the basis of allowed filters. This endpoint will show the list of emails for past 30 days by default. To retrieve emails before that time, please pass startDate and endDate in query filters.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "description": "**Mandatory if templateId and messageId are not passed in query filters.** Email address to which transactional email has been sent."
+      },
+      "templateId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "**Mandatory if email and messageId are not passed in query filters.** Id of the template that was used to compose transactional email."
+      },
+      "messageId": {
+        "type": "string",
+        "description": "**Mandatory if templateId and email are not passed in query filters.** Message ID of the transactional email sent."
+      },
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) from which you want to fetch the list. **Maximum time period that can be selected is one month**."
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) till which you want to fetch the list. **Maximum time period that can be selected is one month.**"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "SmtpEmailsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 1000,
+        "default": 500,
+        "description": "Number of documents returned per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document in the page"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of transactional emails available on your account according to the passed filter"
+        },
+        "transactionalEmails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "description": "Date on which transactional email was sent"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "Email address to which transactional email has been sent"
+              },
+              "from": {
+                "type": "string",
+                "format": "email",
+                "description": "Email address of the sender from which the email was sent"
+              },
+              "messageId": {
+                "type": "string",
+                "description": "Message Id of the sent email"
+              },
+              "subject": {
+                "type": "string",
+                "description": "Subject of the sent email"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Tags used for your email"
+              },
+              "templateId": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Id of the template"
+              },
+              "uuid": {
+                "type": "string",
+                "description": "Unique id of the email sent to a particular contact"
+              }
+            },
+            "required": [
+              "date",
+              "email",
+              "messageId",
+              "subject",
+              "uuid"
+            ],
+            "title": "SmtpEmailsGetResponsesContentApplicationJsonSchemaTransactionalEmailsItems"
+          }
+        }
+      },
+      "title": "Transactional emails_getTransacEmailsList_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/smtp/emails",
+      "query_params": [
+        "email",
+        "templateId",
+        "messageId",
+        "startDate",
+        "endDate",
+        "sort",
+        "limit",
+        "offset"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getTransacEmailsList",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

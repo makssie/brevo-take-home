@@ -1,0 +1,107 @@
+{
+  "id": "account.get_account_activity",
+  "name": "Get user activity logs",
+  "category": "account",
+  "area": "accounts-and-settings",
+  "description": "Get user activity logs. Retrieves user activity logs from your organization for security monitoring and audit compliance. Use this to: - Monitor user login activities and access patterns - Track account modifications and configuration changes - Generate security audit reports and compliance documentation - Investigate suspicious activities and unauthorized access - Monitor team member actions and account usage Key information returned: - Complete user activity details…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "startDate": {
+        "type": "string",
+        "description": "Mandatory if endDate is used. Enter start date in UTC date (YYYY-MM-DD) format to filter the activity in your account. Maximum time period that can be selected is one month. Additionally, you can retrieve activity logs from the past 12 months from the date of your search."
+      },
+      "endDate": {
+        "type": "string",
+        "description": "Mandatory if startDate is used. Enter end date in UTC date (YYYY-MM-DD) format to filter the activity in your account. Maximum time period that can be selected is one month."
+      },
+      "email": {
+        "type": "string",
+        "description": "Enter the user's email address to filter their activity in the account."
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1,
+        "maximum": 100,
+        "default": 10,
+        "description": "Number of documents per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document in the page."
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "logs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string",
+                "description": "Type of activity in the account."
+              },
+              "date": {
+                "type": "string",
+                "description": "Time of the activity."
+              },
+              "user_agent": {
+                "type": "string",
+                "description": "Browser details of the user who performed the activity."
+              },
+              "user_email": {
+                "type": "string",
+                "description": "Email address of the user who performed activity in the\naccount."
+              },
+              "user_ip": {
+                "type": "string",
+                "description": "IP address of the user who performed activity in the\naccount."
+              }
+            },
+            "required": [
+              "action",
+              "date",
+              "user_agent",
+              "user_email",
+              "user_ip"
+            ],
+            "title": "OrganizationActivitiesGetResponsesContentApplicationJsonSchemaLogsItems"
+          },
+          "description": "Get user activity logs"
+        }
+      },
+      "title": "Account_getAccountActivity_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/organization/activities",
+      "query_params": [
+        "startDate",
+        "endDate",
+        "email",
+        "limit",
+        "offset"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#account_getAccountActivity",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

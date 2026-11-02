@@ -1,0 +1,161 @@
+{
+  "id": "master_account.get_corporate_invited_users_list",
+  "name": "Get the list of all admin users",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Get the list of all admin users. This endpoint allows you to list all Admin users of your Admin account. You can filter users by type (active or pending) and paginate results using offset and limit.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "description": "User type (active | pending). This is required if offset is provided for limited result."
+      },
+      "offset": {
+        "type": "integer",
+        "description": "Page number for the result set. This is optional, default value will be the 1st page."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Number of users to be displayed on each page. This is optional, the default limit is 20, but max allowed limit is 100."
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "Email address of the user."
+              },
+              "feature_access": {
+                "type": "object",
+                "properties": {
+                  "analytics": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Analytics dashboard accessibility"
+                  },
+                  "api_keys": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Api keys accessiblity."
+                  },
+                  "apps_management": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Apps management accessiblity | Not available in\nENTv2"
+                  },
+                  "create_sub_organizations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Authorization to create sub-organization in the\nadmin account. If the user creating the\nsub-organization, belongs to a group, the user must\nchoose a group at the sub-organization creation."
+                  },
+                  "manage_sub_organizations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Authorization to manage and access sub-organizations\nin the admin account."
+                  },
+                  "my_plan": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "My plan accessiblity."
+                  },
+                  "sub_organization_groups": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Group creation, modification or deletion\naccessibility"
+                  },
+                  "user_management": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "User management accessiblity."
+                  }
+                },
+                "description": "Feature accessiblity given to the user. (Required only\nif status is active)",
+                "title": "CorporateInvitedUsersGetResponsesContentApplicationJsonSchemaUsersItemsFeatureAccess"
+              },
+              "groups": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "group id"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "group name"
+                  }
+                },
+                "description": "Admin user groups list",
+                "title": "CorporateInvitedUsersGetResponsesContentApplicationJsonSchemaUsersItemsGroups"
+              },
+              "is_owner": {
+                "type": "string",
+                "description": "Flag for indicating is user owner of the organization."
+              },
+              "status": {
+                "type": "string",
+                "description": "Status of the invited user."
+              }
+            },
+            "required": [
+              "email",
+              "feature_access",
+              "groups",
+              "is_owner",
+              "status"
+            ],
+            "title": "CorporateInvitedUsersGetResponsesContentApplicationJsonSchemaUsersItems"
+          },
+          "description": "Get invited users list"
+        }
+      },
+      "title": "Master account_getCorporateInvitedUsersList_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/corporate/invited/users",
+      "query_params": [
+        "type",
+        "offset",
+        "limit"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_getCorporateInvitedUsersList",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

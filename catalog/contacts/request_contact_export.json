@@ -1,0 +1,171 @@
+{
+  "id": "contacts.request_contact_export",
+  "name": "Export contacts",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Export contacts. It returns the background process ID which on completion calls the notify URL that you have set in the input. File will be available in csv. When no contact matches the filter, no export process is created: the endpoint answers `200` with an empty object instead of `202` with a processId. A recurring export should treat that as \"nothing to do\" rather than as a failure, and must not assume a processId is always present.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "customContactFilter": {
+        "type": "object",
+        "properties": {
+          "actionForContacts": {
+            "type": "string",
+            "enum": [
+              "allContacts",
+              "subscribed",
+              "unsubscribed",
+              "unsubscribedPerList"
+            ],
+            "description": "**Mandatory if neither actionForEmailCampaigns nor actionForSmsCampaigns is passed.** This will export the contacts on the basis of the provided action, restricted to the contacts selected by the other filters below. * **allContacts** - Fetch all the selected contacts. * **subscribed & unsubscribed** - Fetch the subscribed / unsubscribed (blacklisted via any means) contacts among the selected contacts. * **unsubscribedPerList** - Fetch the contacts that are unsubscribed from the given listId only; this action requires listId.\n\nThe selection must be narrowed by at least one of **listId**, **segmentId**, **modifiedSince** or **createdSince**. Any of them can be combined with the action, so for example `unsubscribed` together with `modifiedSince` exports the contacts that are currently blocklisted and were modified after the given date-time, with no list or segment involved.\n",
+            "title": "ContactsExportPostRequestBodyContentApplicationJsonSchemaCustomContactFilterActionForContacts"
+          },
+          "actionForEmailCampaigns": {
+            "type": "string",
+            "enum": [
+              "openers",
+              "nonOpeners",
+              "clickers",
+              "nonClickers",
+              "unsubscribed",
+              "hardBounces",
+              "softBounces"
+            ],
+            "description": "**Mandatory if neither actionForContacts nor actionForSmsCampaigns is passed.** This will export the contacts on the basis of provided action applied on email campaigns. * **openers & nonOpeners** - emailCampaignId is mandatory. Fetch the list of readers / non-readers for a particular email campaign. * **clickers & nonClickers** - emailCampaignId is mandatory. Fetch the list of clickers / non-clickers for a particular email campaign. * **unsubscribed** - emailCampaignId is mandatory. Fetch the list of all unsubscribed (blacklisted via any means) contacts for a particular email campaign. * **hardBounces & softBounces** - emailCampaignId is optional. Fetch the list of hard bounces / soft bounces for a particular / all email campaign(s).\n",
+            "title": "ContactsExportPostRequestBodyContentApplicationJsonSchemaCustomContactFilterActionForEmailCampaigns"
+          },
+          "actionForSmsCampaigns": {
+            "type": "string",
+            "enum": [
+              "hardBounces",
+              "softBounces",
+              "unsubscribed"
+            ],
+            "description": "**Mandatory if neither actionForContacts nor actionForEmailCampaigns is passed.** This will export the contacts on the basis of provided action applied on sms campaigns. * **unsubscribed** - Fetch the list of all unsubscribed (blacklisted via any means) contacts for all / particular sms campaigns. * **hardBounces & softBounces** - Fetch the list of hard bounces / soft bounces for all / particular sms campaigns.\n",
+            "title": "ContactsExportPostRequestBodyContentApplicationJsonSchemaCustomContactFilterActionForSmsCampaigns"
+          },
+          "createdSince": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Considered only if **actionForContacts** is passed, ignored otherwise. Exports only the contacts created after the given date-time. The value must be a full RFC 3339 date-time: a date-only value such as `2026-10-01` is rejected, and so is a value without a timezone, so pass either the `Z` suffix or an explicit `+HH:MM` offset.\n"
+          },
+          "emailCampaignId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Considered only if **actionForEmailCampaigns** is passed, ignored otherwise. **Mandatory if action is one of the following - openers, nonOpeners, clickers, nonClickers, unsubscribed.** The id of the email campaign for which the corresponding action shall be applied in the filter.\n"
+          },
+          "listId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID of the list. Considered only if **actionForContacts** is passed. At least one of listId, segmentId, modifiedSince or createdSince must be provided; listId and segmentId cannot be used together.\n"
+          },
+          "modifiedSince": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Considered only if **actionForContacts** is passed, ignored otherwise. Exports only the contacts modified after the given date-time. The value must be a full RFC 3339 date-time: a date-only value such as `2026-10-01` is rejected, and so is a value without a timezone, so pass either the `Z` suffix or an explicit `+HH:MM` offset. Note that a contact's modification date changes on any update, not only on a subscription change.\n"
+          },
+          "segmentId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID of the segment. Considered only if **actionForContacts** is passed. At least one of listId, segmentId, modifiedSince or createdSince must be provided; listId and segmentId cannot be used together.\n"
+          },
+          "smsCampaignId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Considered only if **actionForSmsCampaigns** is passed, ignored otherwise. The id of sms campaign for which the corresponding action shall be applied in the filter.\n"
+          }
+        },
+        "description": "Set the filter for the contacts to be exported.\n",
+        "title": "ContactsExportPostRequestBodyContentApplicationJsonSchemaCustomContactFilter"
+      },
+      "disableNotification": {
+        "type": "boolean",
+        "default": false,
+        "description": "To avoid generating the email notification upon contact export, pass **true**"
+      },
+      "exportAttributes": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "List of all the attributes that you want to export. **These attributes must be present in your contact database. It is required if exportMandatoryAttributes is set false. ** For example: **['fname', 'lname', 'email']**\n"
+      },
+      "exportMandatoryAttributes": {
+        "type": "boolean",
+        "default": true,
+        "description": "To export mandatory attributes like EMAIL, ADDED_TIME, MODIFIED_TIME"
+      },
+      "exportMetadata": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Export metadata of contacts such as _listIds, ADDED_TIME, MODIFIED_TIME."
+      },
+      "exportDateInUTC": {
+        "type": "boolean",
+        "default": false,
+        "description": "Specifies whether the date fields createdAt, modifiedAt in the exported data should be returned in UTC format."
+      },
+      "exportSubscriptionStatus": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Export subscription status of contacts for email & sms marketting. Pass email_marketing to obtain the marketing email subscription status & sms_marketing to retrieve the marketing SMS status of the contact."
+      },
+      "notifyUrl": {
+        "type": "string",
+        "format": "url",
+        "description": "Webhook that will be called once the export process is finished. For reference, https://help.brevo.com/hc/en-us/articles/360007666479"
+      }
+    },
+    "required": [
+      "customContactFilter"
+    ]
+  },
+  "outputs": {
+    "status": 202,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "processId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Id of the process created"
+        }
+      },
+      "required": [
+        "processId"
+      ],
+      "title": "Contacts_requestContactExport_Response_202"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/contacts/export",
+      "body_template": {
+        "customContactFilter": "{{customContactFilter}}",
+        "disableNotification": "{{disableNotification}}",
+        "exportAttributes": "{{exportAttributes}}",
+        "exportMandatoryAttributes": "{{exportMandatoryAttributes}}",
+        "exportMetadata": "{{exportMetadata}}",
+        "exportDateInUTC": "{{exportDateInUTC}}",
+        "exportSubscriptionStatus": "{{exportSubscriptionStatus}}",
+        "notifyUrl": "{{notifyUrl}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_requestContactExport",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

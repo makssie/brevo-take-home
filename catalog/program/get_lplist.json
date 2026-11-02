@@ -1,0 +1,148 @@
+{
+  "id": "program.get_lplist",
+  "name": "Get loyalty program list",
+  "category": "program",
+  "area": "loyalty",
+  "description": "Get loyalty program list. Returns list of loyalty programs",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "description": "Number of documents per page"
+      },
+      "offset": {
+        "type": "integer",
+        "description": "Index of the first document in the page"
+      },
+      "sort_field": {
+        "type": "string",
+        "enum": [
+          "name",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "LoyaltyConfigProgramsGetParametersSortField",
+        "description": "Sort documents by field"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "title": "LoyaltyConfigProgramsGetParametersSort",
+        "description": "Sort order"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Loyalty Program unique identifier."
+              },
+              "name": {
+                "type": "string",
+                "description": "Loyalty Program name."
+              },
+              "description": {
+                "type": "string",
+                "description": "Loyalty Program description."
+              },
+              "meta": {
+                "type": "object",
+                "additionalProperties": {
+                  "description": "Any type"
+                },
+                "description": "Loyalty Program metadata."
+              },
+              "state": {
+                "type": "string",
+                "enum": [
+                  "inactive",
+                  "active",
+                  "draft"
+                ],
+                "description": "Current state of the loyalty program.",
+                "title": "LoyaltyProgramState"
+              },
+              "subscriptionPoolId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Loyalty Program subscription pool ID."
+              },
+              "subscriptionGeneratorId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Loyalty Program subscription generator ID."
+              },
+              "pattern": {
+                "type": "string",
+                "description": "Subscription code pattern."
+              },
+              "codeCount": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of available subscription codes."
+              },
+              "documentId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Associated document identifier."
+              },
+              "birthdayAttribute": {
+                "type": "string",
+                "description": "Contact attribute name used for birthday tracking."
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the loyalty program was created."
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the loyalty program was last modified."
+              }
+            },
+            "title": "loyaltyProgram"
+          },
+          "description": "Loyalty Program list"
+        }
+      },
+      "title": "Program_getLPList_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/config/programs",
+      "query_params": [
+        "limit",
+        "offset",
+        "sort_field",
+        "sort"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#program_getLPList",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

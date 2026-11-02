@@ -1,0 +1,117 @@
+{
+  "id": "external_feeds.update_external_feed",
+  "name": "Update external feed",
+  "category": "external_feeds",
+  "area": "accounts-and-settings",
+  "description": "Update external feed. Updates configuration of an existing external feed. **Use this to:** - Update feed URLs when data sources change - Modify authentication credentials - Change cache and retry settings - Update custom headers - Rename feeds for better organization **Key information returned:** - Success confirmation message **Important considerations:** - Only provided fields will be updated - Feed UUID must exist in your account - Authentication changes require…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "format": "uuidv4",
+        "description": "UUID of the feed to update"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the feed"
+      },
+      "url": {
+        "type": "string",
+        "format": "url",
+        "description": "URL of the external data source"
+      },
+      "authType": {
+        "type": "string",
+        "enum": [
+          "basic",
+          "token",
+          "noAuth"
+        ],
+        "description": "Authentication type for accessing the feed",
+        "title": "FeedsUuidPutRequestBodyContentApplicationJsonSchemaAuthType"
+      },
+      "username": {
+        "type": "string",
+        "description": "Username for basic authentication"
+      },
+      "password": {
+        "type": "string",
+        "description": "Password for basic authentication"
+      },
+      "token": {
+        "type": "string",
+        "description": "Token for token-based authentication"
+      },
+      "headers": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Header name"
+            },
+            "value": {
+              "type": "string",
+              "description": "Header value"
+            }
+          },
+          "required": [
+            "name",
+            "value"
+          ],
+          "title": "FeedsUuidPutRequestBodyContentApplicationJsonSchemaHeadersItems"
+        },
+        "description": "Custom HTTP headers for the feed request"
+      },
+      "maxRetries": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5,
+        "description": "Maximum number of retry attempts for failed requests"
+      },
+      "cache": {
+        "type": "boolean",
+        "description": "Whether to cache the feed response"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/feeds/{{uuid}}",
+      "body_template": {
+        "name": "{{name}}",
+        "url": "{{url}}",
+        "authType": "{{authType}}",
+        "username": "{{username}}",
+        "password": "{{password}}",
+        "token": "{{token}}",
+        "headers": "{{headers}}",
+        "maxRetries": "{{maxRetries}}",
+        "cache": "{{cache}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#externalFeeds_updateExternalFeed",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

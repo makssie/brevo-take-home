@@ -1,0 +1,271 @@
+{
+  "id": "contacts.get_list",
+  "name": "Get a list's details",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Get a list's details. Retrieve the details of a specific contact list by its ID, including its name, folder ID, creation date, subscriber counts, and campaign statistics. You can optionally filter campaign statistics by providing startDate and endDate parameters (both must be used together in YYYY-MM-DD format).",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "listId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the list"
+      },
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used**. Starting (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to aggregate the sent email campaigns for a specific list id. **Prefer to pass your timezone in date-time format for accurate result**"
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used**. Ending (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) to aggregate the sent email campaigns for a specific list id. **Prefer to pass your timezone in date-time format for accurate result**"
+      }
+    },
+    "required": [
+      "listId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the list"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the list"
+        },
+        "totalBlacklisted": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of blacklisted contacts in the list"
+        },
+        "totalSubscribers": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of contacts in the list"
+        },
+        "uniqueSubscribers": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of unique contacts in the list"
+        },
+        "campaignStats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "campaignId": {
+                "type": "integer",
+                "format": "int64",
+                "description": "ID of the campaign"
+              },
+              "stats": {
+                "type": "object",
+                "properties": {
+                  "appleMppOpens": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Numbers of times your email has been opened automatically through Apple MPP."
+                  },
+                  "clickers": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of total clicks for the campaign"
+                  },
+                  "complaints": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of complaints (Spam reports) for the campaign"
+                  },
+                  "deferred": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Number of deferred emails for the campaign"
+                  },
+                  "delivered": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of delivered emails for the campaign"
+                  },
+                  "estimatedViews": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Rate of recipients without any privacy protection option enabled in their email client, applied to all delivered emails"
+                  },
+                  "hardBounces": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of hard bounces for the campaign"
+                  },
+                  "listId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "List Id of email campaign (only in case of get email campaign(s)(not for global stats))"
+                  },
+                  "opensRate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "title": "float",
+                    "description": "Percentage of recipients who open the email out of your total number of recipients. Depending on your Campaign settings, they may include Apple MPP opens."
+                  },
+                  "returnBounce": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Total number of non-delivered campaigns for a particular campaign id."
+                  },
+                  "sent": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of sent emails for the campaign"
+                  },
+                  "softBounces": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of softbounce for the campaign"
+                  },
+                  "trackableViews": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Recipients without any privacy protection option enabled in their email email client"
+                  },
+                  "trackableViewsRate": {
+                    "type": "string",
+                    "title": "float",
+                    "description": "Rate of recipients without any privacy protection option enabled in their email client"
+                  },
+                  "uniqueClicks": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of unique clicks for the campaign"
+                  },
+                  "uniqueViews": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of unique openings for the campaign"
+                  },
+                  "unsubscriptions": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of unsubscription for the campaign"
+                  },
+                  "viewed": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "description": "Number of openings for the campaign"
+                  }
+                },
+                "required": [
+                  "appleMppOpens",
+                  "clickers",
+                  "complaints",
+                  "delivered",
+                  "hardBounces",
+                  "opensRate",
+                  "sent",
+                  "softBounces",
+                  "trackableViews",
+                  "uniqueClicks",
+                  "uniqueViews",
+                  "unsubscriptions",
+                  "viewed"
+                ],
+                "title": "getCampaignStats"
+              }
+            },
+            "required": [
+              "campaignId",
+              "stats"
+            ],
+            "title": "ContactsListsListIdGetResponsesContentApplicationJsonSchemaCampaignStatsItems"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation UTC date-time of the list (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "dynamicList": {
+          "type": "boolean",
+          "description": "Status telling if the list is dynamic or not (true=dynamic, false=not dynamic)"
+        },
+        "folderId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the folder"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "totalBlacklisted",
+        "totalSubscribers",
+        "uniqueSubscribers",
+        "createdAt",
+        "folderId"
+      ],
+      "title": "Contacts_getList_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/contacts/lists/{{listId}}",
+      "query_params": [
+        "startDate",
+        "endDate"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_getList",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

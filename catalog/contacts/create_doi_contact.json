@@ -1,0 +1,112 @@
+{
+  "id": "contacts.create_doi_contact",
+  "name": "Create Contact via DOI (Double-Opt-In) Flow",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Create Contact via DOI (Double-Opt-In) Flow. attributes param in this endpoint is an object containing key-value pairs where values can be either a string, integer, array, or boolean. You can create key-value pairs with these four datatypes. When a value is an array, it should be an array of strings.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "attributes": {
+        "type": "object",
+        "additionalProperties": {
+          "oneOf": [
+            {
+              "type": "number",
+              "format": "double"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "title": "ContactsDoubleOptinConfirmationPostRequestBodyContentApplicationJsonSchemaAttributes"
+        },
+        "description": "Pass the set of attributes and their values. **These attributes must be present in your Brevo account**. For eg. **{'FNAME':'Elly', 'LNAME':'Roger', 'COUNTRIES': ['India','China']}**\n"
+      },
+      "contactPixelTrackingConsent": {
+        "type": "boolean",
+        "description": "Consent of the DOI recipient for open (pixel) and click tracking in the double opt-in confirmation email, resolved by the sender at send time. Considered only if the per-contact pixel tracking consent feature is enabled for your account. Pass `true` if this recipient has consented to open and click tracking, in which case the open pixel and tracked links identify the recipient. Pass `false` to anonymise the open and click events (counted in aggregate statistics only). If it is not passed, the recipient is treated as unknown consent status and the email is still sent (the open and click are anonymised unless your account tracks unknown-consent contacts). A value other than `true`/`false` is rejected. Ignored when the feature is not enabled for your account.\n"
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "description": "Email address where the confirmation email will be sent. This email address will be the identifier for all other contact attributes."
+      },
+      "excludeListIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Lists under user account where contact should not be added"
+      },
+      "includeListIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Lists under user account where contact should be added"
+      },
+      "redirectionUrl": {
+        "type": "string",
+        "format": "url",
+        "description": "URL of the web page that user will be redirected to after clicking on the double opt in URL. When editing your DOI template you can reference this URL by using the tag **{{ params.DOIurl }}**.\n"
+      },
+      "templateId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the Double opt-in (DOI) template"
+      }
+    },
+    "required": [
+      "email",
+      "includeListIds",
+      "redirectionUrl",
+      "templateId"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "description": "Empty response body",
+      "title": "Contacts_createDoiContact_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/contacts/doubleOptinConfirmation",
+      "body_template": {
+        "attributes": "{{attributes}}",
+        "contactPixelTrackingConsent": "{{contactPixelTrackingConsent}}",
+        "email": "{{email}}",
+        "excludeListIds": "{{excludeListIds}}",
+        "includeListIds": "{{includeListIds}}",
+        "redirectionUrl": "{{redirectionUrl}}",
+        "templateId": "{{templateId}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_createDoiContact",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

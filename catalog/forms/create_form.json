@@ -1,0 +1,78 @@
+{
+  "id": "forms.create_form",
+  "name": "Create a sign-up form",
+  "category": "forms",
+  "area": "web-app-internal",
+  "description": "Create a subscription (sign-up) form that collects contacts. Free plan allows full-page/embedded forms; pop-up forms need the Professional plan. The UI also has Unsubscribe and Profile update form types, whose type values were not captured. The public API has no form endpoints.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "subscription"
+        ],
+        "default": "subscription",
+        "description": "Only 'subscription' was observed."
+      },
+      "enableGDPR": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "required": [
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Form id (24-char hex string, not an integer)."
+        },
+        "name": {
+          "type": "string"
+        },
+        "numberOfContact": {
+          "type": "integer"
+        },
+        "numberOfSubmits": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "POST",
+      "url": "https://forms-api.brevo.com/forms-api/forms",
+      "body_template": {
+        "name": "{{name}}",
+        "type": "{{type}}",
+        "enableGDPR": "{{enableGDPR}}"
+      }
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Executed through the UI with request capture. Created 'Catalogo teste formulario'."
+  },
+  "side_effects": [
+    "Creates a form with a default 'Newsletter' design. The UI then opens the form designer; design edits were not captured."
+  ]
+}

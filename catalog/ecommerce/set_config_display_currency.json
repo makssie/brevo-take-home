@@ -1,0 +1,54 @@
+{
+  "id": "ecommerce.set_config_display_currency",
+  "name": "Set the ISO 4217 compliant display currency code for your Brevo account",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Set the ISO 4217 compliant display currency code for your Brevo account. Set or update the ISO 4217 display currency code for your Brevo ecommerce account. This currency determines how monetary values are displayed in the ecommerce dashboard and reports. The provided currency code must be a valid ISO 4217 code; invalid codes result in a `422` error. Returns a `403` error if ecommerce is not activated on the account.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "ISO 4217 compliant display currency code"
+      }
+    },
+    "required": [
+      "code"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "ISO 4217 compliant display currency code"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "title": "Ecommerce_setConfigDisplayCurrency_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/ecommerce/config/displayCurrency",
+      "body_template": {
+        "code": "{{code}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_setConfigDisplayCurrency",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

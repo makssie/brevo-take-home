@@ -1,0 +1,125 @@
+{
+  "id": "transactional_emails.get_aggregated_smtp_report",
+  "name": "Get your transactional email activity aggregated over a period of time",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Get your transactional email activity aggregated over a period of time. This endpoint will show the aggregated stats for past 90 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can not exceed 90 days",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used.** Starting date of the report (YYYY-MM-DD). Must be lower than equal to endDate"
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used.** Ending date of the report (YYYY-MM-DD). Must be greater than equal to startDate"
+      },
+      "days": {
+        "type": "integer",
+        "format": "int64",
+        "maximum": 90,
+        "description": "Number of days in the past including today (positive integer, maximum 90). _Not compatible with 'startDate' and 'endDate'_. Defaults to 90 if neither dates nor days are provided."
+      },
+      "tag": {
+        "type": "string",
+        "description": "Tag of the emails"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "blocked": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of blocked contact emails for the timeframe"
+        },
+        "clicks": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of clicks for the timeframe"
+        },
+        "delivered": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of delivered emails for the timeframe"
+        },
+        "hardBounces": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of hardbounces for the timeframe"
+        },
+        "invalid": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of invalid emails for the timeframe"
+        },
+        "opens": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of openings for the timeframe"
+        },
+        "range": {
+          "type": "string",
+          "description": "Time frame of the report"
+        },
+        "requests": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of requests for the timeframe"
+        },
+        "softBounces": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of softbounces for the timeframe"
+        },
+        "spamReports": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of complaint (spam report) for the timeframe"
+        },
+        "uniqueClicks": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of unique clicks for the timeframe"
+        },
+        "uniqueOpens": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of unique openings for the timeframe"
+        },
+        "unsubscribed": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of unsubscribed emails for the timeframe"
+        }
+      },
+      "title": "Transactional emails_getAggregatedSmtpReport_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/smtp/statistics/aggregatedReport",
+      "query_params": [
+        "startDate",
+        "endDate",
+        "days",
+        "tag"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getAggregatedSmtpReport",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

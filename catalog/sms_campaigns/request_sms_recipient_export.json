@@ -1,0 +1,76 @@
+{
+  "id": "sms_campaigns.request_sms_recipient_export",
+  "name": "Export an SMS campaign's recipients",
+  "category": "sms_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Export an SMS campaign's recipients. It returns the background process ID which on completion calls the notify URL that you have set in the input.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "id of the campaign"
+      },
+      "notifyURL": {
+        "type": "string",
+        "format": "url",
+        "description": "URL that will be called once the export process is finished. For reference, https://help.brevo.com/hc/en-us/articles/360007666479"
+      },
+      "recipientsType": {
+        "type": "string",
+        "enum": [
+          "all",
+          "delivered",
+          "answered",
+          "softBounces",
+          "hardBounces",
+          "unsubscribed"
+        ],
+        "description": "Filter the recipients based on how they interacted with the campaign",
+        "title": "SmsCampaignsCampaignIdExportRecipientsPostRequestBodyContentApplicationJsonSchemaRecipientsType"
+      }
+    },
+    "required": [
+      "campaignId",
+      "recipientsType"
+    ]
+  },
+  "outputs": {
+    "status": 202,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "processId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Id of the process created"
+        }
+      },
+      "required": [
+        "processId"
+      ],
+      "title": "SMS Campaigns_requestSmsRecipientExport_Response_202"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/smsCampaigns/{{campaignId}}/exportRecipients",
+      "body_template": {
+        "notifyURL": "{{notifyURL}}",
+        "recipientsType": "{{recipientsType}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#smsCampaigns_requestSmsRecipientExport",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

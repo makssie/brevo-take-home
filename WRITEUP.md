@@ -1,0 +1,71 @@
+# Brevo agent-ready action catalog: write-up
+
+315 business actions of Brevo, each described so an AI agent can decide when to use it, how to call it, and how far to trust it. Usability was measured with a blind-agent evaluation, fixed, and measured again (`EVAL.md`).
+
+## What is in the box
+
+| File | Purpose |
+|---|---|
+| `EVAL.md` | Blind-agent evaluation: six tasks, two rounds, what failed and what was fixed. |
+| `dist/catalog.json` | Small index (147 KB). An agent searches this first: id, summary, verification level, method, destructive flag. |
+| `dist/tools.json` | One tool definition per action (name, description, JSON Schema input). Drop-in for LLM tool calling. |
+| `catalog/<category>/<action>.json` | Full detail: preconditions, outputs, exact HTTP call, UI fallback, side effects, evidence. |
+| `schema/action.schema.json` | The contract every action must satisfy. |
+| `scripts/` | `ingest_openapi.py`, `curated_actions.py`, `validate.py`, `build_dist.py`. |
+| `coverage/` | What was explored and what was not, with the endpoints seen. |
+
+Rebuild: `ingest_openapi.py`, then `curated_actions.py`, then `validate.py`, then `build_dist.py`. No credentials are needed or stored.
+
+## Approach and what I prioritized
+
+**The problem I chose to solve is trust, not count.** An agent that acts on a wrong action does damage. So every action carries `verification.level`:
+
+- `executed` (27): I ran it on my free account and it worked.
+- `observed` (5): I saw the option in the UI but did not run it. Used where running it would send email or delete data.
+- `documented` (283): generated from Brevo's public OpenAPI. Not run.
+
+Where a verified internal action and a spec action do the same thing, they are one action: the verified call is primary and the public API is listed as an alternative. Actions also carry the `errors` seen on the live system (duplicate email, malformed email, missing email) with what an agent should do next.
+
+**Three sources, used for different jobs.**
+
+1. The public API spec gives cheap, broad coverage (287 operations across 13 API areas).
+2. The web app's own network traffic finds what the public API lacks. A gap analysis showed segments had read-only coverage and automations, forms, landing pages and meetings had none.
+3. Replaying a call from inside the logged-in page verifies reads quickly, so one UI capture of a write unlocks several verified reads.
+
+**Where the UI work went**, by value of the gap: the brief's own examples first (create a contact, create a list, add a contact to a list, all executed), then segments (create and preview by filter), automations (create, add trigger, and the full list of triggers, actions and conditions the builder offers), email campaigns (the draft-to-ready flow) and forms. Campaign creation turned out to be a state machine: a draft exists after one call with only a name, and four parts (sender, recipients, subject, design) are then filled in. The actions state their preconditions so an agent follows that order.
+
+**Design choices worth discussing.** `inputs` is a JSON Schema, so an action converts directly into a tool definition. `alternative_executions` lets one action list the internal API, the public API and the click path. Destructive actions are flagged and prefixed in the tool description so a model asks before using them. `account.get_account_state` exists so an agent can check plan and sending readiness before acting.
+
+## How I used AI
+
+- **Tools:** Claude Code for planning, scripting and the exploration loop (Claude Sonnet 5.5, switched to Claude Opus 5.5 for the evaluation and the fixes it drove), and Claude in Chrome to drive the logged-in Brevo UI and run read-only JavaScript in the page.
+- **Workflow:** I decided the strategy (hybrid, trust levels, no destructive calls) and approved each step. The model did the clicking, captured traffic with a small fetch/XHR interceptor, turned captures into actions, and ran the validator as a gate.
+- **Where the AI was wrong or I had to verify:**
+  - Its first interceptor recorded empty request bodies, because the app sends a `Request` object. Fixed by cloning the request.
+  - The spec download was blocked (HTTP 403) until the script sent a User-Agent.
+  - The schema's id pattern was too strict. The validator rejected 105 generated actions, and I fixed the schema rather than the data.
+  - A first summary overstated spec-quality problems. Measured, it was 7 of 287 actions with an empty body schema and 7 of 287 with a description equal to the name.
+  - The campaign HTML capture first returned nothing because the editor is a separate app that discards injected scripts. Capture has to be re-armed on each full page load.
+  - Parameters were found by trial: the server answers `422 invalid query parameter: limit` and `400 missing pageNumber parameter`.
+- **AI as the test, not only the builder.** A fresh subagent with only `dist/` and `catalog/` planned six tasks (three from the brief, plus duplicate-email recovery, delete and send). Round 1: only one task would have worked first time, and it found a dangerous bug: actions that send email were flagged as safe and reversible, because the generator only flagged DELETE. It also found a recovery path pointing at an API the agent could not call, a required `userHash` with no source, and a stale duplicate file. After fixes (send actions flagged destructive, an internal contact lookup, the `userHash` source found by probing, a validator rule against references to non-existent actions), round 2 rated five of six tasks complete or correctly handed to the user, and one partial. Details in `EVAL.md`.
+- **Deliberately not delegated:** deleting data and sending email. Delete and Schedule are recorded as `observed` and never executed.
+
+## Known gaps and limitations
+
+- **Single free account, single run.** The account is suspended for marketing email and the phone is not verified, so anything that sends was not tested. Plan-gated features (A/B tests, tags, folders, WhatsApp, Push, pop-ups, landing pages) are marked, not explored.
+- **Internal API auth is a session cookie.** Reads and writes worked when replayed from inside the logged-in page; behavior from outside a browser (CSRF, CORS, expiry) is untested. The campaign HTML save needs a `userHash`, now traced to `get_editor_account`, but a replay with it was not run.
+- **Untested assumptions the evaluation flagged:** `create_contact` with non-empty `listIds`, and whether `included_segment_names` is required when saving recipients.
+- **No internal read-back for one contact or one campaign**, so an agent without an API key cannot fully confirm a campaign is ready before handing the send to the user.
+- **The 286 public-API actions are not executed.** Their descriptions come from the spec and were not rewritten as "when to use" guidance. Seven have empty body schemas because the spec itself is empty there.
+- **Not covered at all:** templates (endpoint found, required parameter not), Companies/Deals/Tasks and Transactional/Conversations/Commerce/Loyalty/Library/Analytics through the UI, and Settings (senders, domains, API keys, webhooks, team).
+- **Partially covered:** segment update and delete, per-operator filter rules, automation step settings, activation, pause, and the other two form types.
+- **The evaluation planned, it did not execute.** Plans were checked against captured calls, not run end to end. `tools.json` was validated for names and shape but not loaded into a live tool-calling API.
+- Internal endpoints are undocumented and can change without notice.
+
+## With more time
+
+1. Parse the 250 KB `unified-ddl` definition to get every automation step's settings, then add and configure steps.
+2. A crawler that walks every menu with capture armed, so coverage is measured instead of sampled.
+3. A replay harness that executes `documented` actions against a sandbox with an API key and promotes them to `executed`.
+4. Drift tests: re-run reads on a schedule and flag when a response shape changes.
+5. Wrap `tools.json` in an MCP server and run an end-to-end task ("create a segment of subscribers and draft a campaign to it") with a real model.

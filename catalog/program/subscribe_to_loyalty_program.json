@@ -1,0 +1,115 @@
+{
+  "id": "program.subscribe_to_loyalty_program",
+  "name": "Create subscription",
+  "category": "program",
+  "area": "loyalty",
+  "description": "Create subscription. Subscribes to a loyalty program",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID. A unique identifier for the loyalty program."
+      },
+      "contactId": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1,
+        "description": "Required contact ID; must be greater than 0."
+      },
+      "loyaltySubscriptionId": {
+        "type": "string",
+        "maxLength": 64,
+        "description": "Optional subscription ID (max length 64)."
+      },
+      "creationDate": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Optional creation date in ISO 8601 format (YYYY-MM-DDThh:mm:ss.ffffff+HH:MM). Must be in the past."
+      },
+      "meta": {
+        "type": "object",
+        "additionalProperties": {
+          "description": "Any type"
+        },
+        "description": "Optional metadata associated with the subscription."
+      }
+    },
+    "required": [
+      "pid",
+      "contactId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "organizationId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier of the organization."
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier of the loyalty program."
+        },
+        "versionId": {
+          "type": "integer",
+          "description": "Version number of the subscription."
+        },
+        "contactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier of the contact."
+        },
+        "loyaltySubscriptionId": {
+          "type": "string",
+          "description": "Unique identifier of the subscription."
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "Any type"
+          },
+          "description": "Metadata associated with the subscription."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the subscription was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the subscription was last updated."
+        }
+      },
+      "title": "Program_subscribeToLoyaltyProgram_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/config/programs/{{pid}}/subscriptions",
+      "body_template": {
+        "contactId": "{{contactId}}",
+        "loyaltySubscriptionId": "{{loyaltySubscriptionId}}",
+        "creationDate": "{{creationDate}}",
+        "meta": "{{meta}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#program_subscribeToLoyaltyProgram",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

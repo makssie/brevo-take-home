@@ -1,0 +1,213 @@
+{
+  "id": "contacts.get_contacts",
+  "name": "Get all the contacts",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Get all the contacts. Retrieve all contacts from your Brevo account with support for pagination, filtering, and sorting. Results default to 50 contacts per page (maximum 1000) sorted in descending order of creation, and can be filtered by modification date, creation date, contact IDs (up to 20), list IDs, segment ID, or contact attributes using the equals operator. Note that either listIds or segmentId can be passed but not both simultaneously.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1,
+        "maximum": 1000,
+        "default": 50,
+        "description": "Number of documents per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document of the page"
+      },
+      "modifiedSince": {
+        "type": "string",
+        "description": "Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
+      },
+      "createdSince": {
+        "type": "string",
+        "description": "Filter (urlencoded) the contacts created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "ContactsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+      },
+      "ids": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Filter by a list of contact IDs. You can pass a **maximum of 20 IDs**. All elements must be integers."
+      },
+      "segmentId": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1,
+        "description": "Id of the segment. **Either listIds or segmentId can be passed.** Must be a positive integer (minimum value of 1)."
+      },
+      "listIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Ids of the list. **Either listIds or segmentId can be passed.**"
+      },
+      "filter": {
+        "type": "string",
+        "description": "Filter the contacts on the basis of attributes. **Allowed operator: equals. For multiple-choice options, the filter will apply an AND condition between the options. For category attributes, the filter will work with both id and value. (e.g. filter=equals(FIRSTNAME,\"Antoine\"), filter=equals(B1,…"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "contacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "attributes": {
+                "type": "object",
+                "properties": {},
+                "description": "Set of attributes of the contact",
+                "title": "GetContactDetailsAttributes"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Creation UTC date-time of the contact (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "Email address of the contact for which you requested the details"
+              },
+              "emailBlacklisted": {
+                "type": "boolean",
+                "description": "Blacklist status for email campaigns (true=blacklisted, false=not blacklisted)"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "ID of the contact for which you requested the details"
+              },
+              "listIds": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              },
+              "listUnsubscribed": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              },
+              "modifiedAt": {
+                "type": "string",
+                "description": "Last modification UTC date-time of the contact (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "smsBlacklisted": {
+                "type": "boolean",
+                "description": "Blacklist status for SMS campaigns (true=blacklisted, false=not blacklisted)"
+              },
+              "whatsappBlacklisted": {
+                "type": "boolean",
+                "description": "Blacklist status for WhatsApp campaigns (true=blacklisted, false=not blacklisted)"
+              },
+              "consentGroups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "ID of the consent group"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "subscribed",
+                        "unsubscribed"
+                      ],
+                      "description": "The contact's subscription status within this consent group",
+                      "title": "ConsentGroupItemStatus"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "status"
+                  ],
+                  "description": "A contact's membership status in a single consent group.",
+                  "title": "ConsentGroupItem"
+                },
+                "description": "Consent groups the contact belongs to, with their subscription status. Only present when the Consent Groups feature is enabled for your account."
+              }
+            },
+            "required": [
+              "attributes",
+              "createdAt",
+              "emailBlacklisted",
+              "id",
+              "listIds",
+              "modifiedAt",
+              "smsBlacklisted",
+              "whatsappBlacklisted"
+            ],
+            "title": "getContactDetails"
+          }
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of contacts"
+        }
+      },
+      "required": [
+        "contacts",
+        "count"
+      ],
+      "title": "getContacts"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/contacts",
+      "query_params": [
+        "limit",
+        "offset",
+        "modifiedSince",
+        "createdSince",
+        "sort",
+        "ids",
+        "segmentId",
+        "listIds",
+        "filter"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_getContacts",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

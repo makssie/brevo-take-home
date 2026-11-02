@@ -1,0 +1,47 @@
+{
+  "id": "master_account.get_sub_account_groups",
+  "name": "Get the list of groups",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Get the list of groups. This endpoint allows you to list all groups created on your Admin account.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "groupName": {
+            "type": "string",
+            "description": "The name of the group of sub-accounts"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique id of the group"
+          }
+        },
+        "title": "CorporateGroupsGetResponsesContentApplicationJsonSchemaItems"
+      }
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/corporate/groups"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_getSubAccountGroups",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "contacts.delete_folder",
+  "name": "Delete a folder (and all its lists)",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Delete a folder (and all its lists). Permanently delete a folder identified by its ID. Deleting a folder will also delete all the contact lists contained within it. This action cannot be undone.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "folderId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the folder"
+      }
+    },
+    "required": [
+      "folderId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/contacts/folders/{{folderId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_deleteFolder",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

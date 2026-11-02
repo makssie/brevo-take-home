@@ -1,0 +1,80 @@
+{
+  "id": "deals.create_adeal",
+  "name": "Create a deal",
+  "category": "deals",
+  "area": "sales-crm",
+  "description": "Create a deal. Create a new deal in the CRM with the specified name, attributes, and optional associations to contacts and companies. You can assign the deal to a specific pipeline and stage by providing `pipeline` and `deal_stage` attribute IDs, which can be retrieved from the pipeline details endpoint.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "attributes": {
+        "type": "object",
+        "properties": {},
+        "description": "Attributes for deal creation To assign owner of a Deal you can send attributes.deal_owner and utilize the account email or ID. If you want to create a deal on a specific pipeline and stage you can use the following attributes `pipeline` and `deal_stage`. Pipeline and deal_stage are ids you can fetch using this endpoint `/crm/pipeline/details/{pipelineID}`\n",
+        "title": "CrmDealsPostRequestBodyContentApplicationJsonSchemaAttributes"
+      },
+      "linkedCompaniesIds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "objectID"
+        },
+        "description": "Company ids to be linked with deal"
+      },
+      "linkedContactsIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Contact ids to be linked with deal"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of deal"
+      }
+    },
+    "required": [
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique deal id"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "description": "Created deal id",
+      "title": "Deals_createADeal_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/crm/deals",
+      "body_template": {
+        "attributes": "{{attributes}}",
+        "linkedCompaniesIds": "{{linkedCompaniesIds}}",
+        "linkedContactsIds": "{{linkedContactsIds}}",
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#deals_createADeal",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

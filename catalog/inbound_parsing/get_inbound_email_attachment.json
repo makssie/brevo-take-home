@@ -1,0 +1,38 @@
+{
+  "id": "inbound_parsing.get_inbound_email_attachment",
+  "name": "Retrieve inbound attachment with download token.",
+  "category": "inbound_parsing",
+  "area": "email-api",
+  "description": "Retrieve inbound attachment with download token.. This endpoint will retrieve inbound attachment with download token.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "downloadToken": {
+        "type": "string",
+        "description": "Token to fetch a particular attachment"
+      }
+    },
+    "required": [
+      "downloadToken"
+    ]
+  },
+  "outputs": {
+    "status": 200
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/inbound/attachments/{{downloadToken}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#inboundParsing_getInboundEmailAttachment",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

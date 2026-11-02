@@ -1,0 +1,94 @@
+{
+  "id": "companies.create_acompany_deal_attribute",
+  "name": "Create a company/deal attribute",
+  "category": "companies",
+  "area": "sales-crm",
+  "description": "Create a company/deal attribute. Create a new custom attribute for companies or deals. The attribute label must be unique within the object type, cannot exceed 50 characters, and cannot use reserved names. For `single-select` or `multi-choice` attribute types, you must also provide the `optionsLabels` array.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "attributeType": {
+        "type": "string",
+        "enum": [
+          "text",
+          "user",
+          "number",
+          "single-select",
+          "date",
+          "boolean",
+          "multi-choice"
+        ],
+        "description": "The type of attribute (must be one of the defined enums)",
+        "title": "CrmAttributesPostRequestBodyContentApplicationJsonSchemaAttributeType"
+      },
+      "description": {
+        "type": "string",
+        "description": "A description of the attribute"
+      },
+      "label": {
+        "type": "string",
+        "description": "The label for the attribute (max 50 characters, cannot be empty)"
+      },
+      "objectType": {
+        "type": "string",
+        "enum": [
+          "companies",
+          "deals"
+        ],
+        "description": "The type of object the attribute belongs to. Must be either `companies` or `deals`.",
+        "title": "CrmAttributesPostRequestBodyContentApplicationJsonSchemaObjectType"
+      },
+      "optionsLabels": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Options for multi-choice or single-select attributes"
+      }
+    },
+    "required": [
+      "attributeType",
+      "label",
+      "objectType"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique ID of the created attribute"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "Companies_createACompanyDealAttribute_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/crm/attributes",
+      "body_template": {
+        "attributeType": "{{attributeType}}",
+        "description": "{{description}}",
+        "label": "{{label}}",
+        "objectType": "{{objectType}}",
+        "optionsLabels": "{{optionsLabels}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#companies_createACompanyDealAttribute",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "id": "reward.redeem_voucher",
+  "name": "Create redeem voucher request",
+  "category": "reward",
+  "area": "loyalty",
+  "description": "Create redeem voucher request. Creates a request to redeem a voucher.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "attributedRewardId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Unique identifier for the attributed reward"
+      },
+      "code": {
+        "type": "string",
+        "description": "Redemption code for the reward"
+      },
+      "contactId": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1,
+        "description": "Unique identifier for the contact"
+      },
+      "loyaltySubscriptionId": {
+        "type": "string",
+        "description": "Identifier for the loyalty subscription"
+      },
+      "meta": {
+        "type": "object",
+        "additionalProperties": {
+          "description": "Any type"
+        },
+        "description": "Additional metadata associated with the redeem request"
+      },
+      "order": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "Total amount of the order"
+          },
+          "billing": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string",
+                "description": "Address of the user"
+              },
+              "city": {
+                "type": "string",
+                "description": "City of the user"
+              },
+              "countryCode": {
+                "type": "string",
+                "description": "Country code of the user"
+              },
+              "paymentMethod": {
+                "type": "string",
+                "description": "Payment method opted by the user"
+              },
+              "phone": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Phone number of the user"
+              },
+              "postCode": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Postal Code of user's location"
+              },
+              "region": {
+                "type": "string",
+                "description": "Region where user resides"
+              }
+            },
+            "description": "Billing information for the order",
+            "title": "LoyaltyOfferProgramsPidRewardsRedeemPostRequestBodyContentApplicationJsonSchemaOrderBilling"
+          },
+          "contact_id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique identifier for the contact"
+          },
+          "coupons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of coupon codes applied to the order"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the order was created"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address associated with the order"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the order"
+          },
+          "identifiers": {
+            "type": "object",
+            "properties": {
+              "ext_id": {
+                "type": "string",
+                "description": "External identifier for the order"
+              },
+              "loyalty_subscription_id": {
+                "type": "string",
+                "description": "Identifier for the loyalty subscription"
+              }
+            },
+            "description": "Additional identifiers for the order",
+            "title": "LoyaltyOfferProgramsPidRewardsRedeemPostRequestBodyContentApplicationJsonSchemaOrderIdentifiers"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "List of categories the product belongs to"
+                },
+                "price": {
+                  "type": "number",
+                  "format": "double",
+                  "description": "Price of the product"
+                },
+                "productId": {
+                  "type": "string",
+                  "description": "Unique identifier for the product"
+                },
+                "quantity": {
+                  "type": "number",
+                  "format": "double",
+                  "description": "Quantity of the product"
+                },
+                "variantId": {
+                  "type": "string",
+                  "description": "Identifier for the product variant"
+                }
+              },
+              "title": "LoyaltyOfferProgramsPidRewardsRedeemPostRequestBodyContentApplicationJsonSchemaOrderProductsItems"
+            },
+            "description": "List of products in the order"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the order"
+          },
+          "storeId": {
+            "type": "string",
+            "description": "Identifier for the store where the order was placed"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the order was last updated"
+          }
+        },
+        "description": "Order details for the redemption",
+        "title": "LoyaltyOfferProgramsPidRewardsRedeemPostRequestBodyContentApplicationJsonSchemaOrder"
+      },
+      "rewardId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Unique identifier for the reward"
+      },
+      "ttl": {
+        "type": "integer",
+        "minimum": 1,
+        "description": "Time to live in seconds for the redemption request"
+      },
+      "autoComplete": {
+        "type": "boolean",
+        "description": "Whether the redemption should be automatically completed"
+      }
+    },
+    "required": [
+      "pid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "cancelledAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption was cancelled"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption was completed"
+        },
+        "contactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier for the contact"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption was created"
+        },
+        "debitTransactionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the debit transaction"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption expires"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the redemption"
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the loyalty program"
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "Any type"
+          },
+          "description": "Additional metadata associated with the redemption"
+        },
+        "rejectReason": {
+          "type": "string",
+          "description": "Reason for rejection if the redemption was rejected"
+        },
+        "rejectedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption was rejected"
+        },
+        "rewardAttributionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the reward attribution"
+        },
+        "status": {
+          "type": "string",
+          "description": "Current status of the redemption"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption was last updated"
+        }
+      },
+      "title": "redeem"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/offer/programs/{{pid}}/rewards/redeem",
+      "body_template": {
+        "attributedRewardId": "{{attributedRewardId}}",
+        "code": "{{code}}",
+        "contactId": "{{contactId}}",
+        "loyaltySubscriptionId": "{{loyaltySubscriptionId}}",
+        "meta": "{{meta}}",
+        "order": "{{order}}",
+        "rewardId": "{{rewardId}}",
+        "ttl": "{{ttl}}",
+        "autoComplete": "{{autoComplete}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#reward_redeemVoucher",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

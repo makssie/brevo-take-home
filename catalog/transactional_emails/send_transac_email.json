@@ -1,0 +1,411 @@
+{
+  "id": "transactional_emails.send_transac_email",
+  "name": "Send a transactional email",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Send a transactional email. Send a transactional email to one or more recipients, either using inline HTML content or a pre-built template via `templateId`. You can schedule emails for future delivery using `scheduledAt` (UTC, up to 5-minute delay), send multiple personalized versions with `messageVersions` (max 2000 total recipients, 99 per version), and attach files via URL or base64-encoded content. A `sender` and `subject` are required when no `templateId` is…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "attachment": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "type": "string",
+              "format": "byte",
+              "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+              "description": "Base64-encoded attachment data"
+            },
+            "name": {
+              "type": "string",
+              "description": "Attachment filename. Required when `content` is provided.\n"
+            },
+            "url": {
+              "type": "string",
+              "format": "url",
+              "description": "Absolute URL of the attachment. Local file paths are not supported.\n"
+            }
+          },
+          "title": "SmtpEmailPostRequestBodyContentApplicationJsonSchemaAttachmentItems"
+        },
+        "description": "Array of attachment objects. Each attachment must include either an absolute URL (no local file paths) or base64-encoded content, along with the attachment filename. The `name` field is required when `content` is provided. Supported file extensions: xlsx, xls, ods, docx, docm, doc, csv, pdf, txt, gif, jpg, jpeg, png, tif, tiff, rtf, bmp, cgm, css, shtml, html, htm, zip, xml, ppt, pptx, tar, ez, ics, mobi, msg, pub, eps, odt, mp3, m4a, m4v, wma, ogg, flac, wav, aif, aifc, aiff, mp4, mov, avi, mkv, mpeg, mpg, wmv, pkpass, xlsm. When `templateId` is specified: if the template uses the New Template Language format, both `url` and `content` attachment types are supported; if the template uses the Old Template Language format, the `attachment` parameter is ignored.\n"
+      },
+      "batchId": {
+        "type": "string",
+        "description": "UUIDv4 identifier for the scheduled batch of transactional emails. If omitted, a valid UUIDv4 batch identifier is automatically generated."
+      },
+      "bcc": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "contactPixelTrackingConsent": {
+              "type": "boolean",
+              "description": "Consent of the recipient in bcc for open (pixel) and click tracking, resolved by the sender at send time. Considered only if the per-contact pixel tracking consent feature is enabled for your account. Pass `true` if this recipient has consented to open and click tracking, in which case the open pixel and tracked links identify the recipient. Pass `false` to anonymise the open and click events (counted in aggregate statistics only). If it is not passed, the recipient is treated as unknown consent status and the email is still sent (the open and click are anonymised unless your account tracks unknown-consent contacts). A value other than `true`/`false` is rejected. Ignored when the feature is not enabled for your account.\n"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "BCC recipient email address"
+            },
+            "name": {
+              "type": "string",
+              "description": "Display name of the BCC recipient. Maximum length is 70 characters.\n"
+            },
+            "removeTrackingPixel": {
+              "type": "boolean",
+              "description": "Pass `true` to send the recipient in bcc no open pixel, so no open is recorded for them, not even in aggregate statistics. Only available to Enterprise plans: for other accounts the field is accepted but ignored. Considered only if the recipient is not tracked: `contactPixelTrackingConsent` is `false`, or not passed and your account does not track unknown-consent contacts. Click tracking is unchanged. If `false` or not passed, the open pixel is added as usual. A value other than `true`/`false` is rejected.\n"
+            }
+          },
+          "required": [
+            "email"
+          ],
+          "title": "SmtpEmailPostRequestBodyContentApplicationJsonSchemaBccItems"
+        },
+        "description": "Array of BCC recipient objects. Each object contains an email address and an optional name.\n"
+      },
+      "cc": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "contactPixelTrackingConsent": {
+              "type": "boolean",
+              "description": "Consent of the recipient in cc for open (pixel) and click tracking, resolved by the sender at send time. Considered only if the per-contact pixel tracking consent feature is enabled for your account. Pass `true` if this recipient has consented to open and click tracking, in which case the open pixel and tracked links identify the recipient. Pass `false` to anonymise the open and click events (counted in aggregate statistics only). If it is not passed, the recipient is treated as unknown consent status and the email is still sent (the open and click are anonymised unless your account tracks unknown-consent contacts). A value other than `true`/`false` is rejected. Ignored when the feature is not enabled for your account.\n"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "CC recipient email address"
+            },
+            "name": {
+              "type": "string",
+              "description": "Display name of the CC recipient. Maximum length is 70 characters.\n"
+            },
+            "removeTrackingPixel": {
+              "type": "boolean",
+              "description": "Pass `true` to send the recipient in cc no open pixel, so no open is recorded for them, not even in aggregate statistics. Only available to Enterprise plans: for other accounts the field is accepted but ignored. Considered only if the recipient is not tracked: `contactPixelTrackingConsent` is `false`, or not passed and your account does not track unknown-consent contacts. Click tracking is unchanged. If `false` or not passed, the open pixel is added as usual. A value other than `true`/`false` is rejected.\n"
+            }
+          },
+          "required": [
+            "email"
+          ],
+          "title": "SmtpEmailPostRequestBodyContentApplicationJsonSchemaCcItems"
+        },
+        "description": "Array of CC recipient objects. Each object contains an email address and an optional name.\n"
+      },
+      "headers": {
+        "type": "object",
+        "additionalProperties": {
+          "description": "Any type"
+        },
+        "description": "Custom email headers (non-standard headers) to include in the email. The `sender.ip` header can be set to specify the IP address used for sending transactional emails (dedicated IP users only). Header names must use Title-Case-Format (words separated by hyphens with the first letter of each word capitalized). Headers not in this format are automatically converted. Standard email headers are not supported. Example: `{\"sender.ip\":\"1.2.3.4\", \"X-Mailin-custom\":\"some_custom_value\", \"IdempotencyKey\":\"abc-123\"}`\n"
+      },
+      "htmlContent": {
+        "type": "string",
+        "description": "HTML body content of the email. Required when `templateId` is not provided. Ignored when `templateId` is provided.\n"
+      },
+      "messageVersions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "bcc": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "contactPixelTrackingConsent": {
+                    "type": "boolean",
+                    "description": "Consent of the recipient in bcc for open (pixel) and click tracking, resolved by the sender at send time. Considered only if the per-contact pixel tracking consent feature is enabled for your account. Pass `true` if this recipient has consented to open and click tracking, in which case the open pixel and tracked links identify the recipient. Pass `false` to anonymise the open and click events (counted in aggregate statistics only). If it is not passed, the recipient is treated as unknown consent status and the email is still sent (the open and click are anonymised unless your account tracks unknown-consent contacts). A value other than `true`/`false` is rejected. Ignored when the feature is not enabled for your account.\n"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "BCC recipient email address"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Display name of the BCC recipient. Maximum length is 70 characters.\n"
+                  },
+                  "removeTrackingPixel": {
+                    "type": "boolean",
+                    "description": "Pass `true` to send the recipient in bcc no open pixel, so no open is recorded for them, not even in aggregate statistics. Only available to Enterprise plans: for other accounts the field is accepted but ignored. Considered only if the recipient is not tracked: `contactPixelTrackingConsent` is `false`, or not passed and your account does not track unknown-consent contacts. Click tracking is unchanged. If `false` or not passed, the open pixel is added as usual. A value other than `true`/`false` is rejected.\n"
+                  }
+                },
+                "required": [
+                  "email"
+                ],
+                "title": "SmtpEmailPostRequestBodyContentApplicationJsonSchemaMessageVersionsItemsBccItems"
+              },
+              "description": "Array of BCC recipient objects. Each object contains an email address and an optional name.\n"
+            },
+            "cc": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "contactPixelTrackingConsent": {
+                    "type": "boolean",
+                    "description": "Consent of the recipient in cc for open (pixel) and click tracking, resolved by the sender at send time. Considered only if the per-contact pixel tracking consent feature is enabled for your account. Pass `true` if this recipient has consented to open and click tracking, in which case the open pixel and tracked links identify the recipient. Pass `false` to anonymise the open and click events (counted in aggregate statistics only). If it is not passed, the recipient is treated as unknown consent status and the email is still sent (the open and click are anonymised unless your account tracks unknown-consent contacts). A value other than `true`/`false` is rejected. Ignored when the feature is not enabled for your account.\n"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "CC recipient email address"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Display name of the CC recipient. Maximum length is 70 characters.\n"
+                  },
+                  "removeTrackingPixel": {
+                    "type": "boolean",
+                    "description": "Pass `true` to send the recipient in cc no open pixel, so no open is recorded for them, not even in aggregate statistics. Only available to Enterprise plans: for other accounts the field is accepted but ignored. Considered only if the recipient is not tracked: `contactPixelTrackingConsent` is `false`, or not passed and your account does not track unknown-consent contacts. Click tracking is unchanged. If `false` or not passed, the open pixel is added as usual. A value other than `true`/`false` is rejected.\n"
+                  }
+                },
+                "required": [
+                  "email"
+                ],
+                "title": "SmtpEmailPostRequestBodyContentApplicationJsonSchemaMessageVersionsItemsCcItems"
+              },
+              "description": "Array of CC recipient objects. Each object contains an email address and an optional name.\n"
+            },
+            "htmlContent": {
+              "type": "string",
+              "description": "HTML body content of the email. Required when `templateId` is not provided. Ignored when `templateId` is provided.\n"
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": {
+                "description": "Any type"
+              },
+              "description": "Key-value pairs for template variable substitution. Only applicable when the template uses the New Template Language format.\n"
+            },
+            "replyTo": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "description": "Email address in reply to"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Display name for the reply-to address. Maximum length is 70 characters.\n"
+                }
+              },
+              "required": [
+                "email"
+              ],
+              "description": "Reply-to email address (required) and optional display name. Recipients will use this address when replying to the email.\n",
+              "title": "SmtpEmailPostRequestBodyContentApplicationJsonSchemaMessageVersionsItemsReplyTo"
+            },
+            "subject": {
+              "type": "string",
+              "description": "Email subject line for this message version\n"
+            },
+            "textContent": {
+              "type": "string",
+              "description": "Plain text body content of the email. Ignored when `templateId` is provided.\n"
+            },
+            "to": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "contactPixelTrackingConsent": {
+                    "type": "boolean",
+                    "description": "Consent of the recipient for open (pixel) and click tracking, resolved by the sender at send time. Considered only if the per-contact pixel tracking consent feature is enabled for your account. Pass `true` if this recipient has consented to open and click tracking, in which case the open pixel and tracked links identify the recipient. Pass `false` to anonymise the open and click events (counted in aggregate statistics only). If it is not passed, the recipient is treated as unknown consent status and the email is still sent (the open and click are anonymised unless your account tracks unknown-consent contacts). A value other than `true`/`false` is rejected. Ignored when the feature is not enabled for your account.\n"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email address of the recipient"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Display name of the recipient. Maximum length is 70 characters.\n"
+                  },
+                  "removeTrackingPixel": {
+                    "type": "boolean",
+                    "description": "Pass `true` to send the recipient no open pixel, so no open is recorded for them, not even in aggregate statistics. Only available to Enterprise plans: for other accounts the field is accepted but ignored. Considered only if the recipient is not tracked: `contactPixelTrackingConsent` is `false`, or not passed and your account does not track unknown-consent contacts. Click tracking is unchanged. If `false` or not passed, the open pixel is added as usual. A value other than `true`/`false` is rejected.\n"
+                  }
+                },
+                "required": [
+                  "email"
+                ],
+                "title": "SmtpEmailPostRequestBodyContentApplicationJsonSchemaMessageVersionsItemsToItems"
+              },
+              "description": "Array of recipient objects. Each object contains an email address and an optional display name.\n"
+            }
+          },
+          "required": [
+            "to"
+          ],
+          "title": "SmtpEmailPostRequestBodyContentApplicationJsonSchemaMessageVersionsItems"
+        },
+        "description": "Array of message version objects for sending customized email variants. The `templateId` can be customized per version only if a global `templateId` is provided. The `htmlContent` and `textContent` can be customized per version only if at least one of these is present in the global parameters. Global parameters such as `to` (required), `bcc`, `cc`, `replyTo`, and `subject` can be customized per version. Maximum total recipients per API request is 2000. Maximum recipients per message version is 99. Individual `params` objects must not exceed 100 KB. Cumulative `params` across all versions must not exceed 1000 KB. See https://developers.brevo.com/docs/batch-send-transactional-emails for detailed usage instructions.\n"
+      },
+      "params": {
+        "type": "object",
+        "additionalProperties": {
+          "description": "Any type"
+        },
+        "description": "Key-value pairs for template variable substitution. Only applicable when the template uses the New Template Language format.\n"
+      },
+      "replyTo": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address in reply to"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name for the reply-to address. Maximum length is 70 characters.\n"
+          }
+        },
+        "required": [
+          "email"
+        ],
+        "description": "Reply-to email address (required) and optional display name. Recipients will use this address when replying to the email.\n",
+        "title": "SmtpEmailPostRequestBodyContentApplicationJsonSchemaReplyTo"
+      },
+      "scheduledAt": {
+        "type": "string",
+        "format": "date-time",
+        "description": "UTC date-time when the email should be sent (format: YYYY-MM-DDTHH:mm:ss.SSSZ). Include timezone information in the date-time value. Scheduled emails may be delayed by up to 5 minutes."
+      },
+      "sender": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Sender email address. Required when `id` is not provided."
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Sender identifier. Required when `email` is not provided. Use this field to select a sender with a specific IP pool (dedicated IP users only)."
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the sender. Maximum length is 70 characters. Only applicable when `email` is provided.\n"
+          }
+        },
+        "description": "Sender information. Required when `templateId` is not provided. Specify either an email address (with optional name) or a sender ID. The `name` field is ignored when `id` is provided.\n",
+        "title": "SmtpEmailPostRequestBodyContentApplicationJsonSchemaSender"
+      },
+      "subject": {
+        "type": "string",
+        "description": "Email subject line. Required when `templateId` is not provided.\n"
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Array of tags for categorizing and filtering emails"
+      },
+      "templateId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Template identifier"
+      },
+      "textContent": {
+        "type": "string",
+        "description": "Plain text body content of the email. Ignored when `templateId` is provided.\n"
+      },
+      "to": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "contactPixelTrackingConsent": {
+              "type": "boolean",
+              "description": "Consent of the recipient for open (pixel) and click tracking, resolved by the sender at send time. Considered only if the per-contact pixel tracking consent feature is enabled for your account. Pass `true` if this recipient has consented to open and click tracking, in which case the open pixel and tracked links identify the recipient. Pass `false` to anonymise the open and click events (counted in aggregate statistics only). If it is not passed, the recipient is treated as unknown consent status and the email is still sent (the open and click are anonymised unless your account tracks unknown-consent contacts). A value other than `true`/`false` is rejected. Ignored when the feature is not enabled for your account.\n"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Email address of the recipient"
+            },
+            "name": {
+              "type": "string",
+              "description": "Display name of the recipient. Maximum length is 70 characters.\n"
+            },
+            "removeTrackingPixel": {
+              "type": "boolean",
+              "description": "Pass `true` to send the recipient no open pixel, so no open is recorded for them, not even in aggregate statistics. Only available to Enterprise plans: for other accounts the field is accepted but ignored. Considered only if the recipient is not tracked: `contactPixelTrackingConsent` is `false`, or not passed and your account does not track unknown-consent contacts. Click tracking is unchanged. If `false` or not passed, the open pixel is added as usual. A value other than `true`/`false` is rejected.\n"
+            }
+          },
+          "required": [
+            "email"
+          ],
+          "title": "SmtpEmailPostRequestBodyContentApplicationJsonSchemaToItems"
+        },
+        "description": "Array of recipient objects. Each object contains an email address and an optional display name. Required when `messageVersions` is not provided. Ignored when `messageVersions` is provided. Example: `[{\"name\":\"Jimmy\", \"email\":\"jimmy@example.com\"}, {\"name\":\"Joe\", \"email\":\"joe@example.com\"}]`\n"
+      }
+    }
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "description": "Message ID of the transactional email sent"
+        },
+        "messageIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "Transactional emails_sendTransacEmail_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/smtp/email",
+      "body_template": {
+        "attachment": "{{attachment}}",
+        "batchId": "{{batchId}}",
+        "bcc": "{{bcc}}",
+        "cc": "{{cc}}",
+        "headers": "{{headers}}",
+        "htmlContent": "{{htmlContent}}",
+        "messageVersions": "{{messageVersions}}",
+        "params": "{{params}}",
+        "replyTo": "{{replyTo}}",
+        "scheduledAt": "{{scheduledAt}}",
+        "sender": "{{sender}}",
+        "subject": "{{subject}}",
+        "tags": "{{tags}}",
+        "templateId": "{{templateId}}",
+        "textContent": "{{textContent}}",
+        "to": "{{to}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "side_effects": [
+    "Sends real messages to recipients and consumes plan quota. Cannot be undone."
+  ],
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_sendTransacEmail",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

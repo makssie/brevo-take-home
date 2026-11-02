@@ -1,0 +1,73 @@
+{
+  "id": "segments.get_segment",
+  "name": "Get a segment",
+  "category": "segments",
+  "area": "web-app-internal",
+  "description": "Get the name and filter of one segment by id. Use before editing or reusing its filter.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "fe_query": {
+              "type": "object",
+              "description": "Filter tree. An 'or' list of groups; each group has an 'and' list of conditions. A condition is {contact: {field, dataType, operator, value: [..]}, isValidated: true}. Valid fields and data types come from segments.list_filterable_fields.",
+              "example": {
+                "or": [
+                  {
+                    "and": [
+                      {
+                        "contact": {
+                          "field": "email_blacklisted",
+                          "dataType": "subscription_status",
+                          "operator": "subscribed",
+                          "value": [
+                            "subscribed"
+                          ]
+                        },
+                        "isValidated": true
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "GET",
+      "url": "https://segments-api.brevo.com/segment/{{id}}"
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Observed in UI traffic, then replayed from inside the logged-in page."
+  }
+}

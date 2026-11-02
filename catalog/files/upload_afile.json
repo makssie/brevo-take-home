@@ -1,0 +1,72 @@
+{
+  "id": "files.upload_afile",
+  "name": "Upload a file",
+  "category": "files",
+  "area": "sales-crm",
+  "description": "Upload a file. Upload a file and associate it with a contact, company, or deal. The file must be sent as multipart form data with a maximum size of 10 MB. You can optionally link the file to a specific entity by providing the corresponding entity ID.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique file id"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of uploaded file"
+        },
+        "authorId": {
+          "type": "string",
+          "description": "Account id of user which created the file"
+        },
+        "contactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Contact id of contact on which file is uploaded"
+        },
+        "dealId": {
+          "type": "string",
+          "description": "Deal id linked to a file"
+        },
+        "companyId": {
+          "type": "string",
+          "description": "Company id linked to a file"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Size of file in bytes"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "File created date/time"
+        }
+      },
+      "description": "File data that is uploaded",
+      "title": "FileData"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/crm/files"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#files_uploadAFile",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

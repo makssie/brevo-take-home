@@ -1,0 +1,98 @@
+{
+  "id": "whats_app_campaigns.update_whats_app_campaign",
+  "name": "Update a WhatsApp campaign",
+  "category": "whats_app_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Update a WhatsApp campaign. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating Whatsapp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account This API requires the List and Segment ids as recipients in Body params.You can use the below Contact endpoints to get the required information. [Get all the…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "id of the campaign"
+      },
+      "campaignName": {
+        "type": "string",
+        "description": "Name of the campaign"
+      },
+      "campaignStatus": {
+        "type": "string",
+        "enum": [
+          "scheduled",
+          "suspended"
+        ],
+        "default": "scheduled",
+        "description": "Status of the campaign",
+        "title": "WhatsappCampaignsCampaignIdPutRequestBodyContentApplicationJsonSchemaCampaignStatus"
+      },
+      "recipients": {
+        "type": "object",
+        "properties": {
+          "excludedListIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "List ids to exclude from the campaign"
+          },
+          "listIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "**Mandatory if scheduledAt is not empty**. List Ids to send the campaign to\n"
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "**Mandatory if listIds are not used**. Segment ids to send the campaign to.\n"
+          }
+        },
+        "description": "Segment ids and List ids to include/exclude from campaign",
+        "title": "WhatsappCampaignsCampaignIdPutRequestBodyContentApplicationJsonSchemaRecipients"
+      },
+      "rescheduleFor": {
+        "type": "string",
+        "description": "Reschedule the sending UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) of campaign. **Prefer to pass your timezone in date-time format for accurate result.For example: **2017-06-01T12:30:00+02:00** Use this field to update the scheduledAt of any existing draft or scheduled WhatsApp campaign.\n"
+      }
+    },
+    "required": [
+      "campaignId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/whatsappCampaigns/{{campaignId}}",
+      "body_template": {
+        "campaignName": "{{campaignName}}",
+        "campaignStatus": "{{campaignStatus}}",
+        "recipients": "{{recipients}}",
+        "rescheduleFor": "{{rescheduleFor}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#whatsAppCampaigns_updateWhatsAppCampaign",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

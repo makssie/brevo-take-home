@@ -1,0 +1,88 @@
+{
+  "id": "master_account.create_anew_sub_account_under_amaster_account",
+  "name": "Create a new sub-account under a master account.",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Create a new sub-account under a master account.. This endpoint will create a new sub-account under a master account",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "companyName": {
+        "type": "string",
+        "description": "Set the name of the sub-account company"
+      },
+      "email": {
+        "type": "string",
+        "description": "Email address for the organization"
+      },
+      "groupIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Set the group(s) for the sub-account"
+      },
+      "language": {
+        "type": "string",
+        "enum": [
+          "en",
+          "fr",
+          "it",
+          "es",
+          "pt",
+          "de"
+        ],
+        "description": "Set the language of the sub-account",
+        "title": "CorporateSubAccountPostRequestBodyContentApplicationJsonSchemaLanguage"
+      },
+      "timezone": {
+        "type": "string",
+        "description": "Set the timezone of the sub-account"
+      }
+    },
+    "required": [
+      "companyName",
+      "email"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the sub-account created"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "Master account_createANewSubAccountUnderAMasterAccount_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/corporate/subAccount",
+      "body_template": {
+        "companyName": "{{companyName}}",
+        "email": "{{email}}",
+        "groupIds": "{{groupIds}}",
+        "language": "{{language}}",
+        "timezone": "{{timezone}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_createANewSubAccountUnderAMasterAccount",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

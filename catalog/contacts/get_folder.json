@@ -1,0 +1,76 @@
+{
+  "id": "contacts.get_folder",
+  "name": "Returns a folder's details",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Returns a folder's details. Ongoing changes for this endpoint. We're dropping support for the response attributes totalSubscribers and totalBlacklisted. These are non breaking changes. The default value for the attributes will be 0.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "folderId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "id of the folder"
+      }
+    },
+    "required": [
+      "folderId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the folder"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the folder"
+        },
+        "totalBlacklisted": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of blacklisted contacts in the folder"
+        },
+        "totalSubscribers": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of contacts in the folder"
+        },
+        "uniqueSubscribers": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of unique contacts in the folder"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "totalBlacklisted",
+        "totalSubscribers",
+        "uniqueSubscribers"
+      ],
+      "title": "getFolder"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/contacts/folders/{{folderId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_getFolder",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

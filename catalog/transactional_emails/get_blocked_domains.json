@@ -1,0 +1,46 @@
+{
+  "id": "transactional_emails.get_blocked_domains",
+  "name": "Get the list of blocked domains",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Get the list of blocked domains",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of all blocked domains"
+        }
+      },
+      "required": [
+        "domains"
+      ],
+      "title": "Transactional emails_getBlockedDomains_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/smtp/blockedDomains"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getBlockedDomains",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

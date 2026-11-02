@@ -1,0 +1,145 @@
+{
+  "id": "ecommerce.get_categories",
+  "name": "Return all your categories",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Return all your categories. Retrieve a paginated list of all ecommerce categories stored in your Brevo account. Results are sorted by creation date in descending order by default, and can be filtered by category IDs, name, modification date, creation date, or deletion status. The response includes a `count` field with the total number of matching categories, and pagination defaults to 50 categories per page (maximum 100).",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "maximum": 100,
+        "default": 50,
+        "description": "Number of documents per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document in the page"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "CategoriesGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+      },
+      "ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Filter by category ids"
+      },
+      "name": {
+        "type": "string",
+        "description": "Filter by category name"
+      },
+      "modifiedSince": {
+        "type": "string",
+        "description": "Filter (urlencoded) the categories modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
+      },
+      "createdSince": {
+        "type": "string",
+        "description": "Filter (urlencoded) the categories created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
+      },
+      "isDeleted": {
+        "type": "string",
+        "description": "Filter categories by their deletion status. If `false` is passed, only categories that are not deleted will be returned."
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "description": "Creation UTC date-time of the category (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "id": {
+                "type": "string",
+                "format": "string",
+                "description": "Category ID for which you requested the details"
+              },
+              "isDeleted": {
+                "type": "boolean",
+                "description": "category deleted from the shop's database"
+              },
+              "modifiedAt": {
+                "type": "string",
+                "description": "Last modification UTC date-time of the category (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "name": {
+                "type": "string",
+                "format": "string",
+                "description": "Name of the category for which you requested the details"
+              },
+              "url": {
+                "type": "string",
+                "format": "string",
+                "description": "URL to the category"
+              }
+            },
+            "required": [
+              "createdAt",
+              "id",
+              "isDeleted",
+              "modifiedAt",
+              "name"
+            ],
+            "title": "getCategoryDetails"
+          }
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of categories"
+        }
+      },
+      "required": [
+        "categories",
+        "count"
+      ],
+      "title": "Ecommerce_getCategories_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/categories",
+      "query_params": [
+        "limit",
+        "offset",
+        "sort",
+        "ids",
+        "name",
+        "modifiedSince",
+        "createdSince",
+        "isDeleted"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_getCategories",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

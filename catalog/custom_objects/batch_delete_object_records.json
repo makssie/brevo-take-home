@@ -1,0 +1,67 @@
+{
+  "id": "custom_objects.batch_delete_object_records",
+  "name": "Delete multiple object records (up to 1000) asynchronously",
+  "category": "custom_objects",
+  "area": "object-management",
+  "description": "Delete multiple object records (up to 1000) asynchronously. Use this endpoint to delete multiple object records of the same object-type in one request. The request is accepted and processed asynchronously. You can track the status of the deletion process using the returned **processId**. **Limitations:** - Each request can contain up to **1000** object record identifiers - Either `ids` or `ext_ids` must be provided, but **not both** in the same request - Deletion of Brevo standard object records is not…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "object_type": {
+        "type": "string",
+        "description": "Object type for the records to delete"
+      },
+      "identifiers": {
+        "oneOf": [
+          {
+            "description": "Reference to ObjectsObjectTypeBatchDeletePostRequestBodyContentApplicationJsonSchemaIdentifiers0"
+          },
+          {
+            "description": "Reference to ObjectsObjectTypeBatchDeletePostRequestBodyContentApplicationJsonSchemaIdentifiers1"
+          }
+        ],
+        "description": "Either `ids` or `ext_ids` must be provided, but not both in the same request.",
+        "title": "ObjectsObjectTypeBatchDeletePostRequestBodyContentApplicationJsonSchemaIdentifiers"
+      }
+    },
+    "required": [
+      "object_type"
+    ]
+  },
+  "outputs": {
+    "status": 202,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "processId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Identifier for batch process tracking"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "title": "Custom Objects_batchDeleteObjectRecords_Response_202"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/objects/{{object_type}}/batch/delete",
+      "body_template": {
+        "identifiers": "{{identifiers}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/object-management.json#customObjects_batchDeleteObjectRecords",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

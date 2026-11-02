@@ -1,0 +1,120 @@
+{
+  "id": "contacts.create_contact",
+  "name": "Create a contact",
+  "category": "contacts",
+  "description": "Use when you need to add a new person to the Brevo contact base, optionally placing them in lists. The UI path fails on a duplicate email; the public API can update instead with update_enabled.",
+  "preconditions": [
+    "Target lists, if any, must already exist."
+  ],
+  "inputs": {
+    "type": "object",
+    "required": [
+      "email"
+    ],
+    "properties": {
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "attributes": {
+        "type": "object",
+        "description": "Contact attributes by internal name, e.g. FIRSTNAME, LASTNAME."
+      },
+      "list_ids": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "contact_id": {
+        "type": "integer"
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://contacts-api.brevo.com/contact/backend/contacts/add-contact",
+      "body_template": {
+        "email": "{{email}}",
+        "listIds": "{{list_ids}}",
+        "attributes": "{{attributes}}"
+      }
+    },
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page; behavior from outside a browser was not tested."
+  },
+  "alternative_executions": [
+    {
+      "method": "public_api",
+      "http": {
+        "verb": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "body_template": {
+          "email": "{{email}}",
+          "attributes": "{{attributes}}",
+          "listIds": "{{list_ids}}",
+          "updateEnabled": false
+        }
+      },
+      "auth": "API key sent in the api-key header. Not included here."
+    },
+    {
+      "method": "ui_only",
+      "ui_steps": [
+        "Open CRM > Contacts (https://app.brevo.com/contact/list).",
+        "Click 'Create a contact'.",
+        "Fill EMAIL (required) and any attribute fields.",
+        "Click 'Create'."
+      ]
+    }
+  ],
+  "side_effects": [
+    "Creates a contact; counts toward the plan contact limit.",
+    "Before submitting, the UI calls GET contacts-api.brevo.com/contact/backend/contacts/is_duplicate_contact, which returns {is_exist, contactId}."
+  ],
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Created two test contacts through the UI with request capture; response {\"contact_id\":2}.",
+    "notes": "Executed through the UI (response {\"contact_id\":2}); error cases reproduced by replaying the call from the logged-in page on 2026-11-02, which also confirms writes work with the session cookie. listIds was sent empty in every test. The public API variant is documented only."
+  },
+  "errors": [
+    {
+      "when": "The email already belongs to a contact",
+      "status": 400,
+      "response": {
+        "data": {
+          "code": "duplicate_parameter",
+          "metadata": {
+            "duplicate_identifiers": [
+              "email"
+            ]
+          }
+        }
+      },
+      "agent_should": "Do not retry. Call contacts.check_duplicate_contact with the email to get contactId, then use it (for example contacts.add_contact_to_list). Changing the existing contact's attributes needs contacts.update_contact, which is public API only: ask the user."
+    },
+    {
+      "when": "The email is malformed",
+      "status": 400,
+      "response": {
+        "message": "{\"email\":\"Not Valid email format\"}"
+      },
+      "agent_should": "Fix the email and retry once; ask the user if the correct value is unknown."
+    },
+    {
+      "when": "No email is sent",
+      "status": "network_error",
+      "response": "The browser reports 'Failed to fetch'; no HTTP error body reaches the client.",
+      "agent_should": "Treat as a validation error (email is required), not as a transient outage. Do not retry blindly."
+    }
+  ]
+}

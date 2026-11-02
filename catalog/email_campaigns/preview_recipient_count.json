@@ -1,0 +1,100 @@
+{
+  "id": "email_campaigns.preview_recipient_count",
+  "name": "Count recipients for a campaign audience",
+  "category": "email_campaigns",
+  "area": "web-app-internal",
+  "description": "Return how many contacts an audience selection would reach, before saving it. Use to check against the plan's remaining email quota.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "included_list_ids": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "default": []
+      },
+      "included_segment_ids": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "default": []
+      },
+      "excluded_list_ids": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "default": []
+      },
+      "excluded_segment_ids": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "default": []
+      },
+      "included_contacts": {
+        "type": "array",
+        "default": []
+      },
+      "excluded_contacts": {
+        "type": "array",
+        "default": []
+      },
+      "apply_unengage_filter": {
+        "type": "boolean",
+        "default": false,
+        "description": "Skip contacts who did not engage recently."
+      },
+      "filter_fe_query": {
+        "type": "object",
+        "default": {}
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "still_to_process": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "POST",
+      "url": "https://email-campaigns-backend.brevo.com/email-campaign/api/{{id}}/recipient-count",
+      "body_template": {
+        "included_list_ids": "{{included_list_ids}}",
+        "included_segment_ids": "{{included_segment_ids}}",
+        "excluded_list_ids": "{{excluded_list_ids}}",
+        "excluded_segment_ids": "{{excluded_segment_ids}}",
+        "included_contacts": "{{included_contacts}}",
+        "excluded_contacts": "{{excluded_contacts}}",
+        "apply_unengage_filter": "{{apply_unengage_filter}}",
+        "filter_fe_query": "{{filter_fe_query}}"
+      }
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Executed through the UI with request capture."
+  }
+}

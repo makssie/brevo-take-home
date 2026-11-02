@@ -1,0 +1,108 @@
+{
+  "id": "reward.create_reward",
+  "name": "Create a reward",
+  "category": "reward",
+  "area": "loyalty",
+  "description": "Create a reward. Creates a new reward in the loyalty program.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "name": {
+        "type": "string",
+        "maxLength": 128,
+        "description": "Internal name of the reward"
+      },
+      "publicDescription": {
+        "type": "string",
+        "maxLength": 500,
+        "description": "Public facing description of the reward"
+      },
+      "publicImage": {
+        "type": "string",
+        "format": "uri",
+        "description": "URL of the public image for the reward"
+      },
+      "publicName": {
+        "type": "string",
+        "maxLength": 128,
+        "description": "Public facing name of the reward"
+      }
+    },
+    "required": [
+      "pid",
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the reward"
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Loyalty program to which the reward belongs"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the reward"
+        },
+        "publicDescription": {
+          "type": "string",
+          "description": "Public description of the reward"
+        },
+        "publicImage": {
+          "type": "string",
+          "description": "Public image URL of the reward"
+        },
+        "publicName": {
+          "type": "string",
+          "description": "Public name of the reward"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the reward was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the reward was last updated"
+        }
+      },
+      "title": "Reward_createReward_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/offer/programs/{{pid}}/offers",
+      "body_template": {
+        "name": "{{name}}",
+        "publicDescription": "{{publicDescription}}",
+        "publicImage": "{{publicImage}}",
+        "publicName": "{{publicName}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#reward_createReward",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

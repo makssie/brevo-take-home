@@ -1,0 +1,564 @@
+{
+  "id": "reward.get_reward_information",
+  "name": "Get reward information",
+  "category": "reward",
+  "area": "loyalty",
+  "description": "Get reward information. Returns reward information.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "rid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Reward ID"
+      },
+      "version": {
+        "type": "string",
+        "enum": [
+          "active",
+          "draft"
+        ],
+        "default": "draft",
+        "title": "LoyaltyOfferProgramsPidRewardsRidGetParametersVersion",
+        "description": "Version"
+      }
+    },
+    "required": [
+      "pid",
+      "rid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "attributionPerConsumer": {
+          "type": "integer",
+          "description": "Maximum number of times a consumer can be attributed this reward"
+        },
+        "balanceDefinitionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the balance definition"
+        },
+        "code": {
+          "type": "string",
+          "description": "Unique code for the reward"
+        },
+        "codeCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of codes generated"
+        },
+        "codeGeneratorId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the code generator"
+        },
+        "codePoolId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the code pool"
+        },
+        "config": {
+          "type": "string",
+          "description": "Configuration settings for the reward"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the reward was created"
+        },
+        "disabledAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Disabled date of the reward"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End date of the reward validity"
+        },
+        "expirationDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Expiration date of the reward"
+        },
+        "expirationModifier": {
+          "type": "string",
+          "enum": [
+            "startOfPeriod",
+            "endOfPeriod",
+            "noModification"
+          ],
+          "default": "noModification",
+          "description": "Select startOfPeriod to configure rewards expiry on start of day/week/month/year. Select endOfPeriod to configure reward expiry on end of day/week/month/year, else select noModification",
+          "title": "LoyaltyOfferProgramsPidRewardsRidGetResponsesContentApplicationJsonSchemaExpirationModifier"
+        },
+        "expirationUnit": {
+          "type": "string",
+          "description": "Unit of time for the rewards's availability (e.g., day/week/month/year)."
+        },
+        "expirationValue": {
+          "type": "integer",
+          "description": "Number of days/weeks/month/year for reward expiry"
+        },
+        "generator": {
+          "type": "object",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "description": "Timestamp when the reward was created"
+            },
+            "description": {
+              "type": "string",
+              "description": "Public facing description of the reward"
+            },
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Unique identifier for the reward"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the reward"
+            },
+            "pattern": {
+              "type": "string",
+              "description": "Generated pattern"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when the reward was created"
+            }
+          },
+          "description": "object",
+          "title": "LoyaltyOfferProgramsPidRewardsRidGetResponsesContentApplicationJsonSchemaGenerator"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the reward"
+        },
+        "limits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the reward limit was created"
+              },
+              "durationUnit": {
+                "type": "string",
+                "description": "Unit of time for the reward limit's availability (e.g., day/week/month/year)."
+              },
+              "durationValue": {
+                "type": "integer",
+                "description": "Number of days/weeks/month/year for reward limit"
+              },
+              "limitValue": {
+                "type": "integer",
+                "description": "Value of the limit"
+              },
+              "rewardLimitId": {
+                "type": "string",
+                "description": "Unique identifier for the reward limit"
+              },
+              "slidingSchedule": {
+                "type": "boolean",
+                "description": "Select true to calculate all redeems/attributions from the previous value of selected durationUnit to the current time"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of reward"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the reward limit was created"
+              }
+            },
+            "title": "LoyaltyOfferProgramsPidRewardsRidGetResponsesContentApplicationJsonSchemaLimitsItems"
+          },
+          "description": "Attribution / Redeem Limits for the reward"
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Id of the loyalty program to which the current reward belongs to"
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "Any type"
+          },
+          "description": "Additional data for reward definition"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the reward"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "description": "Timestamp when the product was created"
+              },
+              "imageRef": {
+                "type": "string",
+                "description": "URL of the product image"
+              },
+              "productId": {
+                "type": "string",
+                "description": "Unique identifier for the product"
+              },
+              "value": {
+                "type": "string",
+                "description": "string"
+              }
+            },
+            "title": "LoyaltyOfferProgramsPidRewardsRidGetResponsesContentApplicationJsonSchemaProductsItems"
+          },
+          "description": "Selected products for reward definition"
+        },
+        "publicDescription": {
+          "type": "string",
+          "description": "Public description for the reward"
+        },
+        "publicImage": {
+          "type": "string",
+          "description": "Public Image for the reward"
+        },
+        "publicName": {
+          "type": "string",
+          "description": "Public name for the reward"
+        },
+        "redeemPerConsumer": {
+          "type": "integer",
+          "description": "Defines the redeem limit for the consumer"
+        },
+        "redeemRules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Rules defined to redeem a reward"
+        },
+        "rewardConfigs": {
+          "type": "object",
+          "properties": {
+            "attribution": {
+              "type": "string",
+              "description": "Attribution config of the reward"
+            },
+            "code": {
+              "type": "string",
+              "description": "Code config of the reward"
+            },
+            "value": {
+              "type": "string",
+              "description": "Value config of the reward"
+            }
+          },
+          "description": "object",
+          "title": "LoyaltyOfferProgramsPidRewardsRidGetResponsesContentApplicationJsonSchemaRewardConfigs"
+        },
+        "rule": {
+          "type": "object",
+          "properties": {
+            "condition": {
+              "type": "object",
+              "properties": {
+                "and": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "See ruleConditionResponse"
+                  },
+                  "description": "Metric to indicate AND between rules"
+                },
+                "lhs": {
+                  "type": "object",
+                  "properties": {
+                    "array": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "See valueResponse"
+                      },
+                      "description": "Array values to define the rule"
+                    },
+                    "boolean": {
+                      "type": "boolean",
+                      "description": "Boolean values for rule definition"
+                    },
+                    "contactProperty": {
+                      "type": "string",
+                      "description": "string"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "Selected date for rule definition"
+                    },
+                    "eventProperty": {
+                      "type": "string",
+                      "description": "Selected event property for rule definition"
+                    },
+                    "expression": {
+                      "type": "object",
+                      "description": "See nodeResponse"
+                    },
+                    "number": {
+                      "type": "number",
+                      "format": "double",
+                      "description": "Boolean values for rule definition"
+                    },
+                    "string": {
+                      "type": "string",
+                      "description": "String values for rule definition"
+                    }
+                  },
+                  "title": "valueResponse"
+                },
+                "op": {
+                  "type": "string",
+                  "description": "Selected operator for the rule"
+                },
+                "or": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "See ruleConditionResponse"
+                  },
+                  "description": "Metric to indicate OR between rules"
+                },
+                "rhs": {
+                  "type": "object",
+                  "properties": {
+                    "array": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "See valueResponse"
+                      },
+                      "description": "Array values to define the rule"
+                    },
+                    "boolean": {
+                      "type": "boolean",
+                      "description": "Boolean values for rule definition"
+                    },
+                    "contactProperty": {
+                      "type": "string",
+                      "description": "string"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "Selected date for rule definition"
+                    },
+                    "eventProperty": {
+                      "type": "string",
+                      "description": "Selected event property for rule definition"
+                    },
+                    "expression": {
+                      "type": "object",
+                      "description": "See nodeResponse"
+                    },
+                    "number": {
+                      "type": "number",
+                      "format": "double",
+                      "description": "Boolean values for rule definition"
+                    },
+                    "string": {
+                      "type": "string",
+                      "description": "String values for rule definition"
+                    }
+                  },
+                  "title": "valueResponse"
+                }
+              },
+              "title": "ruleConditionResponse"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Timestamp when the rule was created"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the rule"
+            },
+            "event": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the event"
+                },
+                "source": {
+                  "type": "string",
+                  "description": "Source of the event"
+                }
+              },
+              "description": "Selected event in the rule",
+              "title": "LoyaltyOfferProgramsPidRewardsRidGetResponsesContentApplicationJsonSchemaRuleEvent"
+            },
+            "isInternal": {
+              "type": "boolean",
+              "description": "Metric to identify if it's an internal rule or not"
+            },
+            "loyaltyProgramId": {
+              "type": "string",
+              "description": "Loyalty Program id to which current rule is associated"
+            },
+            "loyaltyVersionId": {
+              "type": "integer",
+              "description": "Loyalty Version id to which current rule is associated"
+            },
+            "meta": {
+              "type": "object",
+              "additionalProperties": {
+                "description": "Any type"
+              },
+              "description": "Additional data to define the rule"
+            },
+            "name": {
+              "type": "string",
+              "description": "Rule name"
+            },
+            "results": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "description": "Action for the defined rule"
+                  },
+                  "parameters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "Name of the rule"
+                        },
+                        "value": {
+                          "type": "object",
+                          "description": "See valueResponse"
+                        }
+                      },
+                      "title": "LoyaltyOfferProgramsPidRewardsRidGetResponsesContentApplicationJsonSchemaRuleResultsItemsParametersItems"
+                    },
+                    "description": "Parameters to define the reward"
+                  },
+                  "service": {
+                    "type": "string",
+                    "description": "Selected service to define the reward"
+                  }
+                },
+                "title": "LoyaltyOfferProgramsPidRewardsRidGetResponsesContentApplicationJsonSchemaRuleResultsItems"
+              },
+              "description": "Results of the rule definition"
+            },
+            "ruleId": {
+              "type": "string",
+              "description": "Unique identifier for the rule"
+            },
+            "ruleType": {
+              "type": "string",
+              "description": "Type of the rule"
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "Timestamp when the rule was updated"
+            }
+          },
+          "description": "Rule to define the reward",
+          "title": "LoyaltyOfferProgramsPidRewardsRidGetResponsesContentApplicationJsonSchemaRule"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start date of attribution of the reward"
+        },
+        "subtractBalanceDefinitionId": {
+          "type": "string",
+          "description": "Id of the selected balance while redeeming / attributing a reward"
+        },
+        "subtractBalanceStrategy": {
+          "type": "string",
+          "description": "Strategy of the Balance while redeeming / attributing a reward"
+        },
+        "subtractBalanceValue": {
+          "type": "integer",
+          "description": "Amount of balance to be selected while redeeming / attributing a reward"
+        },
+        "subtractTotalBalance": {
+          "type": "boolean",
+          "description": "Value to indicate to subtract full balance or not"
+        },
+        "totalAttribution": {
+          "type": "integer",
+          "description": "Defines the limit to which a consumer can attribute a reward"
+        },
+        "totalRedeem": {
+          "type": "integer",
+          "description": "Defines the limit to which a consumer can redeem a reward"
+        },
+        "triggerId": {
+          "type": "string",
+          "description": "Id of the Rule to be updated for that reward"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Selected unit of the balance"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp for when this reward was last updated."
+        },
+        "value": {
+          "type": "number",
+          "format": "double",
+          "description": "Value of metric in selected config for reward definition"
+        },
+        "valueType": {
+          "type": "string",
+          "description": "Type of config selected for reward definition"
+        }
+      },
+      "title": "Reward_getRewardInformation_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/offer/programs/{{pid}}/rewards/{{rid}}",
+      "query_params": [
+        "version"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#reward_getRewardInformation",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

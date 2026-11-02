@@ -1,0 +1,85 @@
+{
+  "id": "reward.validate_reward",
+  "name": "Validate a reward",
+  "category": "reward",
+  "area": "loyalty",
+  "description": "Validate a reward. Validates a reward.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "attributedRewardId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Unique identifier for the attributed reward"
+      },
+      "code": {
+        "type": "string",
+        "description": "Validation code for the reward"
+      },
+      "contactId": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1,
+        "description": "Unique identifier for the contact"
+      },
+      "loyaltySubscriptionId": {
+        "type": "string",
+        "description": "Identifier for the loyalty subscription"
+      },
+      "pointOfSellId": {
+        "type": "string",
+        "description": "Identifier for the point of sale"
+      },
+      "rewardId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Unique identifier for the reward"
+      }
+    },
+    "required": [
+      "pid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "authorize": {
+          "type": "boolean",
+          "description": "Boolean value to authorize a reward or not"
+        }
+      },
+      "title": "Reward_validateReward_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/offer/programs/{{pid}}/rewards/validate",
+      "body_template": {
+        "attributedRewardId": "{{attributedRewardId}}",
+        "code": "{{code}}",
+        "contactId": "{{contactId}}",
+        "loyaltySubscriptionId": "{{loyaltySubscriptionId}}",
+        "pointOfSellId": "{{pointOfSellId}}",
+        "rewardId": "{{rewardId}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#reward_validateReward",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

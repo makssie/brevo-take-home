@@ -1,0 +1,109 @@
+{
+  "id": "tasks.get_atask",
+  "name": "Get a task",
+  "category": "tasks",
+  "area": "sales-crm",
+  "description": "Get a task. Retrieve the full details of a single CRM task by its identifier. The response includes the task''s name, type, status, due date, duration, notes, assignee, reminder settings, and linked contacts, companies, or deals.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique task id"
+        },
+        "taskTypeId": {
+          "type": "string",
+          "description": "Id for type of task e.g Call / Email / Meeting etc."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of task"
+        },
+        "companiesIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Companies ids for companies a task is linked to"
+        },
+        "dealsIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Deal ids for deals a task is linked to"
+        },
+        "contactsIds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "Contact ids for contacts linked to this task"
+        },
+        "assignToId": {
+          "type": "string",
+          "description": "Account id of the user assigned to this task"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Task due date and time"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Notes added to a task"
+        },
+        "done": {
+          "type": "boolean",
+          "description": "Whether the task is marked as done"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Task creation date/time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Task last update date/time"
+        }
+      },
+      "required": [
+        "taskTypeId",
+        "name",
+        "date"
+      ],
+      "description": "Task Details",
+      "title": "Task"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/crm/tasks/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#tasks_getATask",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

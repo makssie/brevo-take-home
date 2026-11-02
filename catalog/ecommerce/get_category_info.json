@@ -1,0 +1,78 @@
+{
+  "id": "ecommerce.get_category_info",
+  "name": "Get a category details",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Get a category details. Retrieve the full details of a single ecommerce category by its unique ID. The response includes the category name, URL, creation and modification timestamps, and deletion status. Returns a `404` error if no category matches the provided ID.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Category ID"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "description": "Creation UTC date-time of the category (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "id": {
+          "type": "string",
+          "format": "string",
+          "description": "Category ID for which you requested the details"
+        },
+        "isDeleted": {
+          "type": "boolean",
+          "description": "category deleted from the shop's database"
+        },
+        "modifiedAt": {
+          "type": "string",
+          "description": "Last modification UTC date-time of the category (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "name": {
+          "type": "string",
+          "format": "string",
+          "description": "Name of the category for which you requested the details"
+        },
+        "url": {
+          "type": "string",
+          "format": "string",
+          "description": "URL to the category"
+        }
+      },
+      "required": [
+        "createdAt",
+        "id",
+        "isDeleted",
+        "modifiedAt",
+        "name"
+      ],
+      "title": "getCategoryDetails"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/categories/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_getCategoryInfo",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

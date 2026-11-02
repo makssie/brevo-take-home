@@ -1,0 +1,46 @@
+{
+  "id": "email_campaigns.send_email_campaign_now",
+  "name": "Send an email campaign immediately, based on campaignId",
+  "category": "email_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Send an email campaign immediately, based on campaignId. Send an existing email campaign immediately by scheduling it for the current time. The campaign must have valid recipients and content configured before sending. The system verifies your account''s send limit and credit balance before dispatching; if credits are insufficient, a 402 error is returned.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the campaign"
+      }
+    },
+    "required": [
+      "campaignId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/emailCampaigns/{{campaignId}}/sendNow"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "side_effects": [
+    "Sends real messages to recipients and consumes plan quota. Cannot be undone."
+  ],
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#emailCampaigns_sendEmailCampaignNow",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

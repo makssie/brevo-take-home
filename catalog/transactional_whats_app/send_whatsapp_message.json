@@ -1,0 +1,62 @@
+{
+  "id": "transactional_whats_app.send_whatsapp_message",
+  "name": "Send a WhatsApp message",
+  "category": "transactional_whats_app",
+  "area": "transactional-whatsapp",
+  "description": "Send a WhatsApp message. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating Whatsapp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account This endpoint is used to send a WhatsApp message. (**The first message you send using the API must contain a Template ID. You must create a template on WhatsApp on the Brevo platform to…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "body": {
+        "oneOf": [
+          {
+            "description": "Reference to TransactionalWhatsAppSendWhatsappMessageRequest0"
+          },
+          {
+            "description": "Reference to TransactionalWhatsAppSendWhatsappMessageRequest1"
+          }
+        ],
+        "title": "Transactional WhatsApp_sendWhatsappMessage_Request"
+      }
+    }
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "format": "uuidv4",
+          "description": "messageId of sent message"
+        }
+      },
+      "required": [
+        "messageId"
+      ],
+      "title": "Transactional WhatsApp_sendWhatsappMessage_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/whatsapp/sendMessage",
+      "body_template": {
+        "body": "{{body}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "side_effects": [
+    "Sends real messages to recipients and consumes plan quota. Cannot be undone."
+  ],
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/transactional-whatsapp.json#transactionalWhatsApp_sendWhatsappMessage",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

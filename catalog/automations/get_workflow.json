@@ -1,0 +1,83 @@
+{
+  "id": "automations.get_workflow",
+  "name": "Get an automation with its triggers",
+  "category": "automations",
+  "area": "web-app-internal",
+  "description": "Get one automation's name, status and the triggers placed on it, including whether each trigger is fully configured (is_complete).",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "is_active": {
+          "type": "boolean"
+        },
+        "is_paused": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string"
+        },
+        "triggers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "trigger_point_id": {
+                "type": "integer"
+              },
+              "event_name": {
+                "type": "string"
+              },
+              "is_complete": {
+                "type": "boolean"
+              },
+              "internal_action_id": {
+                "type": "integer"
+              },
+              "source": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "GET",
+      "url": "https://workflow-apis.brevo.com/v1/workflow/{{id}}/description"
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Observed in UI traffic, then replayed from inside the logged-in page."
+  }
+}

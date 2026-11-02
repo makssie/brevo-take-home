@@ -1,0 +1,54 @@
+{
+  "id": "master_account.generate_sso_token_to_access_admin_account",
+  "name": "Generate SSO token to access admin account",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Generate SSO token to access admin account. This endpoint generates an SSO token to authenticate and access the admin account using the endpoint https://account-app.brevo.com/account/login/corporate/sso/[token], where [token] will be replaced by the actual token.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "description": "User email of admin account"
+      }
+    },
+    "required": [
+      "email"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Session token, it will remain valid for 15 days."
+        }
+      },
+      "required": [
+        "token"
+      ],
+      "title": "getSsoToken"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/corporate/ssoToken",
+      "body_template": {
+        "email": "{{email}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_generateSsoTokenToAccessAdminAccount",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

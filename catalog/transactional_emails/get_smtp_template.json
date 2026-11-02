@@ -1,0 +1,140 @@
+{
+  "id": "transactional_emails.get_smtp_template",
+  "name": "Returns the template information",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Returns the template information. Retrieve the full details of a specific transactional email template by its numeric ID or custom template identifier string. The response includes the template name, subject, sender information, HTML content, active status, creation and modification timestamps, reply-to address, tag, and a `doiTemplate` flag indicating whether the template is a double opt-in template (detected by the presence of optin-related tags or variables in the content).",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "templateId": {
+        "oneOf": [
+          {
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "type": "string"
+          }
+        ],
+        "title": "SmtpTemplatesTemplateIdGetParametersTemplateId",
+        "description": "ID of the template. Can be a numeric template ID or a custom template identifier string (alphanumeric, hyphens, and underscores only, max 64 characters, must start with a letter)."
+      }
+    },
+    "required": [
+      "templateId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "description": "Creation UTC date-time of the template (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "doiTemplate": {
+          "type": "boolean",
+          "description": "It is true if template is a valid Double opt-in (DOI) template, otherwise it is false. This field will be available only in case of single template detail call."
+        },
+        "htmlContent": {
+          "type": "string",
+          "description": "HTML content of the template"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the template"
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Status of template (true=active, false=inactive)"
+        },
+        "modifiedAt": {
+          "type": "string",
+          "description": "Last modification UTC date-time of the template (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the template"
+        },
+        "replyTo": {
+          "type": "string",
+          "format": "email",
+          "description": "Email defined as the \"Reply to\" for the template"
+        },
+        "sender": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "From email for the template"
+            },
+            "id": {
+              "type": "string",
+              "description": "Sender id of the template"
+            },
+            "name": {
+              "type": "string",
+              "description": "Sender name for the template"
+            }
+          },
+          "title": "GetSmtpTemplateOverviewSender"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Subject of the template"
+        },
+        "tag": {
+          "type": "string",
+          "description": "Tag of the template"
+        },
+        "testSent": {
+          "type": "boolean",
+          "description": "Status of test sending for the template (true=test email has been sent, false=test email has not been sent)"
+        },
+        "toField": {
+          "type": "string",
+          "description": "Customisation of the \"to\" field for the template"
+        },
+        "customTemplateId": {
+          "type": "string",
+          "description": "Custom template identifier, if one was assigned during template creation. Only present when the template has a custom ID."
+        }
+      },
+      "required": [
+        "createdAt",
+        "htmlContent",
+        "id",
+        "isActive",
+        "modifiedAt",
+        "name",
+        "replyTo",
+        "sender",
+        "subject",
+        "tag",
+        "testSent",
+        "toField"
+      ],
+      "title": "getSmtpTemplateOverview"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/smtp/templates/{{templateId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getSmtpTemplate",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "id": "companies.get_acompany",
+  "name": "Get a company",
+  "category": "companies",
+  "area": "sales-crm",
+  "description": "Get a company. Retrieve the full details of a single company by its identifier, including its attributes, linked contacts, and linked deals. Returns a 404 error if the company does not exist, or a 403 error if the user lacks permission to view the company.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Get Company Details"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "properties": {},
+          "description": "Company attributes with values",
+          "title": "CompanyAttributes"
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique company id"
+        },
+        "linkedContactsIds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "Contact ids for contacts linked to this company"
+        },
+        "linkedDealsIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Deal ids for deals linked to this company"
+        }
+      },
+      "description": "Company Details",
+      "title": "Company"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/companies/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#companies_getACompany",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

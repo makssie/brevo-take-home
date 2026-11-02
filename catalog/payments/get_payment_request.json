@@ -1,0 +1,137 @@
+{
+  "id": "payments.get_payment_request",
+  "name": "Get payment request details",
+  "category": "payments",
+  "area": "ecommerce",
+  "description": "Get payment request details. Retrieve the details of a specific payment request by its ID. The response includes the reference, status (created, sent, reminderSent, or paid), cart details, notification configuration, contact ID, and the number of reminders sent. Returns a `404` error if no payment request matches the provided ID.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Id of the payment Request"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "cart": {
+          "type": "object",
+          "properties": {
+            "currency": {
+              "type": "string",
+              "enum": [
+                "EUR"
+              ],
+              "description": "Currency code for the payment amount.\n",
+              "title": "CartCurrency"
+            },
+            "specificAmount": {
+              "type": "integer",
+              "format": "int64",
+              "description": "Payment amount, in cents. e.g. if you want to request €12.00, then the amount in cents is 1200.\n"
+            }
+          },
+          "required": [
+            "currency",
+            "specificAmount"
+          ],
+          "description": "Specify the payment currency and amount.\n",
+          "title": "cart"
+        },
+        "configuration": {
+          "type": "object",
+          "properties": {
+            "customSuccessUrl": {
+              "type": "string",
+              "format": "url",
+              "description": "Absolute URL of the custom success page.\n"
+            }
+          },
+          "required": [
+            "customSuccessUrl"
+          ],
+          "description": "Optional. Redirect contact to a custom success page once payment is successful. If empty the default Brevo page will be displayed once a payment is validated\n",
+          "title": "configuration"
+        },
+        "contactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Brevo ID of the contact requested to pay.\n"
+        },
+        "notification": {
+          "type": "object",
+          "properties": {
+            "channel": {
+              "type": "string",
+              "enum": [
+                "email"
+              ],
+              "description": "Channel used to send the notifications.\n",
+              "title": "NotificationChannel"
+            },
+            "text": {
+              "type": "string",
+              "description": "Use this field if you want to give more context to your contact about the payment request.\n"
+            }
+          },
+          "required": [
+            "channel",
+            "text"
+          ],
+          "description": "Optional. Use this object if you want to let Brevo send an email to the contact, with the payment request URL. If empty, no notifications (message and reminders) will be sent.\n",
+          "title": "notification"
+        },
+        "numberOfRemindersSent": {
+          "type": "integer",
+          "format": "int64",
+          "description": "number of reminders sent.\n"
+        },
+        "reference": {
+          "type": "string",
+          "description": "Reference of the payment request, it will appear on the payment page.\n"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "created",
+            "sent",
+            "reminderSent",
+            "paid"
+          ],
+          "description": "Status of the payment request.",
+          "title": "PaymentsRequestsIdGetResponsesContentApplicationJsonSchemaStatus"
+        }
+      },
+      "required": [
+        "cart",
+        "notification",
+        "reference",
+        "status"
+      ],
+      "title": "Payments_getPaymentRequest_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/payments/requests/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#payments_getPaymentRequest",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

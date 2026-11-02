@@ -1,0 +1,128 @@
+{
+  "id": "coupons.get_coupon_collections",
+  "name": "Get all your coupon collections",
+  "category": "coupons",
+  "area": "ecommerce",
+  "description": "Get all your coupon collections. Retrieve a paginated list of all coupon collections in your Brevo account. Results can be sorted by creation date, remaining coupons count, or expiration date, in ascending or descending order. Pagination defaults to 50 collections per page (maximum 100).",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 100,
+        "default": 50,
+        "description": "Number of documents returned per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "default": 0,
+        "description": "Index of the first document on the page"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "CouponCollectionsGetParametersSort",
+        "description": "Sort the results by creation time in ascending/descending order"
+      },
+      "sortBy": {
+        "type": "string",
+        "enum": [
+          "createdAt",
+          "remainingCoupons",
+          "expirationDate"
+        ],
+        "default": "createdAt",
+        "title": "CouponCollectionsGetParametersSortBy",
+        "description": "The field used to sort coupon collections"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Datetime on which the collection was created."
+        },
+        "defaultCoupon": {
+          "type": "string",
+          "description": "The default coupon of the collection."
+        },
+        "expirationDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Expiration date for the coupon collection in RFC3339 format."
+        },
+        "id": {
+          "type": "string",
+          "format": "uuidv4",
+          "description": "The id of the collection."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the collection."
+        },
+        "remainingCoupons": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of coupons that have not been sent yet."
+        },
+        "remainingCouponsAlert": {
+          "type": "integer",
+          "description": "If present, an email notification is going to be sent when the total number of available coupons falls below the defined threshold."
+        },
+        "remainingDaysAlert": {
+          "type": "integer",
+          "description": "If present, an email notification is going to be sent the defined amount of days before to the expiration date."
+        },
+        "totalCoupons": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of coupons in the collection."
+        }
+      },
+      "required": [
+        "createdAt",
+        "defaultCoupon",
+        "id",
+        "name",
+        "remainingCoupons",
+        "totalCoupons"
+      ],
+      "title": "getCouponCollection"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/couponCollections",
+      "query_params": [
+        "limit",
+        "offset",
+        "sort",
+        "sortBy"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#coupons_getCouponCollections",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "brevo-action.schema.json",
+  "title": "Brevo business action",
+  "description": "One thing a user can do in Brevo, described so an AI agent can decide when to use it and how to execute it.",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "category",
+    "description",
+    "inputs",
+    "execution",
+    "verification"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$",
+      "description": "Stable identifier, area.verb_noun, e.g. contacts.create_contact."
+    },
+    "name": { "type": "string" },
+    "category": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Functional group, snake_case, e.g. contacts, email_campaigns."
+    },
+    "area": {
+      "type": "string",
+      "description": "Product area the category belongs to, e.g. contact-management, marketing-campaigns."
+    },
+    "description": {
+      "type": "string",
+      "description": "When an agent should pick this action. Written for a model, not a human."
+    },
+    "preconditions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What must be true first, e.g. a list must exist, a sender must be validated."
+    },
+    "inputs": {
+      "type": "object",
+      "description": "A JSON Schema describing the arguments. Can be used as-is as a tool input_schema."
+    },
+    "outputs": {
+      "type": "object",
+      "description": "A JSON Schema describing what the action returns."
+    },
+    "execution": {
+      "type": "object",
+      "required": ["method"],
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["public_api", "internal_api", "ui_only"]
+        },
+        "http": {
+          "type": "object",
+          "required": ["verb", "url"],
+          "properties": {
+            "verb": { "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"] },
+            "url": { "type": "string" },
+            "body_template": {}
+          }
+        },
+        "ui_steps": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Fallback click path when there is no usable API."
+        },
+        "auth": {
+          "type": "string",
+          "description": "How auth works, described only. Never include keys or tokens."
+        }
+      }
+    },
+    "alternative_executions": {
+      "type": "array",
+      "items": { "$ref": "#/properties/execution" },
+      "description": "Other ways to do the same thing, e.g. the public API when the primary is the internal API."
+    },
+    "side_effects": { "type": "array", "items": { "type": "string" } },
+    "errors": {
+      "type": "array",
+      "description": "Failure cases observed on the real system, so an agent can recover without a human.",
+      "items": {
+        "type": "object",
+        "required": ["when", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "when": { "type": "string" },
+          "status": { "type": ["integer", "string"], "description": "HTTP status, or 'network_error' when no response reached the client." },
+          "response": {},
+          "agent_should": { "type": "string" }
+        }
+      }
+    },
+    "destructive": { "type": "boolean", "default": false },
+    "reversible": { "type": "boolean" },
+    "plan_gated": {
+      "type": "string",
+      "description": "Minimum plan needed, if not available on free."
+    },
+    "verification": {
+      "type": "object",
+      "required": ["level"],
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "enum": ["executed", "observed", "documented"],
+          "description": "executed = ran on a real account; observed = seen in network traffic; documented = only in docs."
+        },
+        "date": { "type": "string", "format": "date" },
+        "evidence": {
+          "type": "string",
+          "description": "Pointer to a scrubbed capture or doc URL."
+        },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

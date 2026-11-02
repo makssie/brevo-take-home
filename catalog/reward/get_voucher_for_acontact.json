@@ -1,0 +1,176 @@
+{
+  "id": "reward.get_voucher_for_acontact",
+  "name": "Get voucher for a contact",
+  "category": "reward",
+  "area": "loyalty",
+  "description": "Get voucher for a contact",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "limit": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100,
+        "default": 25,
+        "description": "Page size"
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "description": "Pagination offset"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "LoyaltyOfferProgramsPidVouchersGetParametersSort",
+        "description": "Sort order"
+      },
+      "sortField": {
+        "type": "string",
+        "enum": [
+          "updatedAt",
+          "createdAt"
+        ],
+        "default": "updatedAt",
+        "title": "LoyaltyOfferProgramsPidVouchersGetParametersSortField",
+        "description": "Sort field"
+      },
+      "contactId": {
+        "type": "integer",
+        "minimum": 1,
+        "description": "Contact ID"
+      },
+      "metadata_key_value": {
+        "type": "string",
+        "description": "Metadata value for a Key filter"
+      },
+      "rewardId": {
+        "type": "string",
+        "description": "Reward ID"
+      }
+    },
+    "required": [
+      "pid",
+      "contactId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "contactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Contact id associated with the current reward"
+        },
+        "contactRewards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Generated code"
+              },
+              "consumedAt": {
+                "type": "string",
+                "description": "Timestamp when the reward limit was consumed"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Timestamp when the reward limit was created"
+              },
+              "expirationDate": {
+                "type": "string",
+                "description": "Reward expiration date"
+              },
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the contact"
+              },
+              "meta": {
+                "type": "object",
+                "additionalProperties": {
+                  "description": "Any type"
+                },
+                "description": "Additional data for the reward"
+              },
+              "rewardId": {
+                "type": "string",
+                "description": "Unique identifier for the reward"
+              },
+              "unit": {
+                "type": "string",
+                "description": "Unit of the balance selected in the reward definition"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Timestamp when the reward limit was updated"
+              },
+              "value": {
+                "type": "number",
+                "format": "double",
+                "description": "Value of the selected reward config"
+              },
+              "validFrom": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date from which the voucher becomes valid"
+              }
+            },
+            "title": "LoyaltyOfferProgramsPidVouchersGetResponsesContentApplicationJsonSchemaContactRewardsItems"
+          },
+          "description": "List of all the rewards for current contact"
+        },
+        "count": {
+          "type": "integer",
+          "description": "Count of the rewards associated with the current contact"
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "description": "Loyalty Program Id for the contact"
+        },
+        "loyaltySubscriptionId": {
+          "type": "string",
+          "description": "Loyalty Subscription Id for the contact"
+        }
+      },
+      "title": "Reward_getVoucherForAContact_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/offer/programs/{{pid}}/vouchers",
+      "query_params": [
+        "limit",
+        "offset",
+        "sort",
+        "sortField",
+        "contactId",
+        "metadata_key_value",
+        "rewardId"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#reward_getVoucherForAContact",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

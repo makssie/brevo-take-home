@@ -1,0 +1,127 @@
+{
+  "id": "inbound_parsing.get_inbound_email_events_by_uuid",
+  "name": "Fetch all events history for one particular received email.",
+  "category": "inbound_parsing",
+  "area": "email-api",
+  "description": "Fetch all events history for one particular received email.. This endpoint will show the list of all events history for one particular received email.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "description": "UUID to fetch events specific to received email"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "contentId": {
+                "type": "string",
+                "description": "value of the Content-ID header of the attachment."
+              },
+              "contentLength": {
+                "type": "integer",
+                "description": "size of the attachment in bytes"
+              },
+              "contentType": {
+                "type": "string",
+                "description": "value of the Content-Type header of the attachment"
+              },
+              "name": {
+                "type": "string",
+                "description": "filename specified in the Content-Disposition header of the attachment"
+              }
+            },
+            "title": "InboundEventsUuidGetResponsesContentApplicationJsonSchemaAttachmentsItems"
+          },
+          "description": "List of attachments of the email. This will be present only after the processing is done."
+        },
+        "deliveredAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "description": "Date when email was delivered successfully to the client’s webhook"
+        },
+        "logs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date of the event"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "received",
+                  "processed",
+                  "webhookFailed",
+                  "webhookDelivered"
+                ],
+                "description": "Type of the event",
+                "title": "InboundEventsUuidGetResponsesContentApplicationJsonSchemaLogsItemsType"
+              }
+            },
+            "title": "InboundEventsUuidGetResponsesContentApplicationJsonSchemaLogsItems"
+          },
+          "description": "List of events/logs that describe the lifecycle of the email on the Brevo platform"
+        },
+        "messageId": {
+          "type": "string",
+          "description": "Value of the Message-ID header. This will be present only after the processing is done."
+        },
+        "receivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date when email was received on SMTP relay"
+        },
+        "recipient": {
+          "type": "string",
+          "format": "email",
+          "description": "Recipient’s email address"
+        },
+        "sender": {
+          "type": "string",
+          "format": "email",
+          "description": "Sender’s email address"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Value of the Subject header. This will be present only after the processing is done."
+        }
+      },
+      "title": "Inbound Parsing_getInboundEmailEventsByUuid_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/inbound/events/{{uuid}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#inboundParsing_getInboundEmailEventsByUuid",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

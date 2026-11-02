@@ -1,0 +1,116 @@
+{
+  "id": "contacts.add_contact_to_list",
+  "name": "Add contacts to a list",
+  "category": "contacts",
+  "area": "web-app-internal",
+  "description": "Add one or more existing contacts to one or more lists. Asynchronous: success means the job was queued, so confirm with contacts.get_lists (count) before reporting it done. The same endpoint runs other bulk actions; only ADD_TO_LIST was verified.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "ids": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "description": "Contact ids."
+      },
+      "link_list_ids": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "description": "Target list ids."
+      },
+      "action": {
+        "type": "string",
+        "enum": [
+          "ADD_TO_LIST"
+        ],
+        "default": "ADD_TO_LIST"
+      },
+      "is_all_selected": {
+        "type": "boolean",
+        "default": false,
+        "description": "true applies to every contact matching fe_query instead of ids. Not tested."
+      },
+      "fe_query": {
+        "type": "object",
+        "default": {}
+      },
+      "searchBy": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "required": [
+      "ids",
+      "link_list_ids"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "const": "Process dispatched successfully"
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "POST",
+      "url": "https://contacts-api.brevo.com/contact/backend/actions/list",
+      "body_template": {
+        "action": "{{action}}",
+        "is_all_selected": "{{is_all_selected}}",
+        "ids": "{{ids}}",
+        "link_list_ids": "{{link_list_ids}}",
+        "fe_query": "{{fe_query}}",
+        "searchBy": "{{searchBy}}",
+        "is_anonymous_selected": false,
+        "is_conversation_anonymous_contact_selected": false,
+        "is_wonderpush_anonymous_contact_selected": false,
+        "sourceId": null,
+        "sourceType": null
+      }
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Executed through the UI with request capture. Added contact 2 to list 5 from the Contacts page bulk action; list count went from 0 to 1."
+  },
+  "side_effects": [
+    "Queues a background job; the list count updated within a few seconds in testing."
+  ],
+  "preconditions": [
+    "The contacts and lists exist (contacts.get_lists)."
+  ],
+  "errors": [
+    {
+      "when": "action is not a known bulk action",
+      "status": 400,
+      "response": {
+        "message": "{\"action\":\"Invalid Action\"}"
+      },
+      "agent_should": "Use ADD_TO_LIST. The endpoint does not list valid values."
+    }
+  ],
+  "alternative_executions": [
+    {
+      "method": "public_api",
+      "http": {
+        "verb": "POST",
+        "url": "https://api.brevo.com/v3/contacts/lists/{{listId}}/contacts/add"
+      },
+      "auth": "API key in the api-key header. Not included here."
+    }
+  ]
+}

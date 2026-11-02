@@ -1,0 +1,48 @@
+{
+  "id": "master_account.list_of_all_ips",
+  "name": "List of all IPs",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "List of all IPs. This endpoint allows you to retrieve the list of active IPs on your Admin account",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string"
+          },
+          "ip": {
+            "type": "string"
+          },
+          "transactional": {
+            "type": "boolean"
+          }
+        },
+        "title": "CorporateIpGetResponsesContentApplicationJsonSchemaItems"
+      }
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/corporate/ip"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_listOfAllIPs",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

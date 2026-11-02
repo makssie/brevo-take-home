@@ -1,0 +1,47 @@
+{
+  "id": "transactional_emails.block_new_domain",
+  "name": "Add a new domain to the list of blocked domains",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Add a new domain to the list of blocked domains. Blocks a new domain in order to avoid messages being sent to the same",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "domain": {
+        "type": "string",
+        "description": "name of the domain to be blocked"
+      }
+    },
+    "required": [
+      "domain"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "description": "Empty response body",
+      "title": "Transactional emails_blockNewDomain_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/smtp/blockedDomains",
+      "body_template": {
+        "domain": "{{domain}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_blockNewDomain",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

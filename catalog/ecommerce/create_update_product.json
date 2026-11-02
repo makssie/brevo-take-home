@@ -1,0 +1,152 @@
+{
+  "id": "ecommerce.create_update_product",
+  "name": "Create/Update a product",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Create/Update a product. Create a new ecommerce product or update an existing one, identified by the mandatory `id` field. When `updateEnabled` is `false` (the default), the endpoint inserts a new product and returns `201`; if the product ID already exists, a `400` error is returned. When `updateEnabled` is `true`, the endpoint performs an upsert, returning `201` for a new product or `204` for an update. The `name` field is mandatory for creation but optional for…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "brand": {
+        "type": "string",
+        "maxLength": 128,
+        "description": "Brand of the product"
+      },
+      "categories": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Category ID-s of the product"
+      },
+      "deletedAt": {
+        "type": "string",
+        "description": "UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) of the product deleted from the shop's database"
+      },
+      "description": {
+        "type": "string",
+        "maxLength": 3000,
+        "description": "Description of the product"
+      },
+      "id": {
+        "type": "string",
+        "format": "string",
+        "description": "Product ID for which you requested the details"
+      },
+      "imageUrl": {
+        "type": "string",
+        "format": "string",
+        "description": "Absolute URL to the cover image of the product"
+      },
+      "isDeleted": {
+        "type": "boolean",
+        "description": "product deleted from the shop's database"
+      },
+      "metaInfo": {
+        "type": "object",
+        "additionalProperties": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "ProductsPostRequestBodyContentApplicationJsonSchemaMetaInfo"
+        },
+        "description": "Meta data of product such as description, vendor, producer, stock level. The total characters of cumulative metaInfo shall not exceed **20000 characters**."
+      },
+      "name": {
+        "type": "string",
+        "description": "**Mandatory in case of creation**. Name of the product, as displayed in the shop"
+      },
+      "parentId": {
+        "type": "string",
+        "format": "string",
+        "description": "Parent product id of the product"
+      },
+      "price": {
+        "type": "string",
+        "title": "float",
+        "description": "Price of the product"
+      },
+      "alternativePrice": {
+        "type": "string",
+        "title": "float",
+        "description": "Alternative price of the product"
+      },
+      "sku": {
+        "type": "string",
+        "format": "string",
+        "description": "Product identifier from the shop"
+      },
+      "stock": {
+        "type": "number",
+        "format": "double",
+        "description": "Current stock value of the product from the shop's database"
+      },
+      "updateEnabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Facilitate to update the existing product in the same request (updateEnabled = true)"
+      },
+      "url": {
+        "type": "string",
+        "format": "string",
+        "description": "URL to the product"
+      }
+    },
+    "required": [
+      "id",
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of the product when a new product is created"
+        }
+      },
+      "title": "Ecommerce_createUpdateProduct_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/products",
+      "body_template": {
+        "brand": "{{brand}}",
+        "categories": "{{categories}}",
+        "deletedAt": "{{deletedAt}}",
+        "description": "{{description}}",
+        "id": "{{id}}",
+        "imageUrl": "{{imageUrl}}",
+        "isDeleted": "{{isDeleted}}",
+        "metaInfo": "{{metaInfo}}",
+        "name": "{{name}}",
+        "parentId": "{{parentId}}",
+        "price": "{{price}}",
+        "alternativePrice": "{{alternativePrice}}",
+        "sku": "{{sku}}",
+        "stock": "{{stock}}",
+        "updateEnabled": "{{updateEnabled}}",
+        "url": "{{url}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_createUpdateProduct",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

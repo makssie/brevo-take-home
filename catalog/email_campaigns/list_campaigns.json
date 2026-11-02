@@ -1,0 +1,84 @@
+{
+  "id": "email_campaigns.list_campaigns",
+  "name": "List email campaigns",
+  "category": "email_campaigns",
+  "area": "web-app-internal",
+  "description": "List email campaigns with id, name, status (draft, sent, ...), dates and subject. Use to find a campaign id or check a draft's state.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pageNumber": {
+        "type": "integer",
+        "default": 1
+      },
+      "pageSize": {
+        "type": "integer",
+        "default": 20,
+        "description": "Accepted; effect not verified."
+      }
+    },
+    "required": [
+      "pageNumber"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "campaigns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "subject": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "isAbTesting": {
+                "type": "boolean"
+              },
+              "lastModifiedDate": {
+                "type": "string"
+              },
+              "sentDate": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "GET",
+      "url": "https://email-campaigns-backend.brevo.com/email-campaign/api/campaigns",
+      "query_params": [
+        "pageNumber",
+        "pageSize"
+      ]
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Observed in UI traffic, then replayed from inside the logged-in page. pageNumber is required: the server answers 400 'missing pageNumber parameter' otherwise."
+  }
+}

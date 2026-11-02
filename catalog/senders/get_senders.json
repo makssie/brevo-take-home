@@ -1,0 +1,112 @@
+{
+  "id": "senders.get_senders",
+  "name": "Get email senders",
+  "category": "senders",
+  "area": "accounts-and-settings",
+  "description": "Get email senders. Retrieves a list of all email senders from your Brevo account with optional filtering. **Use this to:** - Get all available senders for email campaign setup - Find sender details including ID, name, and email address - Filter senders by IP address for dedicated IP users - Filter senders by domain for domain-specific configurations - Monitor sender configuration and status **Key information returned:** - Sender details (ID, name, email address)…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "ip": {
+        "type": "string",
+        "description": "Filter your senders for a specific ip. **Available for dedicated IP usage only**"
+      },
+      "domain": {
+        "type": "string",
+        "description": "Filter your senders for a specific domain"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "senders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "active": {
+                "type": "boolean",
+                "description": "Status of sender (true=activated, false=deactivated)"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "From Email associated to the sender"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Id of the sender"
+              },
+              "ips": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "domain": {
+                      "type": "string",
+                      "description": "Domain of the IP"
+                    },
+                    "ip": {
+                      "type": "string",
+                      "description": "Dedicated IP available in your account"
+                    },
+                    "weight": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "Weight of the IP for this sender"
+                    }
+                  },
+                  "required": [
+                    "domain",
+                    "ip",
+                    "weight"
+                  ],
+                  "title": "SendersGetResponsesContentApplicationJsonSchemaSendersItemsIpsItems"
+                },
+                "description": "List of dedicated IP(s) available in the account. This\ndata is displayed only for dedicated IPs. For standard accounts,\nthis will be an empty array."
+              },
+              "name": {
+                "type": "string",
+                "description": "From Name associated to the sender"
+              }
+            },
+            "required": [
+              "active",
+              "email",
+              "id",
+              "ips",
+              "name"
+            ],
+            "title": "SendersGetResponsesContentApplicationJsonSchemaSendersItems"
+          },
+          "description": "List of the senders available in your account"
+        }
+      },
+      "title": "Senders_getSenders_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/senders",
+      "query_params": [
+        "ip",
+        "domain"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#senders_getSenders",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

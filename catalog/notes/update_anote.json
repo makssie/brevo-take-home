@@ -1,0 +1,76 @@
+{
+  "id": "notes.update_anote",
+  "name": "Update a note",
+  "category": "notes",
+  "area": "sales-crm",
+  "description": "Update a note. Update an existing CRM note''s text content and its associations with contacts, companies, or deals. You can modify the note text, change the pinned status, or update the linked entities.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Note ID to update"
+      },
+      "companyIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Company Ids linked to a note"
+      },
+      "contactIds": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "description": "Contact Ids linked to a note"
+      },
+      "dealIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Deal Ids linked to a note"
+      },
+      "text": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10000,
+        "description": "Content of the note. Supports HTML for rich text formatting. Supported tags include: `<p>` (paragraph), `<b>` / `<strong>` (bold), `<i>` / `<em>` (italic), `<u>` (underline), `<br>` (line break), `<a href=\"...\">` (labelled hyperlink). Example labelled link: `<a href=\"https://example.com\">Link text</a>`."
+      }
+    },
+    "required": [
+      "id",
+      "text"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PATCH",
+      "url": "https://api.brevo.com/v3/crm/notes/{{id}}",
+      "body_template": {
+        "companyIds": "{{companyIds}}",
+        "contactIds": "{{contactIds}}",
+        "dealIds": "{{dealIds}}",
+        "text": "{{text}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#notes_updateANote",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

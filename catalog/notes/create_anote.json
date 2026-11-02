@@ -1,0 +1,78 @@
+{
+  "id": "notes.create_anote",
+  "name": "Create a note",
+  "category": "notes",
+  "area": "sales-crm",
+  "description": "Create a note. Create a new CRM note and optionally associate it with contacts, companies, or deals. The note text content is required, and you can link the note to multiple entities simultaneously during creation.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "companyIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Company Ids linked to a note"
+      },
+      "contactIds": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "description": "Contact Ids linked to a note"
+      },
+      "dealIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Deal Ids linked to a note"
+      },
+      "text": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10000,
+        "description": "Content of the note. Supports HTML for rich text formatting. Supported tags include: `<p>` (paragraph), `<b>` / `<strong>` (bold), `<i>` / `<em>` (italic), `<u>` (underline), `<br>` (line break), `<a href=\"...\">` (labelled hyperlink). Example labelled link: `<a href=\"https://example.com\">Link text</a>`."
+      }
+    },
+    "required": [
+      "text"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique note Id"
+        }
+      },
+      "description": "Created Note ID",
+      "title": "Notes_createANote_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/crm/notes",
+      "body_template": {
+        "companyIds": "{{companyIds}}",
+        "contactIds": "{{contactIds}}",
+        "dealIds": "{{dealIds}}",
+        "text": "{{text}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#notes_createANote",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

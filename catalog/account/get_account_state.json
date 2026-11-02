@@ -1,0 +1,60 @@
+{
+  "id": "account.get_account_state",
+  "name": "Check account plan and sending readiness",
+  "category": "account",
+  "area": "web-app-internal",
+  "description": "Return the plan and flags that decide whether sending works. Call before any send or activation flow: on the test account it reported plan FREE, transactional status 'phone_not_verified' and SMTP disabled. The response also contains the owner's personal details, which an agent should not repeat. It does NOT expose the marketing-email suspension shown as a banner in the UI, so a send can still be blocked when these flags look fine.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "organizationConfig": {
+          "type": "object",
+          "properties": {
+            "planTag": {
+              "type": "string",
+              "description": "e.g. FREE."
+            }
+          }
+        },
+        "isSMTPEnabled": {
+          "type": "boolean"
+        },
+        "transactionalStatus": {
+          "type": "string",
+          "description": "e.g. phone_not_verified."
+        },
+        "isSenderAvailable": {
+          "type": "boolean"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "defaultCountryCode": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "GET",
+      "url": "https://forms-api.brevo.com/forms-api/account"
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Observed in UI traffic, then replayed from inside the logged-in page. Served by the forms service but returns account-wide data. Other services expose similar account endpoints (account-management-backend, crm-backend-api plan-manager-info) that were not compared."
+  }
+}

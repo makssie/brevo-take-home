@@ -1,0 +1,68 @@
+{
+  "id": "deals.get_adeal",
+  "name": "Get a deal",
+  "category": "deals",
+  "area": "sales-crm",
+  "description": "Get a deal. Retrieve the full details of a single deal by its identifier, including its attributes, pipeline stage, linked contacts, and linked companies. Returns a 404 error if the deal does not exist.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique deal id"
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {},
+          "description": "Deal attributes with values",
+          "title": "DealAttributes"
+        },
+        "linkedContactsIds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "Contact ids for contacts linked to this deal"
+        },
+        "linkedCompaniesIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Companies ids for companies linked to this deal"
+        }
+      },
+      "description": "Deal Details",
+      "title": "Deal"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/crm/deals/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#deals_getADeal",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

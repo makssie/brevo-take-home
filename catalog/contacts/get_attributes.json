@@ -1,0 +1,122 @@
+{
+  "id": "contacts.get_attributes",
+  "name": "List all attributes",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "List all attributes. Retrieve all contact attributes defined in your Brevo account, grouped by category (normal, transactional, category, calculated, global). Each attribute includes its name, type, and category, along with enumeration values for category-type attributes and options for multiple-choice-type attributes.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "calculatedValue": {
+                "type": "string",
+                "description": "Calculated value formula"
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "normal",
+                  "transactional",
+                  "category",
+                  "calculated",
+                  "global"
+                ],
+                "description": "Category of the attribute",
+                "title": "ContactsAttributesGetResponsesContentApplicationJsonSchemaAttributesItemsCategory"
+              },
+              "enumeration": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "description": "Label of the \"category\" type attribute"
+                    },
+                    "value": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "Numeric ID of the \"category\" type attribute value. Set to 0 when the raw value cannot be converted to an integer (for example non-numeric values such as \"en\" or \"fr\"). Refer to `valueStr` for the original string representation."
+                    },
+                    "valueStr": {
+                      "type": "string",
+                      "description": "String representation of the \"category\" type attribute value. Always contains the original value as stored. Use this field when the attribute value is non-numeric (e.g. \"en\", \"fr\") or when you need the exact string form alongside the numeric `value`."
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "value",
+                    "valueStr"
+                  ],
+                  "title": "ContactsAttributesGetResponsesContentApplicationJsonSchemaAttributesItemsEnumerationItems"
+                },
+                "description": "Parameter only available for \"category\" type attributes."
+              },
+              "multiCategoryOptions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Parameter only available for \"multiple-choice\" type attributes."
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the attribute"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "text",
+                  "date",
+                  "float",
+                  "id",
+                  "boolean",
+                  "multiple-choice",
+                  "user"
+                ],
+                "description": "Type of the attribute",
+                "title": "ContactsAttributesGetResponsesContentApplicationJsonSchemaAttributesItemsType"
+              }
+            },
+            "required": [
+              "category",
+              "name"
+            ],
+            "title": "ContactsAttributesGetResponsesContentApplicationJsonSchemaAttributesItems"
+          },
+          "description": "Listing of available contact attributes in your account"
+        }
+      },
+      "required": [
+        "attributes"
+      ],
+      "title": "Contacts_getAttributes_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/contacts/attributes"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_getAttributes",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "id": "contacts.create_attribute",
+  "name": "Create contact attribute",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Create contact attribute. Create a new contact attribute under the specified category and name. The required body properties depend on the category: use \"type\" for normal, transactional, or category attributes; use \"value\" for calculated or global attributes; use \"enumeration\" for category attributes; and use \"multiCategoryOptions\" for normal multiple-choice attributes. None of the category or multicategory option values can exceed 200 characters.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "attributeCategory": {
+        "type": "string",
+        "enum": [
+          "normal",
+          "transactional",
+          "category",
+          "calculated",
+          "global"
+        ],
+        "title": "ContactsAttributesAttributeCategoryAttributeNamePostParametersAttributeCategory",
+        "description": "Category of the attribute"
+      },
+      "attributeName": {
+        "type": "string",
+        "description": "Name of the attribute"
+      },
+      "enumeration": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "Label of the value"
+            },
+            "value": {
+              "type": "integer",
+              "description": "Id of the value"
+            }
+          },
+          "required": [
+            "label",
+            "value"
+          ],
+          "title": "ContactsAttributesAttributeCategoryAttributeNamePostRequestBodyContentApplicationJsonSchemaEnumerationItems"
+        },
+        "description": "List of values and labels that the attribute can take. **Use only if the attribute's category is \"category\"**. None of the category options can exceed max 200 characters. For example: **[{\"value\":1, \"label\":\"male\"}, {\"value\":2, \"label\":\"female\"}]**\n"
+      },
+      "isRecurring": {
+        "type": "boolean",
+        "description": "Type of the attribute. **Use only if the attribute's category is 'calculated' or 'global'**\n"
+      },
+      "multiCategoryOptions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "List of options you want to add for multiple-choice attribute. **Use only if the attribute's category is \"normal\" and attribute's type is \"multiple-choice\". None of the multicategory options can exceed max 200 characters.** For example: **[\"USA\",\"INDIA\"]**\n"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "text",
+          "date",
+          "float",
+          "boolean",
+          "id",
+          "category",
+          "multiple-choice",
+          "user"
+        ],
+        "description": "Type of the attribute. **Use only if the attribute's category is 'normal', 'category' or 'transactional'** Type **user and multiple-choice** is only available if the category is **normal** attribute Type **id** is only available if the category is **transactional** attribute Type **category** is only available if the category is **category** attribute\n",
+        "title": "ContactsAttributesAttributeCategoryAttributeNamePostRequestBodyContentApplicationJsonSchemaType"
+      },
+      "value": {
+        "type": "string",
+        "description": "Value of the attribute. **Use only if the attribute's category is 'calculated' or 'global'**\n"
+      }
+    },
+    "required": [
+      "attributeCategory",
+      "attributeName"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "description": "Empty response body",
+      "title": "Contacts_createAttribute_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/contacts/attributes/{{attributeCategory}}/{{attributeName}}",
+      "body_template": {
+        "enumeration": "{{enumeration}}",
+        "isRecurring": "{{isRecurring}}",
+        "multiCategoryOptions": "{{multiCategoryOptions}}",
+        "type": "{{type}}",
+        "value": "{{value}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_createAttribute",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

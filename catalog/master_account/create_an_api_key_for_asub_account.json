@@ -1,0 +1,66 @@
+{
+  "id": "master_account.create_an_api_key_for_asub_account",
+  "name": "Create an API key for a sub-account",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Create an API key for a sub-account. This endpoint will generate an API v3 key for a sub-account",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the sub-account organization"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the API key"
+      }
+    },
+    "required": [
+      "id",
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "API key"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the API operation."
+        }
+      },
+      "required": [
+        "key",
+        "status"
+      ],
+      "title": "Master account_createAnApiKeyForASubAccount_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/corporate/subAccount/key",
+      "body_template": {
+        "id": "{{id}}",
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_createAnApiKeyForASubAccount",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "master_account.update_agroup_of_sub_accounts",
+  "name": "Update a group of sub-accounts",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Update a group of sub-accounts. This endpoint allows to update a group of sub-accounts",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Id of the group"
+      },
+      "groupName": {
+        "type": "string",
+        "description": "The name of the group of sub-accounts"
+      },
+      "subAccountIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Pass the list of sub-account Ids to be included in the group"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/corporate/group/{{id}}",
+      "body_template": {
+        "groupName": "{{groupName}}",
+        "subAccountIds": "{{subAccountIds}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_updateAGroupOfSubAccounts",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

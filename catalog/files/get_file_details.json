@@ -1,0 +1,80 @@
+{
+  "id": "files.get_file_details",
+  "name": "Get file details",
+  "category": "files",
+  "area": "sales-crm",
+  "description": "Get file details. Retrieve the metadata and details of a specific CRM file by its identifier. This returns information such as the file name, size, type, creation date, and associated entities, but does not include the file content itself.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "File id to get file data."
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique file id"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of uploaded file"
+        },
+        "authorId": {
+          "type": "string",
+          "description": "Account id of user which created the file"
+        },
+        "contactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Contact id of contact on which file is uploaded"
+        },
+        "dealId": {
+          "type": "string",
+          "description": "Deal id linked to a file"
+        },
+        "companyId": {
+          "type": "string",
+          "description": "Company id linked to a file"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Size of file in bytes"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "File created date/time"
+        }
+      },
+      "description": "File data that is uploaded",
+      "title": "FileData"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/crm/files/{{id}}/data"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#files_getFileDetails",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

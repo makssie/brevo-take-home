@@ -1,0 +1,43 @@
+{
+  "id": "contacts.delete_list",
+  "name": "Delete a list",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Delete a list. Permanently delete a contact list identified by its ID. The contacts in the list are not deleted; they are only removed from this list. Returns a 404 error if the list ID does not exist.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "listId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the list"
+      }
+    },
+    "required": [
+      "listId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/contacts/lists/{{listId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_deleteList",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

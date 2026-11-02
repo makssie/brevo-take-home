@@ -1,0 +1,56 @@
+{
+  "id": "contacts.delete_multi_attribute_options",
+  "name": "Delete a multiple-choice attribute option",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Delete a multiple-choice attribute option. Delete a specific option from an existing multiple-choice contact attribute. The attribute type must be \"multiple-choice\", and both the attribute name and the option to delete must already exist in your account.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "attributeType": {
+        "type": "string",
+        "enum": [
+          "multiple-choice"
+        ],
+        "title": "ContactsAttributesAttributeTypeMultipleChoiceAttributeMultipleChoiceAttributeOptionDeleteParametersAttributeType",
+        "description": "Type of the attribute"
+      },
+      "multipleChoiceAttribute": {
+        "type": "string",
+        "description": "Name of the existing multiple-choice attribute"
+      },
+      "multipleChoiceAttributeOption": {
+        "type": "string",
+        "description": "Name of the existing multiple-choice attribute option that you want to delete"
+      }
+    },
+    "required": [
+      "attributeType",
+      "multipleChoiceAttribute",
+      "multipleChoiceAttributeOption"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/contacts/attributes/{{attributeType}}/{{multipleChoiceAttribute}}/{{multipleChoiceAttributeOption}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_deleteMultiAttributeOptions",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

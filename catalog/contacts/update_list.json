@@ -1,0 +1,56 @@
+{
+  "id": "contacts.update_list",
+  "name": "Update a list",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Update a list. Update an existing contact list identified by its ID. You can update the list name, move it to a different folder by providing a new folderId, or both. Only one of the two parameters (name, folderId) needs to be provided per request.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "listId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the list"
+      },
+      "folderId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the folder in which the list is to be moved. Either of the two parameters (name, folderId) can be updated at a time."
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the list. Either of the two parameters (name, folderId) can be updated at a time."
+      }
+    },
+    "required": [
+      "listId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/contacts/lists/{{listId}}",
+      "body_template": {
+        "folderId": "{{folderId}}",
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_updateList",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "id": "user.get_invited_users_list",
+  "name": "Get the list of all your users",
+  "category": "user",
+  "area": "accounts-and-settings",
+  "description": "Get the list of all your users. Retrieves the list of all users associated with your organization, including both active and pending invited users. Each user entry includes their email address, owner status, current invitation status, and feature access levels for marketing, CRM, and conversations.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "Email address of the user."
+              },
+              "feature_access": {
+                "type": "object",
+                "properties": {
+                  "conversations": {
+                    "type": "string",
+                    "description": "Conversations features accessiblity."
+                  },
+                  "crm": {
+                    "type": "string",
+                    "description": "CRM features accessiblity."
+                  },
+                  "marketing": {
+                    "type": "string",
+                    "description": "Marketing features accessiblity."
+                  }
+                },
+                "description": "Feature accessiblity given to the user.",
+                "title": "OrganizationInvitedUsersGetResponsesContentApplicationJsonSchemaUsersItemsFeatureAccess"
+              },
+              "is_owner": {
+                "type": "string",
+                "description": "Flag for indicating is user owner of the organization."
+              },
+              "status": {
+                "type": "string",
+                "description": "Status of the invited user."
+              }
+            },
+            "required": [
+              "email",
+              "feature_access",
+              "is_owner",
+              "status"
+            ],
+            "title": "OrganizationInvitedUsersGetResponsesContentApplicationJsonSchemaUsersItems"
+          },
+          "description": "Get invited users list"
+        }
+      },
+      "title": "User_getInvitedUsersList_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/organization/invited/users"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#user_getInvitedUsersList",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

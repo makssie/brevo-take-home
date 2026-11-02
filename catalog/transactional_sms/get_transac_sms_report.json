@@ -1,0 +1,135 @@
+{
+  "id": "transactional_sms.get_transac_sms_report",
+  "name": "Get your SMS activity aggregated per day",
+  "category": "transactional_sms",
+  "area": "transactional-sms",
+  "description": "Get your SMS activity aggregated per day. Retrieve a day-by-day breakdown of your transactional SMS activity, with each entry containing the date and counts for requests, delivered, hard bounces, soft bounces, blocked, unsubscribed, replied, accepted, rejected, and skipped messages. Filter by date range using `startDate` and `endDate` (both required together, YYYY-MM-DD format), by a number of past `days` (not compatible with date range), or by `tag`. Results are sorted in descending…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) of the report"
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) of the report"
+      },
+      "days": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Number of days in the past including today (positive integer). **Not compatible with 'startDate' and 'endDate'**"
+      },
+      "tag": {
+        "type": "string",
+        "description": "Filter on a tag"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "TransactionalSmsStatisticsReportsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "reports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "accepted": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of accepted SMS for the date"
+              },
+              "blocked": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of blocked contact for the date"
+              },
+              "date": {
+                "type": "string",
+                "format": "date",
+                "description": "Date for which statistics are retrieved"
+              },
+              "delivered": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of delivered SMS for the date"
+              },
+              "hardBounces": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of hardbounces for the date"
+              },
+              "rejected": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of rejected SMS for the date"
+              },
+              "replied": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of answered SMS for the date"
+              },
+              "requests": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of requests for the date"
+              },
+              "skipped": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of skipped SMS for the date"
+              },
+              "softBounces": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of softbounces for the date"
+              },
+              "unsubscribed": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of unsubscription for the date"
+              }
+            },
+            "title": "TransactionalSmsStatisticsReportsGetResponsesContentApplicationJsonSchemaReportsItems"
+          }
+        }
+      },
+      "title": "Transactional SMS_getTransacSmsReport_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/transactionalSMS/statistics/reports",
+      "query_params": [
+        "startDate",
+        "endDate",
+        "days",
+        "tag",
+        "sort"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/transactional-sms.json#transactionalSms_getTransacSmsReport",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

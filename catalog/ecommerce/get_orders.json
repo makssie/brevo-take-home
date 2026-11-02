@@ -1,0 +1,81 @@
+{
+  "id": "ecommerce.get_orders",
+  "name": "Get order details",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Get order details. Get all the orders",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "maximum": 100,
+        "default": 50,
+        "description": "Number of documents per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document in the page"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "OrdersGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+      },
+      "secondarySortByModifiedAt": {
+        "type": "boolean",
+        "default": false,
+        "description": "When `true`, orders with the same `createdAt` are then ordered by their `updatedAt`, in the same direction as `sort`. Use it to get a stable order when paging through the results with `limit` and `offset`. Default is `false`."
+      },
+      "modifiedSince": {
+        "type": "string",
+        "description": "Filter (urlencoded) the orders modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
+      },
+      "createdSince": {
+        "type": "string",
+        "description": "Filter (urlencoded) the orders created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "description": "Empty response body",
+      "title": "Ecommerce_getOrders_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/orders",
+      "query_params": [
+        "limit",
+        "offset",
+        "sort",
+        "secondarySortByModifiedAt",
+        "modifiedSince",
+        "createdSince"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_getOrders",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

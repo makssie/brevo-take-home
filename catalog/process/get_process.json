@@ -1,0 +1,150 @@
+{
+  "id": "process.get_process",
+  "name": "Get process details",
+  "category": "process",
+  "area": "accounts-and-settings",
+  "description": "Get process details. Retrieves detailed information about a specific background process. **Use this to:** - Get detailed status of a specific process - Monitor process progress and completion - Download results from completed export processes - Check error details for failed processes - Track process execution times **Key information returned:** - Complete process details (ID, name, status) - Download URLs for completed export processes - Import details with CSV…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "processId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the process"
+      }
+    },
+    "required": [
+      "processId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier of the process"
+        },
+        "name": {
+          "type": "string",
+          "enum": [
+            "IMPORTUSER",
+            "SEARCH_EXPORT_USERS",
+            "TRANS-CALC",
+            "TRANS-GLOBAL-CALC",
+            "CAMPAIGN_PROCESSING",
+            "LIST_EXPORT",
+            "CONTACT_EXPORT"
+          ],
+          "description": "Name/type of the process",
+          "title": "ProcessesProcessIdGetResponsesContentApplicationJsonSchemaName"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "in_process",
+            "processing",
+            "completed",
+            "failed",
+            "cancelled"
+          ],
+          "description": "Current status of the process",
+          "title": "ProcessesProcessIdGetResponsesContentApplicationJsonSchemaStatus"
+        },
+        "info": {
+          "type": "object",
+          "properties": {
+            "import": {
+              "type": "object",
+              "properties": {
+                "invalid_emails": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "URL to CSV file containing invalid email addresses, or null if none"
+                },
+                "duplicate_contact_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "URL to CSV file containing duplicate contact IDs, or null if none"
+                },
+                "duplicate_ext_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "URL to CSV file containing duplicate external IDs, or null if none"
+                },
+                "duplicate_email_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "URL to CSV file containing duplicate email IDs, or null if none"
+                },
+                "duplicate_phone_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "URL to CSV file containing duplicate phone numbers, or null if none"
+                },
+                "duplicate_whatsapp_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "URL to CSV file containing duplicate WhatsApp numbers, or null if none"
+                },
+                "duplicate_landline_number_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "URL to CSV file containing duplicate landline numbers, or null if none"
+                }
+              },
+              "description": "Import process details with URLs to CSV reports",
+              "title": "ProcessesProcessIdGetResponsesContentApplicationJsonSchemaInfoImport"
+            }
+          },
+          "description": "Additional process information, only returned for completed IMPORTUSER processes. Contains URLs to CSV files with details about problematic records.",
+          "title": "ProcessesProcessIdGetResponsesContentApplicationJsonSchemaInfo"
+        },
+        "export_url": {
+          "type": "string",
+          "format": "url",
+          "description": "Download URL for completed export processes (returned for SEARCH_EXPORT_USERS, SEARCH_EXPORT_USERS_API, CAMPAIGN_USER_DETAILS, and EXPORT_WEBHOOK process types)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "status"
+      ],
+      "title": "Process_getProcess_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/processes/{{processId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#process_getProcess",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

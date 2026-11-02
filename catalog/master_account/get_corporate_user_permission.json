@@ -1,0 +1,140 @@
+{
+  "id": "master_account.get_corporate_user_permission",
+  "name": "Check admin user permissions",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Check admin user permissions. This endpoint will provide the list of admin user permissions",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "description": "Email of the invited user."
+      }
+    },
+    "required": [
+      "email"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email address of the user."
+        },
+        "feature_access": {
+          "type": "object",
+          "properties": {
+            "analytics": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Permission on analytics"
+            },
+            "api_keys": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Permission on api keys"
+            },
+            "apps_management": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Permission on apps management"
+            },
+            "create_sub_organizations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Permission on create sub-accounts"
+            },
+            "manage_sub_organizations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Permission on manage sub-accounts"
+            },
+            "my_plan": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Permission on my plan"
+            },
+            "sub_organization_groups": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Permission on groups"
+            },
+            "user_management": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Permission on user management"
+            }
+          },
+          "description": "Granular feature permissions given to the user.",
+          "title": "CorporateUserEmailPermissionsGetResponsesContentApplicationJsonSchemaFeatureAccess"
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "group identifier"
+              },
+              "name": {
+                "type": "string",
+                "description": "Group name"
+              }
+            },
+            "description": "Groups details",
+            "title": "CorporateUserEmailPermissionsGetResponsesContentApplicationJsonSchemaGroupsItems"
+          }
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the invited user."
+        }
+      },
+      "required": [
+        "email",
+        "feature_access",
+        "groups",
+        "status"
+      ],
+      "description": "Check admin user permissions",
+      "title": "Master account_getCorporateUserPermission_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/corporate/user/{{email}}/permissions"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_getCorporateUserPermission",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

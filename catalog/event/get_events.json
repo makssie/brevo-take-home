@@ -1,0 +1,144 @@
+{
+  "id": "event.get_events",
+  "name": "Get events",
+  "category": "event",
+  "area": "events",
+  "description": "Get events. This endpoint currently only supports custom events. Retrieve a list of events filtered by various criteria.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "contact_id": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Filter by contact ID (repeatable)"
+      },
+      "event_name": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Filter by event name (repeatable)"
+      },
+      "object_type": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Filter by object type (repeatable)"
+      },
+      "startDate": {
+        "type": "string",
+        "description": "Mandatory if endDate is used. Start of date range (YYYY-MM-DD or RFC3339). Defaults to 6 months ago when omitted alongside endDate. Must be ≤ endDate."
+      },
+      "endDate": {
+        "type": "string",
+        "description": "Mandatory if startDate is used. End of date range (YYYY-MM-DD or RFC3339). Must be ≥ startDate."
+      },
+      "limit": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10000,
+        "default": 100,
+        "description": "Max events to return. Default 100, min 1, max 10000."
+      },
+      "offset": {
+        "type": "integer",
+        "minimum": 0,
+        "default": 0,
+        "description": "Events to skip for pagination. Default 0, min 0."
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "contact_id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Contact ID associated with the event"
+              },
+              "event_date": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time of the event"
+              },
+              "event_name": {
+                "type": "string",
+                "description": "Name of the event"
+              },
+              "event_filter_id": {
+                "type": "string",
+                "description": "Filter ID of the event"
+              },
+              "object_type": {
+                "type": "string",
+                "description": "Object type associated with the event"
+              },
+              "event_properties": {
+                "type": "object",
+                "additionalProperties": {
+                  "description": "Any type"
+                },
+                "description": "Event-level custom properties"
+              },
+              "contact_properties": {
+                "type": "object",
+                "additionalProperties": {
+                  "description": "Any type"
+                },
+                "description": "Contact-level properties at time of event"
+              }
+            },
+            "title": "GetEventsListEventsItems"
+          },
+          "description": "List of matching events ordered by event_date descending"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total count of events matching the filters (use for pagination)"
+        }
+      },
+      "required": [
+        "count"
+      ],
+      "description": "Response containing a list of events and the total count for pagination",
+      "title": "getEventsList"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/events",
+      "query_params": [
+        "contact_id",
+        "event_name",
+        "object_type",
+        "startDate",
+        "endDate",
+        "limit",
+        "offset"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/events.json#event_getEvents",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

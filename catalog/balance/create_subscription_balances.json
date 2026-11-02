@@ -1,0 +1,104 @@
+{
+  "id": "balance.create_subscription_balances",
+  "name": "Create subscription balances",
+  "category": "balance",
+  "area": "loyalty",
+  "description": "Create subscription balances. Creates a balance for a contact",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program Id"
+      },
+      "cid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Contact Id"
+      },
+      "balanceDefinitionId": {
+        "type": "string",
+        "description": "Unique identifier (UUID) of the balance definition associated with the new balance."
+      }
+    },
+    "required": [
+      "pid",
+      "cid",
+      "balanceDefinitionId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the balance."
+        },
+        "amount": {
+          "type": "string",
+          "title": "float",
+          "description": "The current amount available in the balance."
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Loyalty program ID."
+        },
+        "organizationId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Organization ID."
+        },
+        "contactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Contact ID."
+        },
+        "balanceDefinitionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Balance definition ID."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of when the balance was created."
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Expiration timestamp of the balance."
+        },
+        "consumedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of when the balance was last consumed."
+        }
+      },
+      "title": "Balance_createSubscriptionBalances_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/balance/programs/{{pid}}/subscriptions/{{cid}}/balances",
+      "body_template": {
+        "balanceDefinitionId": "{{balanceDefinitionId}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#balance_createSubscriptionBalances",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "id": "contacts.update_attribute",
+  "name": "Update contact attribute",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Update contact attribute. Update an existing contact attribute identified by its category and name. For category-type attributes, you can update the enumeration values; for calculated or global attributes, update the computed value formula; and for normal multiple-choice attributes, update the multicategory options. None of the category or multicategory option values can exceed 200 characters.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "attributeCategory": {
+        "type": "string",
+        "enum": [
+          "category",
+          "calculated",
+          "global",
+          "normal"
+        ],
+        "title": "ContactsAttributesAttributeCategoryAttributeNamePutParametersAttributeCategory",
+        "description": "Category of the attribute"
+      },
+      "attributeName": {
+        "type": "string",
+        "description": "Name of the existing attribute"
+      },
+      "enumeration": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "Label of the value"
+            },
+            "value": {
+              "type": "integer",
+              "description": "Id of the value"
+            }
+          },
+          "required": [
+            "label",
+            "value"
+          ],
+          "title": "ContactsAttributesAttributeCategoryAttributeNamePutRequestBodyContentApplicationJsonSchemaEnumerationItems"
+        },
+        "description": "List of the values and labels that the attribute can take. **Use only if the attribute's category is \"category\"** None of the category options can exceed max 200 characters. For example, **[{\"value\":1, \"label\":\"male\"}, {\"value\":2, \"label\":\"female\"}]**\n"
+      },
+      "multiCategoryOptions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Use this option to add multiple-choice attributes options only if the attribute's category is \"normal\". **This option is specifically designed for updating multiple-choice attributes. None of the multicategory options can exceed max 200 characters.**. For example: **[\"USA\",\"INDIA\"]**\n"
+      },
+      "value": {
+        "type": "string",
+        "description": "Value of the attribute to update. **Use only if the attribute's category is 'calculated' or 'global'**\n"
+      }
+    },
+    "required": [
+      "attributeCategory",
+      "attributeName"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/contacts/attributes/{{attributeCategory}}/{{attributeName}}",
+      "body_template": {
+        "enumeration": "{{enumeration}}",
+        "multiCategoryOptions": "{{multiCategoryOptions}}",
+        "value": "{{value}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_updateAttribute",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "id": "domains.create_domain",
+  "name": "Create a new sender domain",
+  "category": "domains",
+  "area": "accounts-and-settings",
+  "description": "Create a new sender domain. Creates a new domain in Brevo. Use this to: - Add new domains for sending emails - Set up domain authentication for better deliverability - Configure DNS records for email authentication - Establish domain-based sender identities Key information returned: - Created domain ID and configuration - Required DNS records for authentication - Domain provider detection results - Setup instructions and next steps",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "format": "hostname",
+        "description": "Domain name to be added"
+      }
+    },
+    "required": [
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the Domain created"
+        },
+        "domain_name": {
+          "type": "string",
+          "description": "Domain name"
+        },
+        "domain_provider": {
+          "type": "string",
+          "description": "Detected domain provider"
+        },
+        "message": {
+          "type": "string",
+          "description": "Success message with next steps"
+        },
+        "dns_records": {
+          "type": "object",
+          "properties": {
+            "brevo_code": {
+              "type": "object",
+              "properties": {
+                "host_name": {
+                  "type": "string",
+                  "description": "DNS record hostname"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "DNS record type"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "DNS record value"
+                },
+                "status": {
+                  "type": "boolean",
+                  "description": "Whether the record is properly configured"
+                }
+              },
+              "required": [
+                "host_name",
+                "type",
+                "value",
+                "status"
+              ],
+              "description": "Brevo verification code record",
+              "title": "SendersDomainsPostResponsesContentApplicationJsonSchemaDnsRecordsBrevoCode"
+            },
+            "dkim_record": {
+              "type": "object",
+              "properties": {
+                "host_name": {
+                  "type": "string",
+                  "description": "DNS record hostname"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "DNS record type"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "DNS record value"
+                },
+                "status": {
+                  "type": "boolean",
+                  "description": "Whether the record is properly configured"
+                }
+              },
+              "required": [
+                "host_name",
+                "type",
+                "value",
+                "status"
+              ],
+              "description": "DKIM authentication record",
+              "title": "SendersDomainsPostResponsesContentApplicationJsonSchemaDnsRecordsDkimRecord"
+            },
+            "dmarc_record": {
+              "type": "object",
+              "properties": {
+                "host_name": {
+                  "type": "string",
+                  "description": "DNS record hostname"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "DNS record type"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "DNS record value"
+                },
+                "status": {
+                  "type": "boolean",
+                  "description": "Whether the record is properly configured"
+                }
+              },
+              "required": [
+                "host_name",
+                "type",
+                "value",
+                "status"
+              ],
+              "description": "DMARC policy record",
+              "title": "SendersDomainsPostResponsesContentApplicationJsonSchemaDnsRecordsDmarcRecord"
+            }
+          },
+          "required": [
+            "brevo_code",
+            "dkim_record",
+            "dmarc_record"
+          ],
+          "description": "DNS records required for domain authentication",
+          "title": "SendersDomainsPostResponsesContentApplicationJsonSchemaDnsRecords"
+        }
+      },
+      "required": [
+        "id",
+        "domain_name",
+        "message"
+      ],
+      "title": "Domains_createDomain_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/senders/domains",
+      "body_template": {
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#domains_createDomain",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "contacts.update_folder",
+  "name": "Update a folder",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Update a folder. Update the name of an existing folder identified by its ID. The new folder name must be provided in the request body. Returns a 404 error if the folder ID does not exist.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "folderId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the folder"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the folder"
+      }
+    },
+    "required": [
+      "folderId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/contacts/folders/{{folderId}}",
+      "body_template": {
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_updateFolder",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

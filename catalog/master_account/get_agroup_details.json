@@ -1,0 +1,105 @@
+{
+  "id": "master_account.get_agroup_details",
+  "name": "GET a group details",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "GET a group details. This endpoint allows you to retrieve a specific group’s information such as the list of sub-organizations and the user associated with the group.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Id of the group of sub-organization"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "group": {
+          "type": "object",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "description": "Group creation date"
+            },
+            "groupName": {
+              "type": "string",
+              "description": "Name of the group"
+            },
+            "id": {
+              "type": "string",
+              "description": "Group id"
+            }
+          },
+          "title": "CorporateGroupIdGetResponsesContentApplicationJsonSchemaGroup"
+        },
+        "sub-accounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "companyName": {
+                "type": "string",
+                "description": "Name of the sub-account organzation"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Creation date of the sub-account organzation"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Id of the sub-account organzation"
+              }
+            },
+            "title": "CorporateGroupIdGetResponsesContentApplicationJsonSchemaSubAccountsItems"
+          }
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "Email address of the user"
+              },
+              "firstName": {
+                "type": "string",
+                "description": "First name of the user"
+              },
+              "lastName": {
+                "type": "string",
+                "description": "Last name of the user"
+              }
+            },
+            "title": "CorporateGroupIdGetResponsesContentApplicationJsonSchemaUsersItems"
+          }
+        }
+      },
+      "title": "Master account_getAGroupDetails_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/corporate/group/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_getAGroupDetails",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

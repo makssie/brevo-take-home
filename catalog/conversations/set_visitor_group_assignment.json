@@ -1,0 +1,52 @@
+{
+  "id": "conversations.set_visitor_group_assignment",
+  "name": "Set visitor group assignment",
+  "category": "conversations",
+  "area": "conversations",
+  "description": "Set visitor group assignment. Assigns a visitor to a specific agent group or removes them from their current group.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "groupId": {
+        "description": "Group ID. It can be found on group’s page."
+      }
+    },
+    "required": [
+      "groupId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "description": "group ID the visitor was assigned to"
+        },
+        "visitorId": {
+          "description": "visitor ID"
+        }
+      },
+      "title": "Conversations_setVisitorGroupAssignment_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/conversations/visitorGroup",
+      "body_template": {
+        "groupId": "{{groupId}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/conversations.json#conversations_setVisitorGroupAssignment",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

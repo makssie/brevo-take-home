@@ -1,0 +1,181 @@
+{
+  "id": "transactional_emails.get_smtp_templates",
+  "name": "Get the list of email templates",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Get the list of email templates. Retrieve a paginated list of all transactional email templates (including automation templates) with their details such as name, subject, sender, status, HTML content, and timestamps. Results default to 50 per page (max 1000) and are sorted in descending creation order unless overridden. You can filter by active/inactive status using `templateStatus` and by editor type using `editorType` (currently only `richTextEditor` is supported).",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "templateStatus": {
+        "type": "boolean",
+        "description": "Filter on the status of the template. Active = true, inactive = false"
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 1000,
+        "default": 50,
+        "description": "Number of documents returned per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document in the page"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "SmtpTemplatesGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+      },
+      "editorType": {
+        "type": "string",
+        "enum": [
+          "richTextEditor"
+        ],
+        "title": "SmtpTemplatesGetParametersEditorType",
+        "description": "Filter on the editor type used to create the template. Currently only `richTextEditor` is supported as a filter value."
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Count of transactional email templates"
+        },
+        "templates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "description": "Creation UTC date-time of the template (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "doiTemplate": {
+                "type": "boolean",
+                "description": "It is true if template is a valid Double opt-in (DOI) template, otherwise it is false. This field will be available only in case of single template detail call."
+              },
+              "htmlContent": {
+                "type": "string",
+                "description": "HTML content of the template"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "ID of the template"
+              },
+              "isActive": {
+                "type": "boolean",
+                "description": "Status of template (true=active, false=inactive)"
+              },
+              "modifiedAt": {
+                "type": "string",
+                "description": "Last modification UTC date-time of the template (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the template"
+              },
+              "replyTo": {
+                "type": "string",
+                "format": "email",
+                "description": "Email defined as the \"Reply to\" for the template"
+              },
+              "sender": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "From email for the template"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Sender id of the template"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Sender name for the template"
+                  }
+                },
+                "title": "GetSmtpTemplateOverviewSender"
+              },
+              "subject": {
+                "type": "string",
+                "description": "Subject of the template"
+              },
+              "tag": {
+                "type": "string",
+                "description": "Tag of the template"
+              },
+              "testSent": {
+                "type": "boolean",
+                "description": "Status of test sending for the template (true=test email has been sent, false=test email has not been sent)"
+              },
+              "toField": {
+                "type": "string",
+                "description": "Customisation of the \"to\" field for the template"
+              },
+              "customTemplateId": {
+                "type": "string",
+                "description": "Custom template identifier, if one was assigned during template creation. Only present when the template has a custom ID."
+              }
+            },
+            "required": [
+              "createdAt",
+              "htmlContent",
+              "id",
+              "isActive",
+              "modifiedAt",
+              "name",
+              "replyTo",
+              "sender",
+              "subject",
+              "tag",
+              "testSent",
+              "toField"
+            ],
+            "title": "getSmtpTemplateOverview"
+          }
+        }
+      },
+      "title": "Transactional emails_getSmtpTemplates_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/smtp/templates",
+      "query_params": [
+        "templateStatus",
+        "limit",
+        "offset",
+        "sort",
+        "editorType"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getSmtpTemplates",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

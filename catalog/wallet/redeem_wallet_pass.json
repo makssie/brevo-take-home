@@ -1,0 +1,83 @@
+{
+  "id": "wallet.redeem_wallet_pass",
+  "name": "Redeem a wallet pass",
+  "category": "wallet",
+  "area": "wallet",
+  "description": "Redeem a wallet pass. Record that a wallet pass installation was scanned or redeemed. This issues a `wallet_pass_scanned` event that can trigger automations and update contact segments (for example to track store visits, event attendance or loyalty check-ins). The request body is optional; any details supplied (location, amount spent, event tag, custom data) are carried on the event.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "installationId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Installation ID. The unique identifier of the pass installation being redeemed (as issued when the contact added the pass to their wallet)."
+      },
+      "amountSpent": {
+        "type": "string",
+        "title": "float",
+        "description": "Amount spent during the visit or transaction. Useful for point-of-sale integrations and purchase tracking."
+      },
+      "customData": {
+        "type": "object",
+        "additionalProperties": {
+          "description": "Any type"
+        },
+        "description": "Arbitrary key/value pairs merged into the scan event's properties, for use in automations and segmentation (e.g. register id, cashier, department). Reserved keys take precedence over the same keys supplied here: `passId` is always set by the endpoint, and `location`, `amountSpent` and `eventTag` are replaced by the matching top-level fields when those are sent."
+      },
+      "eventTag": {
+        "type": "string",
+        "description": "Free-form tag identifying the event or context of the scan (e.g. an event name a contact attended). Useful to segment or route automations."
+      },
+      "location": {
+        "type": "string",
+        "description": "Location where the scan occurred. Can be a store name, address, or any identifier relevant to your use case."
+      }
+    },
+    "required": [
+      "installationId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Human-readable confirmation message."
+        },
+        "success": {
+          "type": "boolean",
+          "description": "Indicates whether the scan/redemption was recorded."
+        }
+      },
+      "required": [
+        "message",
+        "success"
+      ],
+      "title": "walletPassRedeemResponse"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/wallet/passes/{{installationId}}/redeem",
+      "body_template": {
+        "amountSpent": "{{amountSpent}}",
+        "customData": "{{customData}}",
+        "eventTag": "{{eventTag}}",
+        "location": "{{location}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/wallet.json#wallet_redeemWalletPass",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

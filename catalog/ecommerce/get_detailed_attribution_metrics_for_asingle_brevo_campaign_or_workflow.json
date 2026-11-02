@@ -1,0 +1,94 @@
+{
+  "id": "ecommerce.get_detailed_attribution_metrics_for_asingle_brevo_campaign_or_workflow",
+  "name": "Get detailed attribution metrics for a single Brevo campaign or workflow",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Get detailed attribution metrics for a single Brevo campaign or workflow. Retrieve detailed attribution metrics for a single Brevo campaign or automation workflow, identified by its conversion source type and ID. The response includes orders count, revenue, average basket value, and the number of new customers attributed to that specific campaign or workflow.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "conversionSource": {
+        "type": "string",
+        "enum": [
+          "email_campaign",
+          "sms_campaign",
+          "automation_workflow_email",
+          "automation_workflow_sms"
+        ],
+        "title": "EcommerceAttributionMetricsConversionSourceConversionSourceIdGetParametersConversionSource",
+        "description": "The Brevo campaign type or workflow type for which data will be retrieved"
+      },
+      "conversionSourceId": {
+        "type": "string",
+        "description": "The Brevo campaign or automation workflow id for which data will be retrieved"
+      }
+    },
+    "required": [
+      "conversionSource",
+      "conversionSourceId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "averageBasket": {
+          "type": "string",
+          "title": "float"
+        },
+        "conversionSource": {
+          "type": "string",
+          "enum": [
+            "email_campaign",
+            "sms_campaign",
+            "automation_workflow_email",
+            "automation_workflow_sms"
+          ],
+          "title": "EcommerceAttributionMetricsConversionSourceConversionSourceIdGetResponsesContentApplicationJsonSchemaConversionSource"
+        },
+        "id": {
+          "type": "number",
+          "format": "double"
+        },
+        "ordersCount": {
+          "type": "number",
+          "format": "double"
+        },
+        "revenue": {
+          "type": "string",
+          "title": "float"
+        },
+        "newCustomersCount": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "averageBasket",
+        "conversionSource",
+        "id",
+        "ordersCount",
+        "revenue",
+        "newCustomersCount"
+      ],
+      "title": "Ecommerce_getDetailedAttributionMetricsForASingleBrevoCampaignOrWorkflow_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/ecommerce/attribution/metrics/{{conversionSource}}/{{conversionSourceId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_getDetailedAttributionMetricsForASingleBrevoCampaignOrWorkflow",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "id": "inbound_parsing.get_inbound_email_events",
+  "name": "Get the list of all the events for the received emails.",
+  "category": "inbound_parsing",
+  "area": "email-api",
+  "description": "Get the list of all the events for the received emails.. This endpoint will show the list of all the events for the received emails. When no date range is provided, the last 30 days of events are returned by default.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "sender": {
+        "type": "string",
+        "description": "Email address of the sender."
+      },
+      "startDate": {
+        "type": "string",
+        "description": "Mandatory if endDate is used. Starting date (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.SSSZ) from which you want to fetch the list. Maximum time period that can be selected is 30 days. Must not be in the future."
+      },
+      "endDate": {
+        "type": "string",
+        "description": "Mandatory if startDate is used. Ending date (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.SSSZ) till which you want to fetch the list. Maximum time period that can be selected is 30 days. Must not be in the future."
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 500,
+        "default": 100,
+        "description": "Number of documents returned per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document on the page"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "InboundEventsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date when email was received on SMTP relay"
+              },
+              "recipient": {
+                "type": "string",
+                "format": "email",
+                "description": "Recipient’s email address"
+              },
+              "sender": {
+                "type": "string",
+                "format": "email",
+                "description": "Sender’s email address"
+              },
+              "uuid": {
+                "type": "string",
+                "format": "uuid",
+                "description": "UUID that can be used to fetch additional data"
+              }
+            },
+            "required": [
+              "date",
+              "recipient",
+              "sender",
+              "uuid"
+            ],
+            "title": "InboundEventsGetResponsesContentApplicationJsonSchemaEventsItems"
+          }
+        }
+      },
+      "title": "Inbound Parsing_getInboundEmailEvents_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/inbound/events",
+      "query_params": [
+        "sender",
+        "startDate",
+        "endDate",
+        "limit",
+        "offset",
+        "sort"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#inboundParsing_getInboundEmailEvents",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

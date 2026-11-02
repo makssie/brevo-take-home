@@ -1,0 +1,181 @@
+{
+  "id": "tier.update_tier",
+  "name": "Update tier",
+  "category": "tier",
+  "area": "loyalty",
+  "description": "Update tier. Modifies an existing tier for the specified tier group *(The changes will take effect with the next publication of the loyalty program)*",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "tid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Tier ID"
+      },
+      "accessConditions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "balanceDefinitionId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Balance definition identifier for accessing the tier"
+            },
+            "minimumValue": {
+              "type": "integer",
+              "description": "Minimum value required to access the tier"
+            }
+          },
+          "title": "LoyaltyTierProgramsPidTiersTidPutRequestBodyContentApplicationJsonSchemaAccessConditionsItems"
+        }
+      },
+      "imageRef": {
+        "type": "string",
+        "description": "Image of the tier"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the tier to be created"
+      },
+      "tierRewards": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "rewardId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Reward unique identifier"
+            }
+          },
+          "title": "LoyaltyTierProgramsPidTiersTidPutRequestBodyContentApplicationJsonSchemaTierRewardsItems"
+        }
+      }
+    },
+    "required": [
+      "pid",
+      "tid",
+      "accessConditions",
+      "name",
+      "tierRewards"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "accessConditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "balanceDefinitionId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Balance definition identifier"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "minimumValue": {
+                "type": "integer",
+                "description": "Minimum value required to access this tier"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "title": "TierAccessConditionsItems"
+          },
+          "description": "Conditions required to access this tier"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "groupId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Associated group Id"
+        },
+        "imageRef": {
+          "type": "string",
+          "description": "Tier image reference"
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Associated loyalty program Id"
+        },
+        "name": {
+          "type": "string",
+          "description": "Tier name"
+        },
+        "tierId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Tier id"
+        },
+        "tierRewards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "rewardId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Reward to be attributed on tier assignment"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "title": "TierTierRewardsItems"
+          },
+          "description": "Rewards associated with this tier"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "tier"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/loyalty/tier/programs/{{pid}}/tiers/{{tid}}",
+      "body_template": {
+        "accessConditions": "{{accessConditions}}",
+        "imageRef": "{{imageRef}}",
+        "name": "{{name}}",
+        "tierRewards": "{{tierRewards}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#tier_updateTier",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

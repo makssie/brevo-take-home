@@ -1,0 +1,95 @@
+{
+  "id": "program.subscribe_member_to_asubscription",
+  "name": "Create subscription member",
+  "category": "program",
+  "area": "loyalty",
+  "description": "Create subscription member. Add member to a subscription",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID. A unique identifier for the loyalty program."
+      },
+      "contactId": {
+        "type": "integer",
+        "description": "Required if LoyaltySubscriptionId is not provided, must be greater than 0"
+      },
+      "loyaltySubscriptionId": {
+        "type": "string",
+        "maxLength": 64,
+        "description": "Required if ContactId is not provided, max length 64"
+      },
+      "memberContactIds": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "description": "Required, each item must be greater than or equal to 1"
+      }
+    },
+    "required": [
+      "pid",
+      "memberContactIds"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "organizationId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier of the organization."
+        },
+        "ownerContactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier of the subscription owner."
+        },
+        "memberContactIds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": "List of unique member contact IDs."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the subscription member was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the subscription member was last updated."
+        }
+      },
+      "title": "Program_subscribeMemberToASubscription_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/config/programs/{{pid}}/subscription-members",
+      "body_template": {
+        "contactId": "{{contactId}}",
+        "loyaltySubscriptionId": "{{loyaltySubscriptionId}}",
+        "memberContactIds": "{{memberContactIds}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#program_subscribeMemberToASubscription",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

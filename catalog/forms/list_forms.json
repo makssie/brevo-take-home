@@ -1,0 +1,58 @@
+{
+  "id": "forms.list_forms",
+  "name": "List forms",
+  "category": "forms",
+  "area": "web-app-internal",
+  "description": "List forms with id, name, contact and submit counters.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "forms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "numberOfContact": {
+                "type": "integer"
+              },
+              "numberOfSubmits": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "totalRecords": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "GET",
+      "url": "https://forms-api.brevo.com/forms-api/forms"
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Observed in UI traffic, then replayed from inside the logged-in page. Query parameters for the Sign-up / Unsubscribe / Profile update tabs were not explored."
+  }
+}

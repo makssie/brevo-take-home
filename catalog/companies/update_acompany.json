@@ -1,0 +1,106 @@
+{
+  "id": "companies.update_acompany",
+  "name": "Update a company",
+  "category": "companies",
+  "area": "sales-crm",
+  "description": "Update a company. Update an existing company''s attributes, name, linked contacts, or linked deals. Note that passing `linkedContactsIds` or `linkedDealsIds` replaces the entire list of associations, so omitted IDs will be removed. The company name cannot be set to an empty string.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "attributes": {
+        "type": "object",
+        "properties": {},
+        "description": "Attributes for company update",
+        "title": "CompaniesIdPatchRequestBodyContentApplicationJsonSchemaAttributes"
+      },
+      "countryCode": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Country code if phone_number is passed in attributes."
+      },
+      "linkedContactsIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Warning - Using PATCH on linkedContactIds replaces the list of linked contacts. Omitted IDs will be removed."
+      },
+      "linkedDealsIds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "objectID"
+        },
+        "description": "Warning - Using PATCH on linkedDealsIds replaces the list of linked deals. Omitted IDs will be removed."
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of company"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "properties": {},
+          "description": "Company attributes with values",
+          "title": "CompanyAttributes"
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique company id"
+        },
+        "linkedContactsIds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "Contact ids for contacts linked to this company"
+        },
+        "linkedDealsIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Deal ids for deals linked to this company"
+        }
+      },
+      "description": "Company Details",
+      "title": "Company"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PATCH",
+      "url": "https://api.brevo.com/v3/companies/{{id}}",
+      "body_template": {
+        "attributes": "{{attributes}}",
+        "countryCode": "{{countryCode}}",
+        "linkedContactsIds": "{{linkedContactsIds}}",
+        "linkedDealsIds": "{{linkedDealsIds}}",
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#companies_updateACompany",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

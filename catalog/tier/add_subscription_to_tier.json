@@ -1,0 +1,91 @@
+{
+  "id": "tier.add_subscription_to_tier",
+  "name": "Assign a tier",
+  "category": "tier",
+  "area": "loyalty",
+  "description": "Assign a tier. Manually assigns a tier to a specific membership.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "cid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Contact ID"
+      },
+      "tid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Tier ID"
+      }
+    },
+    "required": [
+      "pid",
+      "cid",
+      "tid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "contactId": {
+          "type": "integer",
+          "description": "Contact to which the tier is assigned"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "groupId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Group Id to which the tier is associated"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the assigned tier"
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Associated loyalty program Id"
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "Any type"
+          },
+          "description": "object"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "Tier_addSubscriptionToTier_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/tier/programs/{{pid}}/contacts/{{cid}}/tiers/{{tid}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#tier_addSubscriptionToTier",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

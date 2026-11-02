@@ -1,0 +1,81 @@
+{
+  "id": "user.get_user_permission",
+  "name": "Check user permission",
+  "category": "user",
+  "area": "accounts-and-settings",
+  "description": "Check user permission. Retrieves the granular feature-level permissions assigned to a specific user in the organization, identified by their email address. The response includes the user''s current status (active or pending) and a detailed list of privileges specifying which features and permission levels are granted.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "description": "Email of the invited user."
+      }
+    },
+    "required": [
+      "email"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email address of the user."
+        },
+        "privileges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "feature": {
+                "type": "string"
+              },
+              "permissions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "feature",
+              "permissions"
+            ],
+            "title": "OrganizationUserEmailPermissionsGetResponsesContentApplicationJsonSchemaPrivilegesItems"
+          },
+          "description": "Granular feature permissions given to the user."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the invited user."
+        }
+      },
+      "required": [
+        "email",
+        "privileges",
+        "status"
+      ],
+      "description": "Check user permission",
+      "title": "User_getUserPermission_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/organization/user/{{email}}/permissions"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#user_getUserPermission",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "user.put_revoke_user_permission",
+  "name": "Revoke user permission",
+  "category": "user",
+  "area": "accounts-and-settings",
+  "description": "Revoke user permission. Revokes all permissions for an invited user in the organization, effectively removing their access to the platform. If the user''s plan change generated credit notes, they are returned in the response for billing reconciliation.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "description": "Email of the invited user."
+      }
+    },
+    "required": [
+      "email"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "credit_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Credit note"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the API operation."
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "User_putRevokeUserPermission_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/organization/user/invitation/revoke/{{email}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#user_putRevokeUserPermission",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

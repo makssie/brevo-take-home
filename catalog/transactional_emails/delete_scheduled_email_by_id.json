@@ -1,0 +1,42 @@
+{
+  "id": "transactional_emails.delete_scheduled_email_by_id",
+  "name": "Delete scheduled emails by batchId or messageId",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Delete scheduled emails by batchId or messageId. Delete scheduled batch of emails by batchId or single scheduled email by messageId",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "identifier": {
+        "type": "string",
+        "description": "The `batchId` of scheduled emails batch (must be a valid UUIDv4) or the `messageId` of scheduled email (enclosed in angle brackets with @ sign, e.g. `<...@domain>`)."
+      }
+    },
+    "required": [
+      "identifier"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/smtp/email/{{identifier}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_deleteScheduledEmailById",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

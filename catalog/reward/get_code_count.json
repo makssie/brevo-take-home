@@ -1,0 +1,56 @@
+{
+  "id": "reward.get_code_count",
+  "name": "Get code count",
+  "category": "reward",
+  "area": "loyalty",
+  "description": "Get code count",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "cpid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Code Pool ID"
+      }
+    },
+    "required": [
+      "pid",
+      "cpid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of codes"
+        }
+      },
+      "title": "Reward_getCodeCount_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/offer/programs/{{pid}}/code-pools/{{cpid}}/codes-count"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#reward_getCodeCount",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

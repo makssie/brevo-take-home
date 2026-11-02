@@ -1,0 +1,42 @@
+{
+  "id": "notes.delete_anote",
+  "name": "Delete a note",
+  "category": "notes",
+  "area": "sales-crm",
+  "description": "Delete a note. Permanently delete a CRM note by its identifier. This removes the note and unlinks it from any associated contacts, companies, or deals.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Note ID to delete"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/crm/notes/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#notes_deleteANote",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

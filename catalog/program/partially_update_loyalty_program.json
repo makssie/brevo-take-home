@@ -1,0 +1,132 @@
+{
+  "id": "program.partially_update_loyalty_program",
+  "name": "Partially update loyalty program",
+  "category": "program",
+  "area": "loyalty",
+  "description": "Partially update loyalty program. Partially updates loyalty program",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID. A unique identifier for the loyalty program."
+      },
+      "description": {
+        "type": "string",
+        "description": "Loyalty Program description"
+      },
+      "meta": {
+        "type": "object",
+        "properties": {},
+        "description": "Loyalty Program meta data",
+        "title": "LoyaltyConfigProgramsPidPatchRequestBodyContentApplicationJsonSchemaMeta"
+      },
+      "name": {
+        "type": "string",
+        "description": "Loyalty Program name"
+      }
+    },
+    "required": [
+      "pid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Loyalty Program unique identifier."
+        },
+        "name": {
+          "type": "string",
+          "description": "Loyalty Program name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Loyalty Program description."
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "Any type"
+          },
+          "description": "Loyalty Program metadata."
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "inactive",
+            "active",
+            "draft"
+          ],
+          "description": "Current state of the loyalty program.",
+          "title": "LoyaltyProgramState"
+        },
+        "subscriptionPoolId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Loyalty Program subscription pool ID."
+        },
+        "subscriptionGeneratorId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Loyalty Program subscription generator ID."
+        },
+        "pattern": {
+          "type": "string",
+          "description": "Subscription code pattern."
+        },
+        "codeCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of available subscription codes."
+        },
+        "documentId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Associated document identifier."
+        },
+        "birthdayAttribute": {
+          "type": "string",
+          "description": "Contact attribute name used for birthday tracking."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the loyalty program was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the loyalty program was last modified."
+        }
+      },
+      "title": "loyaltyProgram"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PATCH",
+      "url": "https://api.brevo.com/v3/loyalty/config/programs/{{pid}}",
+      "body_template": {
+        "description": "{{description}}",
+        "meta": "{{meta}}",
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#program_partiallyUpdateLoyaltyProgram",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

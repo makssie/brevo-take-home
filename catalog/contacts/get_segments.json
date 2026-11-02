@@ -1,0 +1,103 @@
+{
+  "id": "contacts.get_segments",
+  "name": "Get all the segments",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Get all the segments. Retrieve all contact segments defined in your Brevo account with support for pagination and sorting. Results default to 10 segments per page (maximum 50) sorted in descending order of creation. Each segment includes its ID, name, category name, and last update timestamp.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 50,
+        "default": 10,
+        "description": "Number of documents per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document of the page"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "ContactsSegmentsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of Segments in your account"
+        },
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "categoryName": {
+                "type": "string",
+                "description": "Name of the Segment Category"
+              },
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "ID of the segment"
+              },
+              "segmentName": {
+                "type": "string",
+                "description": "Name of the Segment"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Last update UTC date-time of the segment (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              }
+            },
+            "required": [
+              "categoryName",
+              "id",
+              "segmentName"
+            ],
+            "title": "ContactsSegmentsGetResponsesContentApplicationJsonSchemaSegmentsItems"
+          },
+          "description": "Listing of all the segments available in your account"
+        }
+      },
+      "title": "Contacts_getSegments_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/contacts/segments",
+      "query_params": [
+        "limit",
+        "offset",
+        "sort"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_getSegments",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

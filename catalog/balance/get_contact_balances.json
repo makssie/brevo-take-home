@@ -1,0 +1,123 @@
+{
+  "id": "balance.get_contact_balances",
+  "name": "Get balance list",
+  "category": "balance",
+  "area": "loyalty",
+  "description": "Get balance list. Returns contact balances for a given balance definition across all subscriptions.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program Id"
+      },
+      "includeInternal": {
+        "type": "boolean",
+        "description": "Include balances tied to internal definitions."
+      },
+      "limit": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Limit the number of records returned"
+      },
+      "offset": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Skip a number of records"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "title": "LoyaltyBalanceProgramsPidContactBalancesGetParametersSort",
+        "description": "Sort order"
+      },
+      "sortField": {
+        "type": "string",
+        "enum": [
+          "updatedAt",
+          "value"
+        ],
+        "title": "LoyaltyBalanceProgramsPidContactBalancesGetParametersSortField",
+        "description": "Field to sort by"
+      },
+      "balanceDefinitionId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Balance Definition ID (required)"
+      }
+    },
+    "required": [
+      "pid",
+      "balanceDefinitionId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "balanceDefinitionId": {
+          "type": "string"
+        },
+        "balances": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "contactId": {
+                "type": "integer"
+              },
+              "loyaltySubscriptionId": {
+                "type": "string"
+              },
+              "updatedAt": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "title": "LoyaltyBalanceProgramsPidContactBalancesGetResponsesContentApplicationJsonSchemaBalancesItems"
+          }
+        },
+        "count": {
+          "type": "integer"
+        },
+        "loyaltyProgramId": {
+          "type": "string"
+        }
+      },
+      "title": "Balance_getContactBalances_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/balance/programs/{{pid}}/contact-balances",
+      "query_params": [
+        "includeInternal",
+        "limit",
+        "offset",
+        "sort",
+        "sortField",
+        "balanceDefinitionId"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#balance_getContactBalances",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

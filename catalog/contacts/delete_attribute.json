@@ -1,0 +1,55 @@
+{
+  "id": "contacts.delete_attribute",
+  "name": "Delete an attribute",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Delete an attribute. Permanently delete an existing contact attribute by its category and name. The attribute must exist in the specified category (normal, transactional, category, calculated, or global), otherwise a 404 error is returned.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "attributeCategory": {
+        "type": "string",
+        "enum": [
+          "normal",
+          "transactional",
+          "category",
+          "calculated",
+          "global"
+        ],
+        "title": "ContactsAttributesAttributeCategoryAttributeNameDeleteParametersAttributeCategory",
+        "description": "Category of the attribute"
+      },
+      "attributeName": {
+        "type": "string",
+        "description": "Name of the existing attribute"
+      }
+    },
+    "required": [
+      "attributeCategory",
+      "attributeName"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/contacts/attributes/{{attributeCategory}}/{{attributeName}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_deleteAttribute",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

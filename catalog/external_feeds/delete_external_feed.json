@@ -1,0 +1,43 @@
+{
+  "id": "external_feeds.delete_external_feed",
+  "name": "Delete external feed",
+  "category": "external_feeds",
+  "area": "accounts-and-settings",
+  "description": "Delete external feed. Deletes an external feed from your Brevo account. **Use this to:** - Remove external feeds that are no longer needed - Clean up unused data sources - Remove test or outdated feeds - Maintain organized feed library **Key information returned:** - Success confirmation message **Important considerations:** - This action is PERMANENT and cannot be undone - Feed configuration and history will be lost - Check if feed is used in active campaigns…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "format": "uuidv4",
+        "description": "UUID of the feed to delete"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/feeds/{{uuid}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#externalFeeds_deleteExternalFeed",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

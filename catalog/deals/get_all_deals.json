@@ -1,0 +1,143 @@
+{
+  "id": "deals.get_all_deals",
+  "name": "Get all deals",
+  "category": "deals",
+  "area": "sales-crm",
+  "description": "Get all deals. Retrieve a paginated list of deals with optional filtering, sorting, and search capabilities. Results can be filtered by attributes such as deal name or owner, linked companies, linked contacts, or modification/creation timestamps. Default sort order is descending by creation date.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "filters[attributes.deal_name]": {
+        "type": "string",
+        "description": "Filter by attributes. If you have a filter for the owner on your end, please send it as filters[attributes.deal_owner] and utilize the account email for the filtering."
+      },
+      "filters[attributes.deal_owner]": {
+        "type": "string",
+        "description": "Filter by the deal owner. Pass the account email address of the deal owner."
+      },
+      "filters[attributes.deal_stage]": {
+        "type": "string",
+        "description": "Filter by the deal stage. Pass the stage id, retrievable from GET /crm/pipeline/details/{pipelineID}."
+      },
+      "filters[attributes.pipeline]": {
+        "type": "string",
+        "description": "Filter by the pipeline. Pass the pipeline id, retrievable from GET /crm/pipeline/details/{pipelineID}."
+      },
+      "filters[linkedCompaniesIds]": {
+        "type": "string",
+        "description": "Filter by linked companies ids"
+      },
+      "filters[linkedContactsIds]": {
+        "type": "string",
+        "description": "Filter by linked contacts ids"
+      },
+      "modifiedSince": {
+        "type": "string",
+        "description": "Filter (urlencoded) the deals modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
+      },
+      "createdSince": {
+        "type": "string",
+        "description": "Filter (urlencoded) the deals created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result."
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Index of the first document of the page"
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "default": 50,
+        "description": "Number of documents per page"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "title": "CrmDealsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
+      },
+      "sortBy": {
+        "type": "string",
+        "description": "The field used to sort field names."
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique deal id"
+              },
+              "attributes": {
+                "type": "object",
+                "properties": {},
+                "description": "Deal attributes with values",
+                "title": "DealAttributes"
+              },
+              "linkedContactsIds": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "Contact ids for contacts linked to this deal"
+              },
+              "linkedCompaniesIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Companies ids for companies linked to this deal"
+              }
+            },
+            "description": "Deal Details",
+            "title": "Deal"
+          },
+          "description": "List of deals"
+        }
+      },
+      "description": "List of Deals",
+      "title": "Deals_getAllDeals_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/crm/deals",
+      "query_params": [
+        "filters[attributes.deal_name]",
+        "filters[attributes.deal_owner]",
+        "filters[attributes.deal_stage]",
+        "filters[attributes.pipeline]",
+        "filters[linkedCompaniesIds]",
+        "filters[linkedContactsIds]",
+        "modifiedSince",
+        "createdSince",
+        "offset",
+        "limit",
+        "sort",
+        "sortBy"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#deals_getAllDeals",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "id": "master_account.change_admin_user_permissions",
+  "name": "Change admin user permissions",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Change admin user permissions. This endpoint will allow you to change the permissions of Admin users of your Admin account",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "description": "Email address of Admin user"
+      },
+      "all_features_access": {
+        "type": "boolean",
+        "description": "All access to the features"
+      },
+      "privileges": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "feature": {
+              "type": "string",
+              "enum": [
+                "user_management",
+                "api",
+                "my_plan",
+                "apps_management",
+                "analytics",
+                "sub_organization_groups",
+                "create_sub_organizations",
+                "manage_sub_organizations",
+                "security"
+              ],
+              "description": "feature name",
+              "title": "CorporateUserEmailPermissionsPutRequestBodyContentApplicationJsonSchemaPrivilegesItemsFeature"
+            },
+            "permissions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "none",
+                  "create",
+                  "edit_delete",
+                  "create_alerts",
+                  "download_data",
+                  "my_looks",
+                  "explore_create"
+                ],
+                "title": "CorporateUserEmailPermissionsPutRequestBodyContentApplicationJsonSchemaPrivilegesItemsPermissionsItems"
+              },
+              "description": "Permission for the feature"
+            }
+          },
+          "description": "Permission on features",
+          "title": "CorporateUserEmailPermissionsPutRequestBodyContentApplicationJsonSchemaPrivilegesItems"
+        }
+      }
+    },
+    "required": [
+      "email",
+      "all_features_access",
+      "privileges"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/corporate/user/{{email}}/permissions",
+      "body_template": {
+        "all_features_access": "{{all_features_access}}",
+        "privileges": "{{privileges}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_changeAdminUserPermissions",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "id": "user.edit_user_permission",
+  "name": "Update permission for a user",
+  "category": "user",
+  "area": "accounts-and-settings",
+  "description": "Update permission for a user. `Feature` - A Feature represents a specific functionality like Email campaign, Deals, Calls, Automations, etc. on Brevo. While inviting a user, determine which feature you want to manage access to. You must specify the feature accurately to avoid errors. `Permission` - A Permission defines the level of access or control a user has over a specific feature. While inviting user, decide on the permission level required for the selected feature.…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "all_features_access": {
+        "type": "boolean",
+        "description": "All access to the features"
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "description": "Email address for the organization"
+      },
+      "privileges": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "feature": {
+              "type": "string",
+              "enum": [
+                "email_campaigns",
+                "sms_campaigns",
+                "contacts",
+                "templates",
+                "workflows",
+                "landing_pages",
+                "transactional_emails",
+                "smtp_api",
+                "user_management",
+                "sales_platform",
+                "phone",
+                "conversations",
+                "senders_domains_dedicated_ips",
+                "push_notifications",
+                "companies"
+              ],
+              "description": "Feature name",
+              "title": "InviteuserPrivilegesItemsFeature"
+            },
+            "permissions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "create_edit_delete",
+                  "send_schedule_suspend",
+                  "view",
+                  "import",
+                  "export",
+                  "list_and_attributes",
+                  "forms",
+                  "activate_deactivate",
+                  "activate_deactivate_pause",
+                  "settings",
+                  "schedule_pause",
+                  "all",
+                  "logs",
+                  "access",
+                  "assign",
+                  "configure",
+                  "create_edit_deals",
+                  "delete_deals",
+                  "manage_others_deals_tasks",
+                  "manage_owned_companies",
+                  "manage_others_companies",
+                  "reports",
+                  "senders_management",
+                  "domains_management",
+                  "dedicated_ips_management",
+                  "send",
+                  "smtp",
+                  "api_keys",
+                  "authorized_ips",
+                  "none"
+                ],
+                "title": "InviteuserPrivilegesItemsPermissionsItems"
+              },
+              "description": "Permissions for a given feature"
+            }
+          },
+          "description": "Privileges given to the user",
+          "title": "InviteuserPrivilegesItems"
+        }
+      }
+    },
+    "required": [
+      "all_features_access",
+      "email",
+      "privileges"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "credit_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Credit note"
+        },
+        "invoice_id": {
+          "type": "string",
+          "description": "Invoice id"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the API operation."
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "User_EditUserPermission_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/organization/user/update/permissions",
+      "body_template": {
+        "all_features_access": "{{all_features_access}}",
+        "email": "{{email}}",
+        "privileges": "{{privileges}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#user_EditUserPermission",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

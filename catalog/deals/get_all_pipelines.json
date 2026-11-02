@@ -1,0 +1,69 @@
+{
+  "id": "deals.get_all_pipelines",
+  "name": "Get all pipelines",
+  "category": "deals",
+  "area": "sales-crm",
+  "description": "Get all pipelines. Retrieve the list of all deal pipelines configured for your account, including each pipeline''s stages and settings. If no pipelines have been configured yet, a default pipeline is automatically created and returned.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pipeline": {
+            "type": "string",
+            "description": "Pipeline id"
+          },
+          "pipeline_name": {
+            "type": "string",
+            "description": "Pipeline Name"
+          },
+          "stages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Stage id"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Stage name"
+                }
+              },
+              "description": "Stage details",
+              "title": "PipelineStagesItems"
+            },
+            "description": "List of pipeline stages"
+          }
+        },
+        "description": "Pipeline details with stages",
+        "title": "Pipeline"
+      },
+      "description": "List of pipeline",
+      "title": "Pipelines"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/crm/pipeline/details/all"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#deals_getAllPipelines",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

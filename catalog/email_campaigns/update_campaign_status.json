@@ -1,0 +1,62 @@
+{
+  "id": "email_campaigns.update_campaign_status",
+  "name": "Update an email campaign status",
+  "category": "email_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Update an email campaign status. Update the status of an email campaign, such as suspending, archiving, or replicating it. Available status values include suspended, archive, darchive, sent, queued, replicate, replicateTemplate, cancel, and draft. Note that the replicateTemplate status is only available for template type campaigns.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the campaign"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "suspended",
+          "archive",
+          "darchive",
+          "sent",
+          "queued",
+          "replicate",
+          "replicateTemplate",
+          "cancel",
+          "draft"
+        ],
+        "description": "Note:- **replicateTemplate** status will be available **only for template type campaigns.**\n",
+        "title": "UpdateCampaignStatusStatus"
+      }
+    },
+    "required": [
+      "campaignId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/emailCampaigns/{{campaignId}}/status",
+      "body_template": {
+        "status": "{{status}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#emailCampaigns_updateCampaignStatus",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

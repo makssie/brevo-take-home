@@ -1,0 +1,55 @@
+{
+  "id": "transactional_emails.delete_hardbounces",
+  "name": "Delete hardbounces",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Delete hardbounces. Delete hardbounces. To use carefully (e.g. in case of temporary ISP failures)",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "contactEmail": {
+        "type": "string",
+        "format": "email",
+        "description": "Target a specific email address"
+      },
+      "endDate": {
+        "type": "string",
+        "description": "Ending date (YYYY-MM-DD) of the time period for deletion. The hardbounces until this date will be deleted. Must be greater than or equal to the startDate"
+      },
+      "startDate": {
+        "type": "string",
+        "description": "Starting date (YYYY-MM-DD) of the time period for deletion. The hardbounces occurred after this date will be deleted. Must be less than or equal to the endDate"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "description": "Empty response body",
+      "title": "Transactional emails_deleteHardbounces_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/smtp/deleteHardbounces",
+      "body_template": {
+        "contactEmail": "{{contactEmail}}",
+        "endDate": "{{endDate}}",
+        "startDate": "{{startDate}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_deleteHardbounces",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

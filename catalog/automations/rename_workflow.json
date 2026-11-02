@@ -1,0 +1,40 @@
+{
+  "id": "automations.rename_workflow",
+  "name": "Rename an automation",
+  "category": "automations",
+  "area": "web-app-internal",
+  "description": "Rename an automation from the row menu on the Automations page.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "name": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "name"
+    ]
+  },
+  "outputs": {},
+  "execution": {
+    "method": "ui_only",
+    "ui_steps": [
+      "Open Automations > Workflows.",
+      "Open the row's three-dot menu.",
+      "Click 'Rename'.",
+      "Enter the new name and confirm."
+    ]
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "observed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Option seen in the UI menu. Not executed."
+  }
+}

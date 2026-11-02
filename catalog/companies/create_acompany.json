@@ -1,0 +1,86 @@
+{
+  "id": "companies.create_acompany",
+  "name": "Create a company",
+  "category": "companies",
+  "area": "sales-crm",
+  "description": "Create a company. Create a new CRM company with the specified name, attributes, and optional associations to contacts and deals. The company name is required, and you can optionally provide a country code when a phone number attribute is included.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "attributes": {
+        "type": "object",
+        "properties": {},
+        "description": "Attributes for company creation",
+        "title": "CompaniesPostRequestBodyContentApplicationJsonSchemaAttributes"
+      },
+      "countryCode": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Country code if phone_number is passed in attributes."
+      },
+      "linkedContactsIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Contact ids to be linked with company"
+      },
+      "linkedDealsIds": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "objectID"
+        },
+        "description": "Deal ids to be linked with company"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of company"
+      }
+    },
+    "required": [
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique company id"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "description": "Created company id",
+      "title": "Companies_createACompany_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/companies",
+      "body_template": {
+        "attributes": "{{attributes}}",
+        "countryCode": "{{countryCode}}",
+        "linkedContactsIds": "{{linkedContactsIds}}",
+        "linkedDealsIds": "{{linkedDealsIds}}",
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#companies_createACompany",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

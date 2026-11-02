@@ -1,0 +1,120 @@
+{
+  "id": "reward.complete_redeem_transaction",
+  "name": "Complete redeem voucher request",
+  "category": "reward",
+  "area": "loyalty",
+  "description": "Complete redeem voucher request. Completes voucher redeem request.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "tid": {
+        "type": "string",
+        "description": "Redeem transaction ID"
+      }
+    },
+    "required": [
+      "pid",
+      "tid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "cancelledAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption was cancelled"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption was completed"
+        },
+        "contactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier for the contact"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption was created"
+        },
+        "debitTransactionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the debit transaction"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption expires"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the redemption"
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the loyalty program"
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "Any type"
+          },
+          "description": "Additional metadata associated with the redemption"
+        },
+        "rejectReason": {
+          "type": "string",
+          "description": "Reason for rejection if the redemption was rejected"
+        },
+        "rejectedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption was rejected"
+        },
+        "rewardAttributionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the reward attribution"
+        },
+        "status": {
+          "type": "string",
+          "description": "Current status of the redemption"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the redemption was last updated"
+        }
+      },
+      "title": "redeem"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/offer/programs/{{pid}}/rewards/redeem/{{tid}}/complete"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#reward_completeRedeemTransaction",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "whats_app_campaigns.delete_whats_app_campaign",
+  "name": "Delete a WhatsApp campaign",
+  "category": "whats_app_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Delete a WhatsApp campaign. Delete a WhatsApp campaign by its campaign ID. The campaign must exist; if the campaign ID is not found, a 404 error is returned. This action is permanent and cannot be undone.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "id of the campaign"
+      }
+    },
+    "required": [
+      "campaignId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/whatsappCampaigns/{{campaignId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#whatsAppCampaigns_deleteWhatsAppCampaign",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

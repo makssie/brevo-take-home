@@ -1,0 +1,77 @@
+{
+  "id": "coupons.create_coupon_collection",
+  "name": "Create а coupon collection",
+  "category": "coupons",
+  "area": "ecommerce",
+  "description": "Create а coupon collection. Create a new coupon collection with a name and a default coupon value. You can optionally set an expiration date in RFC3339 format and configure alert thresholds to receive email notifications when remaining coupons or remaining days before expiration fall below a specified number. The collection ID is auto-generated as a UUID and returned in the response.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "defaultCoupon": {
+        "type": "string",
+        "description": "Default coupons collection name"
+      },
+      "expirationDate": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Specify an expiration date for the coupon collection in RFC3339 format. Use null to remove the expiration date."
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the coupons collection"
+      },
+      "remainingCouponsAlert": {
+        "type": "integer",
+        "description": "Send a notification alert (email) when the remaining coupons count is equal or fall bellow this number. Use null to disable alerts."
+      },
+      "remainingDaysAlert": {
+        "type": "integer",
+        "description": "Send a notification alert (email) when the remaining days until the expiration date are equal or fall bellow this number. Use null to disable alerts."
+      }
+    },
+    "required": [
+      "defaultCoupon",
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuidv4",
+          "description": "The id of the created collection"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "Coupons_createCouponCollection_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/couponCollections",
+      "body_template": {
+        "defaultCoupon": "{{defaultCoupon}}",
+        "expirationDate": "{{expirationDate}}",
+        "name": "{{name}}",
+        "remainingCouponsAlert": "{{remainingCouponsAlert}}",
+        "remainingDaysAlert": "{{remainingDaysAlert}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#coupons_createCouponCollection",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

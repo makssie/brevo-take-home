@@ -1,0 +1,57 @@
+{
+  "id": "transactional_emails.send_test_template",
+  "name": "Send a template to your test list",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Send a template to your test list. Send a test email of the specified transactional template to one or more recipients. Provide an array of email addresses in the `emailTo` field; if left empty, the test mail is sent to your entire test list. You can send a maximum of 50 test emails per day, and all provided email addresses must be valid.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "templateId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the template"
+      },
+      "emailTo": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "email"
+        },
+        "description": "List of the email addresses of the recipients whom you wish to send the test mail. _If left empty, the test mail will be sent to your entire test list. You can not send more than 50 test emails per day_.\n"
+      }
+    },
+    "required": [
+      "templateId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/smtp/templates/{{templateId}}/sendTest",
+      "body_template": {
+        "emailTo": "{{emailTo}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "side_effects": [
+    "Sends real messages to recipients and consumes plan quota. Cannot be undone."
+  ],
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_sendTestTemplate",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

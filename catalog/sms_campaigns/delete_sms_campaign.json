@@ -1,0 +1,43 @@
+{
+  "id": "sms_campaigns.delete_sms_campaign",
+  "name": "Delete an SMS campaign",
+  "category": "sms_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Delete an SMS campaign. Delete an SMS campaign by its campaign ID. Only campaigns that have not been scheduled or sent can be deleted; attempting to delete a campaign that is queued, in process, or has been sent with recipients will return a 403 permission denied error.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "id of the SMS campaign"
+      }
+    },
+    "required": [
+      "campaignId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/smsCampaigns/{{campaignId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#smsCampaigns_deleteSmsCampaign",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

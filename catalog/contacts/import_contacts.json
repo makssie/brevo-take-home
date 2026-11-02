@@ -1,0 +1,150 @@
+{
+  "id": "contacts.import_contacts",
+  "name": "Import contacts",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Import contacts. It returns the background process ID which on completion calls the notify URL that you have set in the input. **Note**: - Any contact attribute that doesn't exist in your account will be ignored at import end.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "disableNotification": {
+        "type": "boolean",
+        "default": false,
+        "description": "To disable email notification"
+      },
+      "emailBlacklist": {
+        "type": "boolean",
+        "default": false,
+        "description": "To blacklist all the contacts for email"
+      },
+      "emptyContactsAttributes": {
+        "type": "boolean",
+        "default": false,
+        "description": "To facilitate the choice to erase any attribute of the existing contacts with empty value. emptyContactsAttributes = true means the empty fields in your import will erase any attribute that currently contain data in Brevo, & emptyContactsAttributes = false means the empty fields will not affect your existing data ( **only available if `updateExistingContacts` set to true **)\n"
+      },
+      "fileBody": {
+        "type": "string",
+        "description": "**Mandatory if fileUrl and jsonBody is not defined.** CSV content to be imported. Use semicolon to separate multiple attributes. **Maximum allowed file body size is 10MB** . However we recommend a safe limit of around 8 MB to avoid the issues caused due to increase of file body size while parsing. Please use fileUrl instead to import bigger files.\n"
+      },
+      "fileUrl": {
+        "type": "string",
+        "format": "url",
+        "description": "**Mandatory if fileBody and jsonBody is not defined.** URL of the file to be imported (**no local file**). Possible file formats: #### .txt, .csv, .json\n"
+      },
+      "jsonBody": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "attributes": {
+              "type": "object",
+              "additionalProperties": {
+                "description": "Any type"
+              },
+              "description": "List of attributes to be imported"
+            },
+            "email": {
+              "type": "string"
+            }
+          },
+          "title": "ContactsImportPostRequestBodyContentApplicationJsonSchemaJsonBodyItems"
+        },
+        "description": "**Mandatory if fileUrl and fileBody is not defined.** JSON content to be imported. **Maximum allowed json body size is 10MB** . However we recommend a safe limit of around 8 MB to avoid the issues caused due to increase of json body size while parsing. Please use fileUrl instead to import bigger files.\n"
+      },
+      "listIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "**Mandatory if newList is not defined.** Ids of the lists in which the contacts shall be imported. For example, **[2, 4, 7]**.\n"
+      },
+      "consentGroupIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "**Optional.** Ids of the consent groups to which all imported contacts will be added. Requires consent groups to be enabled for the organisation. For example, **[1, 3]**.\n"
+      },
+      "newList": {
+        "type": "object",
+        "properties": {
+          "folderId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Id of the folder where this new list shall be created. **Mandatory if listName is not empty**\n"
+          },
+          "listName": {
+            "type": "string",
+            "description": "List with listName will be created first and users will be imported in it. **Mandatory if listIds is empty**.\n"
+          }
+        },
+        "description": "To create a new list and import the contacts into it, pass the listName and an optional folderId.",
+        "title": "ContactsImportPostRequestBodyContentApplicationJsonSchemaNewList"
+      },
+      "notifyUrl": {
+        "type": "string",
+        "format": "url",
+        "description": "URL that will be called once the import process is finished. For reference, https://help.brevo.com/hc/en-us/articles/360007666479"
+      },
+      "smsBlacklist": {
+        "type": "boolean",
+        "default": false,
+        "description": "To blacklist all the contacts for sms"
+      },
+      "updateExistingContacts": {
+        "type": "boolean",
+        "default": true,
+        "description": "To facilitate the choice to update the existing contacts"
+      }
+    }
+  },
+  "outputs": {
+    "status": 202,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "processId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Id of the process created"
+        }
+      },
+      "required": [
+        "processId"
+      ],
+      "title": "Contacts_importContacts_Response_202"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/contacts/import",
+      "body_template": {
+        "disableNotification": "{{disableNotification}}",
+        "emailBlacklist": "{{emailBlacklist}}",
+        "emptyContactsAttributes": "{{emptyContactsAttributes}}",
+        "fileBody": "{{fileBody}}",
+        "fileUrl": "{{fileUrl}}",
+        "jsonBody": "{{jsonBody}}",
+        "listIds": "{{listIds}}",
+        "consentGroupIds": "{{consentGroupIds}}",
+        "newList": "{{newList}}",
+        "notifyUrl": "{{notifyUrl}}",
+        "smsBlacklist": "{{smsBlacklist}}",
+        "updateExistingContacts": "{{updateExistingContacts}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_importContacts",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

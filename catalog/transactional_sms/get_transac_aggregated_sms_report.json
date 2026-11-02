@@ -1,0 +1,114 @@
+{
+  "id": "transactional_sms.get_transac_aggregated_sms_report",
+  "name": "Get your SMS activity aggregated over a period of time",
+  "category": "transactional_sms",
+  "area": "transactional-sms",
+  "description": "Get your SMS activity aggregated over a period of time. Retrieve an aggregated report of your transactional SMS activity over a specified time period, including counts for requests, delivered, hard bounces, soft bounces, blocked, unsubscribed, replied, accepted, rejected, and skipped messages. Filter by date range using `startDate` and `endDate` (both required together, YYYY-MM-DD format) or by a number of past `days` (not compatible with date range). You can further narrow results by `tag`. If no…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) of the report"
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) of the report"
+      },
+      "days": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Number of days in the past including today (positive integer). **Not compatible with startDate and endDate**"
+      },
+      "tag": {
+        "type": "string",
+        "description": "Filter on a tag"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "accepted": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of accepted SMS for the timeframe"
+        },
+        "blocked": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of blocked contact for the timeframe"
+        },
+        "delivered": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of delivered SMS for the timeframe"
+        },
+        "hardBounces": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of hardbounces for the timeframe"
+        },
+        "range": {
+          "type": "string",
+          "description": "Time frame of the report"
+        },
+        "rejected": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of rejected SMS for the timeframe"
+        },
+        "replied": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of answered SMS for the timeframe"
+        },
+        "requests": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of requests for the timeframe"
+        },
+        "skipped": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of skipped SMS for the timeframe"
+        },
+        "softBounces": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of softbounces for the timeframe"
+        },
+        "unsubscribed": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of unsubscription for the timeframe"
+        }
+      },
+      "title": "Transactional SMS_getTransacAggregatedSmsReport_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/transactionalSMS/statistics/aggregatedReport",
+      "query_params": [
+        "startDate",
+        "endDate",
+        "days",
+        "tag"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/transactional-sms.json#transactionalSms_getTransacAggregatedSmsReport",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

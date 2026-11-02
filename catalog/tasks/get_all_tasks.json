@@ -1,0 +1,202 @@
+{
+  "id": "tasks.get_all_tasks",
+  "name": "Get all tasks",
+  "category": "tasks",
+  "area": "sales-crm",
+  "description": "Get all tasks. Retrieve a paginated list of CRM tasks with optional filtering by task type, status, date range, assignee, and linked entities (contacts, deals, companies). Results are sorted by creation date in descending order by default, with a default limit of 50 tasks per page.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "filter[type]": {
+        "type": "string",
+        "description": "Filter by task type (ID)"
+      },
+      "filter[status]": {
+        "type": "string",
+        "enum": [
+          "done",
+          "undone"
+        ],
+        "title": "CrmTasksGetParametersFilterStatus",
+        "description": "Filter by task status"
+      },
+      "filter[date]": {
+        "type": "string",
+        "enum": [
+          "overdue",
+          "today",
+          "tomorrow",
+          "week",
+          "range"
+        ],
+        "title": "CrmTasksGetParametersFilterDate",
+        "description": "Filter by date"
+      },
+      "filter[assignTo]": {
+        "type": "string",
+        "description": "Filter by the \"assignTo\" ID. You can utilize account emails for the \"assignTo\" attribute."
+      },
+      "filter[contacts]": {
+        "type": "string",
+        "description": "Filter by contact ids"
+      },
+      "filter[deals]": {
+        "type": "string",
+        "description": "Filter by deals ids"
+      },
+      "filter[companies]": {
+        "type": "string",
+        "description": "Filter by companies ids"
+      },
+      "dateFrom": {
+        "type": "integer",
+        "description": "dateFrom to date range filter type (timestamp in milliseconds)"
+      },
+      "dateTo": {
+        "type": "integer",
+        "description": "dateTo to date range filter type (timestamp in milliseconds)"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Index of the first document of the page"
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "default": 50,
+        "description": "Number of documents per page"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "title": "CrmTasksGetParametersSort",
+        "description": "Sort the results in the ascending/descending order. Default order is **descending** by creation if `sort` is not passed"
+      },
+      "sortBy": {
+        "type": "string",
+        "description": "The field used to sort field names."
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique task id"
+              },
+              "taskTypeId": {
+                "type": "string",
+                "description": "Id for type of task e.g Call / Email / Meeting etc."
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of task"
+              },
+              "companiesIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Companies ids for companies a task is linked to"
+              },
+              "dealsIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Deal ids for deals a task is linked to"
+              },
+              "contactsIds": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "Contact ids for contacts linked to this task"
+              },
+              "assignToId": {
+                "type": "string",
+                "description": "Account id of the user assigned to this task"
+              },
+              "date": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Task due date and time"
+              },
+              "notes": {
+                "type": "string",
+                "description": "Notes added to a task"
+              },
+              "done": {
+                "type": "boolean",
+                "description": "Whether the task is marked as done"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Task creation date/time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Task last update date/time"
+              }
+            },
+            "required": [
+              "taskTypeId",
+              "name",
+              "date"
+            ],
+            "description": "Task Details",
+            "title": "Task"
+          },
+          "description": "List of tasks"
+        }
+      },
+      "description": "List of tasks",
+      "title": "Tasks_getAllTasks_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/crm/tasks",
+      "query_params": [
+        "filter[type]",
+        "filter[status]",
+        "filter[date]",
+        "filter[assignTo]",
+        "filter[contacts]",
+        "filter[deals]",
+        "filter[companies]",
+        "dateFrom",
+        "dateTo",
+        "offset",
+        "limit",
+        "sort",
+        "sortBy"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#tasks_getAllTasks",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

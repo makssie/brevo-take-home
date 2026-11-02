@@ -1,0 +1,144 @@
+{
+  "id": "webhooks.get_webhooks",
+  "name": "Get all webhooks",
+  "category": "webhooks",
+  "area": "accounts-and-settings",
+  "description": "Get all webhooks. Retrieves all webhooks from your Brevo account with filtering and sorting options. Use this to: - Monitor webhook configurations and event handling - List webhooks by type (transactional, marketing, inbound) - Review webhook endpoints and authentication - Track webhook creation and modification history - Audit webhook event subscriptions Key information returned: - Complete webhook details and configuration - Event types and channel…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "marketing",
+          "transactional",
+          "inbound"
+        ],
+        "default": "transactional",
+        "title": "WebhooksGetParametersType",
+        "description": "Filter on webhook type"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "WebhooksGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of webhook creation"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "webhooks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "auth": {
+                "type": "object",
+                "properties": {},
+                "description": "Authentication header to be send with the webhook requests",
+                "title": "GetWebhookAuth"
+              },
+              "batched": {
+                "type": "boolean",
+                "description": "Batching configuration of the webhook, we send batched webhooks if its\ntrue"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Creation UTC date-time of the webhook (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the webhook"
+              },
+              "events": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "headers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {},
+                  "description": "Headers send with the requests to the webhook",
+                  "title": "GetWebhookHeadersItems"
+                }
+              },
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "ID of the webhook"
+              },
+              "modifiedAt": {
+                "type": "string",
+                "description": "Last modification UTC date-time of the webhook (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "marketing",
+                  "transactional",
+                  "inbound"
+                ],
+                "description": "Type of webhook (marketing, transactional, or inbound)",
+                "title": "GetWebhookType"
+              },
+              "domain": {
+                "type": "string",
+                "description": "Inbound domain of the webhook, only returned for inbound type webhooks"
+              },
+              "url": {
+                "type": "string",
+                "format": "url",
+                "description": "URL of the webhook"
+              }
+            },
+            "required": [
+              "createdAt",
+              "description",
+              "events",
+              "id",
+              "modifiedAt",
+              "type",
+              "url"
+            ],
+            "title": "getWebhook"
+          }
+        }
+      },
+      "required": [
+        "webhooks"
+      ],
+      "title": "Webhooks_getWebhooks_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/webhooks",
+      "query_params": [
+        "type",
+        "sort"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#webhooks_getWebhooks",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "id": "ecommerce.get_product_info",
+  "name": "Get a product's details",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Get a product's details. Retrieve the full details of a single ecommerce product by its unique ID. The response includes the product name, price, SKU, URL, image URLs (original and thumbnails), categories, stock level, meta information, creation and modification timestamps, and deletion status. Returns a `404` error if no product matches the provided ID.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Product ID"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "brand": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Brand of the product"
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Category ID-s of the product"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation UTC date-time of the product (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 3000,
+          "description": "Description of the product"
+        },
+        "id": {
+          "type": "string",
+          "format": "string",
+          "description": "Product ID for which you requested the details"
+        },
+        "imageUrl": {
+          "type": "string",
+          "format": "string",
+          "description": "Absolute URL to the cover image of the product"
+        },
+        "isDeleted": {
+          "type": "boolean",
+          "description": "Product deleted from the shop's database but not from Brevo"
+        },
+        "metaInfo": {
+          "type": "object",
+          "properties": {},
+          "description": "Meta data of product such as description, vendor, producer, stock level, etc.",
+          "title": "GetProductDetailsMetaInfo"
+        },
+        "modifiedAt": {
+          "type": "string",
+          "description": "Last modification UTC date-time of the product (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "name": {
+          "type": "string",
+          "format": "string",
+          "description": "Name of the product for which you requested the details"
+        },
+        "parentId": {
+          "type": "string",
+          "format": "string",
+          "description": "Parent product id of the product"
+        },
+        "price": {
+          "type": "string",
+          "title": "float",
+          "description": "Price of the product"
+        },
+        "alternativePrice": {
+          "type": "string",
+          "title": "float",
+          "description": "Alternative price of the product"
+        },
+        "s3Original": {
+          "type": "string",
+          "format": "string",
+          "description": "S3 url of original image"
+        },
+        "s3ThumbAnalytics": {
+          "type": "string",
+          "format": "string",
+          "description": "S3 thumbnail url of original image in 120x120 dimension for analytics section"
+        },
+        "s3ThumbEditor": {
+          "type": "string",
+          "format": "string",
+          "description": "S3 thumbnail url of original image in 600x400 dimension for editor section"
+        },
+        "sku": {
+          "type": "string",
+          "format": "string",
+          "description": "Product identifier from the shop"
+        },
+        "stock": {
+          "type": "number",
+          "format": "double",
+          "description": "Current stock value of the product from the shop's database"
+        },
+        "url": {
+          "type": "string",
+          "format": "string",
+          "description": "URL to the product"
+        }
+      },
+      "required": [
+        "createdAt",
+        "id",
+        "modifiedAt",
+        "name",
+        "s3ThumbAnalytics",
+        "s3ThumbEditor"
+      ],
+      "title": "getProductDetails"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/products/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_getProductInfo",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

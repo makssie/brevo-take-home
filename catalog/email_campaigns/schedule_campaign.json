@@ -1,0 +1,38 @@
+{
+  "id": "email_campaigns.schedule_campaign",
+  "name": "Schedule or send an email campaign",
+  "category": "email_campaigns",
+  "area": "web-app-internal",
+  "description": "Schedule or send a completed draft. Irreversible once emails go out: always confirm audience and content with the user first.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {},
+  "execution": {
+    "method": "ui_only",
+    "ui_steps": [
+      "Open the draft in Marketing > Campaigns.",
+      "Confirm Sender, Recipients, Subject and Design all show a green check.",
+      "Click 'Schedule' and choose a time or send now."
+    ]
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "observed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Option seen in the UI menu. Not executed. Deliberately not executed: it would send real email, and the account shows a marketing-email suspension banner."
+  },
+  "side_effects": [
+    "Sends email to the selected recipients and consumes plan quota."
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "id": "sms_campaigns.create_sms_campaign",
+  "name": "Creates an SMS campaign",
+  "category": "sms_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Creates an SMS campaign. Create a new SMS campaign with the required name, sender, and content fields. The sender name is limited to 11 alphanumeric characters or 15 numeric characters, and the content should stay within 160 characters per SMS segment. If a scheduledAt date is provided, listIds in recipients become mandatory; accounts under validation are limited to 4 total campaigns and campaigns with more than 10 recipients will be saved as draft.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "content": {
+        "type": "string",
+        "description": "Content of the message. The **maximum characters used per SMS is 160**, if used more than that, it will be counted as more than one SMS.\n"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the campaign"
+      },
+      "organisationPrefix": {
+        "type": "string",
+        "description": "A recognizable prefix will ensure your audience knows who you are. Recommended by U.S. carriers. This will be added as your Brand Name before the message content. **Prefer verifying maximum length of 160 characters including this prefix in message content to avoid multiple sending of same sms.**"
+      },
+      "recipients": {
+        "type": "object",
+        "properties": {
+          "exclusionListIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "List ids which have to be excluded from a campaign"
+          },
+          "listIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Lists Ids to send the campaign to. **REQUIRED if scheduledAt is not empty**\n"
+          }
+        },
+        "required": [
+          "listIds"
+        ],
+        "title": "SmsCampaignsPostRequestBodyContentApplicationJsonSchemaRecipients"
+      },
+      "scheduledAt": {
+        "type": "string",
+        "description": "UTC date-time on which the campaign has to run (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.**\n"
+      },
+      "sender": {
+        "type": "string",
+        "maxLength": 15,
+        "description": "Name of the sender. **The number of characters is limited to 11 for alphanumeric characters and 15 for numeric characters**\n"
+      },
+      "unicodeEnabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Format of the message. It indicates whether the content should be treated as unicode or not.\n"
+      },
+      "unsubscribeInstruction": {
+        "type": "string",
+        "description": "Instructions to unsubscribe from future communications. Recommended by U.S. carriers. Must include **STOP** keyword. This will be added as instructions after the end of message content. **Prefer verifying maximum length of 160 characters including this instructions in message content to avoid multiple sending of same sms.**"
+      }
+    },
+    "required": [
+      "content",
+      "name",
+      "sender"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the object created"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "SMS Campaigns_createSmsCampaign_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/smsCampaigns",
+      "body_template": {
+        "content": "{{content}}",
+        "name": "{{name}}",
+        "organisationPrefix": "{{organisationPrefix}}",
+        "recipients": "{{recipients}}",
+        "scheduledAt": "{{scheduledAt}}",
+        "sender": "{{sender}}",
+        "unicodeEnabled": "{{unicodeEnabled}}",
+        "unsubscribeInstruction": "{{unsubscribeInstruction}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#smsCampaigns_createSmsCampaign",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "id": "whats_app_campaigns.get_whats_app_config",
+  "name": "Get your WhatsApp API account information",
+  "category": "whats_app_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Get your WhatsApp API account information. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating WhatsApp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "businessStatus": {
+          "type": "string",
+          "description": "Verification status information of the Business account"
+        },
+        "phoneNumberNameStatus": {
+          "type": "string",
+          "enum": [
+            "APPROVED",
+            "PENDING",
+            "REJECTED"
+          ],
+          "description": "Status of the name associated with WhatsApp Phone number",
+          "title": "WhatsappCampaignsConfigGetResponsesContentApplicationJsonSchemaPhoneNumberNameStatus"
+        },
+        "phoneNumberQuality": {
+          "type": "string",
+          "enum": [
+            "GREEN",
+            "YELLOW",
+            "RED"
+          ],
+          "description": "Quality status of phone number associated with WhatsApp account. There are three quality ratings. example - **High (GREEN) , Medium (YELLOW) and Low(RED)**",
+          "title": "WhatsappCampaignsConfigGetResponsesContentApplicationJsonSchemaPhoneNumberQuality"
+        },
+        "sendingLimit": {
+          "type": "string",
+          "description": "Sending limit of the WhatsApp account"
+        },
+        "whatsappBusinessAccountId": {
+          "type": "string",
+          "description": "Id of the WhatsApp business account"
+        },
+        "whatsappBusinessAccountStatus": {
+          "type": "string",
+          "enum": [
+            "APPROVED",
+            "PENDING",
+            "REJECTED"
+          ],
+          "description": "Status information related to WhatsApp Api account",
+          "title": "WhatsappCampaignsConfigGetResponsesContentApplicationJsonSchemaWhatsappBusinessAccountStatus"
+        }
+      },
+      "title": "WhatsApp Campaigns_getWhatsAppConfig_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/whatsappCampaigns/config"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#whatsAppCampaigns_getWhatsAppConfig",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

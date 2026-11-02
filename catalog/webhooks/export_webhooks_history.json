@@ -1,0 +1,56 @@
+{
+  "id": "webhooks.export_webhooks_history",
+  "name": "Export webhook history",
+  "category": "webhooks",
+  "area": "accounts-and-settings",
+  "description": "Export webhook history. This is an enterprise feature. Contact us to activate it for your account. Submits a request to export webhook event history as a CSV file. The download link is sent to the `notifyURL` you provide in the request body. Use this endpoint to: - Export webhook event history filtered by date range, event type, or email address - Generate reports for compliance, auditing, or performance analysis - Track delivery patterns and webhook reliability over…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "body": {
+        "oneOf": [
+          {
+            "description": "Reference to WebhooksExportWebhooksHistoryRequest0"
+          }
+        ],
+        "title": "Webhooks_exportWebhooksHistory_Request"
+      }
+    }
+  },
+  "outputs": {
+    "status": 202,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "processId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Id of the process created"
+        }
+      },
+      "required": [
+        "processId"
+      ],
+      "title": "Webhooks_exportWebhooksHistory_Response_202"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/webhooks/export",
+      "body_template": {
+        "body": "{{body}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#webhooks_exportWebhooksHistory",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "id": "email_campaigns.create_campaign_draft",
+  "name": "Create an email campaign draft",
+  "category": "email_campaigns",
+  "area": "web-app-internal",
+  "description": "Create a regular email campaign in Draft state with only a name. First step of building a campaign; then set subject, recipients and content. A campaign is ready to schedule when all four parts (sender, recipients, subject, design) are complete. On the free plan A/B tests, tags and folders are paid features.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "camp_name": {
+        "type": "string",
+        "maxLength": 128
+      },
+      "folder_path": {
+        "type": "string",
+        "default": "",
+        "description": "Paid plan feature."
+      },
+      "tag_ids": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "default": [],
+        "description": "Paid plan feature."
+      }
+    },
+    "required": [
+      "camp_name"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Campaign id used by every later step."
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "POST",
+      "url": "https://email-campaigns-backend.brevo.com/email-campaign/api/regular/setup",
+      "body_template": {
+        "camp_name": "{{camp_name}}",
+        "folder_path": "{{folder_path}}",
+        "tag_ids": "{{tag_ids}}"
+      }
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Executed through the UI with request capture. Created two drafts. The web UI creates the campaign here before any other field is filled."
+  },
+  "side_effects": [
+    "Creates a draft. The sender defaults to the account owner. Nothing is sent."
+  ]
+}

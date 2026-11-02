@@ -1,0 +1,206 @@
+{
+  "id": "balance.get_balance_definition",
+  "name": "Get balance definition",
+  "category": "balance",
+  "area": "loyalty",
+  "description": "Get balance definition. Returns balance definition",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program Id"
+      },
+      "bdid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Balance Definition Id"
+      },
+      "version": {
+        "type": "string",
+        "enum": [
+          "active",
+          "draft"
+        ],
+        "default": "draft",
+        "title": "LoyaltyBalanceProgramsPidBalanceDefinitionsBdidGetParametersVersion",
+        "description": "Version"
+      }
+    },
+    "required": [
+      "pid",
+      "bdid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the balance definition."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the balance definition."
+        },
+        "description": {
+          "type": "string",
+          "description": "Short description of the balance definition."
+        },
+        "imageRef": {
+          "type": "string",
+          "format": "uri",
+          "description": "Optional image reference URL."
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "Any type"
+          },
+          "description": "Additional metadata for the balance definition."
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "POINTS",
+            "EUR",
+            "USD",
+            "MXN",
+            "GBP",
+            "INR",
+            "CAD",
+            "SGD",
+            "RON",
+            "JPY",
+            "MYR",
+            "CLP",
+            "PEN",
+            "MAD",
+            "AUD",
+            "CHF",
+            "BRL"
+          ],
+          "description": "Unit of balance measurement.",
+          "title": "BalanceDefinitionUnit"
+        },
+        "minAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Minimum allowable balance."
+        },
+        "maxAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Maximum allowable balance."
+        },
+        "maxCreditAmountLimit": {
+          "type": "number",
+          "format": "double",
+          "description": "Maximum credit allowed per operation."
+        },
+        "maxDebitAmountLimit": {
+          "type": "number",
+          "format": "double",
+          "description": "Maximum debit allowed per operation."
+        },
+        "balanceOptionAmountOvertakingStrategy": {
+          "type": "string",
+          "enum": [
+            "strict",
+            "partial"
+          ],
+          "description": "Partial enables partial credit of balance if maximum balance limit is reached. Strict enables rejection of a transaction if it will breach the max balance limit.",
+          "title": "BalanceDefinitionBalanceOptionAmountOvertakingStrategy"
+        },
+        "balanceOptionCreditRounding": {
+          "type": "string",
+          "enum": [
+            "lower",
+            "upper",
+            "natural"
+          ],
+          "description": "Rounding strategy for credit transactions.",
+          "title": "BalanceDefinitionBalanceOptionCreditRounding"
+        },
+        "balanceOptionDebitRounding": {
+          "type": "string",
+          "enum": [
+            "lower",
+            "upper",
+            "natural"
+          ],
+          "description": "Rounding strategy for debit transactions.",
+          "title": "BalanceDefinitionBalanceOptionDebitRounding"
+        },
+        "balanceAvailabilityDurationValue": {
+          "type": "integer",
+          "description": "Number of time units before the balance expires."
+        },
+        "balanceAvailabilityDurationUnit": {
+          "type": "string",
+          "enum": [
+            "day",
+            "week",
+            "month",
+            "year"
+          ],
+          "description": "Unit of time for the balance availability duration.",
+          "title": "BalanceDefinitionBalanceAvailabilityDurationUnit"
+        },
+        "balanceAvailabilityDurationModifier": {
+          "type": "string",
+          "enum": [
+            "noModification",
+            "startOfPeriod",
+            "endOfPeriod"
+          ],
+          "description": "Modifier for balance availability duration. startOfPeriod causes expiry at the start of the period, endOfPeriod at the end. noModification uses the exact duration from the credit date.",
+          "title": "BalanceDefinitionBalanceAvailabilityDurationModifier"
+        },
+        "balanceExpirationDate": {
+          "type": "string",
+          "description": "Fixed expiration date in dd/mm format. The balance expires when this date next appears in the calendar. Only one of balanceExpirationDate or balance availability duration fields can be used."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of balance definition creation."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of the last update."
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of balance definition deletion (nullable)."
+        }
+      },
+      "title": "balanceDefinition"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/balance/programs/{{pid}}/balance-definitions/{{bdid}}",
+      "query_params": [
+        "version"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#balance_getBalanceDefinition",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

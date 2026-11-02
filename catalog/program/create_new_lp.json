@@ -1,0 +1,135 @@
+{
+  "id": "program.create_new_lp",
+  "name": "Create loyalty program",
+  "category": "program",
+  "area": "loyalty",
+  "description": "Create loyalty program. Creates loyalty program",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "description": {
+        "type": "string",
+        "maxLength": 256,
+        "description": "Optional description of the loyalty program (max 256 chars)."
+      },
+      "documentId": {
+        "type": "string",
+        "description": "Optional unique document ID."
+      },
+      "meta": {
+        "type": "object",
+        "additionalProperties": {
+          "description": "Any type"
+        },
+        "description": "Optional metadata related to the loyalty program."
+      },
+      "name": {
+        "type": "string",
+        "maxLength": 128,
+        "description": "Required name of the loyalty program (max 128 chars)."
+      }
+    },
+    "required": [
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Loyalty Program unique identifier."
+        },
+        "name": {
+          "type": "string",
+          "description": "Loyalty Program name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Loyalty Program description."
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "Any type"
+          },
+          "description": "Loyalty Program metadata."
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "inactive",
+            "active",
+            "draft"
+          ],
+          "description": "Current state of the loyalty program.",
+          "title": "LoyaltyProgramState"
+        },
+        "subscriptionPoolId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Loyalty Program subscription pool ID."
+        },
+        "subscriptionGeneratorId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Loyalty Program subscription generator ID."
+        },
+        "pattern": {
+          "type": "string",
+          "description": "Subscription code pattern."
+        },
+        "codeCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of available subscription codes."
+        },
+        "documentId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Associated document identifier."
+        },
+        "birthdayAttribute": {
+          "type": "string",
+          "description": "Contact attribute name used for birthday tracking."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the loyalty program was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the loyalty program was last modified."
+        }
+      },
+      "title": "loyaltyProgram"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/config/programs",
+      "body_template": {
+        "description": "{{description}}",
+        "documentId": "{{documentId}}",
+        "meta": "{{meta}}",
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#program_createNewLP",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

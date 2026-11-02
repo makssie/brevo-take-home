@@ -1,0 +1,55 @@
+{
+  "id": "master_account.dissociate_an_ip_to_sub_accounts",
+  "name": "Dissociate an IP to sub-accounts",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Dissociate an IP to sub-accounts. This endpoint allows to dissociate an IP from sub-accounts",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "ids": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Pass the list of sub-account Ids to be dissociated from the IP\naddress"
+      },
+      "ip": {
+        "type": "string",
+        "description": "IP address"
+      }
+    },
+    "required": [
+      "ids",
+      "ip"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/corporate/subAccount/ip/dissociate",
+      "body_template": {
+        "ids": "{{ids}}",
+        "ip": "{{ip}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_dissociateAnIpToSubAccounts",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

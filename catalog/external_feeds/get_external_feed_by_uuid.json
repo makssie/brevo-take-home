@@ -1,0 +1,145 @@
+{
+  "id": "external_feeds.get_external_feed_by_uuid",
+  "name": "Get external feed details",
+  "category": "external_feeds",
+  "area": "accounts-and-settings",
+  "description": "Get external feed details. Retrieves details of a specific external feed by its UUID. **Use this to:** - Get complete configuration of an external feed - Check feed authentication settings - Review feed personalization options - Verify feed URL and parameters - Monitor feed modification history **Key information returned:** - Complete feed configuration and settings - Authentication credentials and headers - Personalization and fallback settings - Creation and…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "uuid": {
+        "type": "string",
+        "format": "uuidv4",
+        "description": "UUID of the feed to fetch"
+      }
+    },
+    "required": [
+      "uuid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuidv4",
+          "description": "Unique identifier of the feed"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the feed"
+        },
+        "url": {
+          "type": "string",
+          "format": "url",
+          "description": "URL of the external data source"
+        },
+        "authType": {
+          "type": "string",
+          "enum": [
+            "basic",
+            "token",
+            "noAuth"
+          ],
+          "description": "Authentication type for accessing the feed",
+          "title": "FeedsUuidGetResponsesContentApplicationJsonSchemaAuthType"
+        },
+        "username": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Username for basic authentication. Only returned when authType is 'basic'. Excluded from response when authType is 'token'."
+        },
+        "password": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Password for basic authentication. Only returned when authType is 'basic'. Excluded from response when authType is 'token'."
+        },
+        "token": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Token for token-based authentication. Only returned when authType is 'token'. Excluded from response when authType is 'basic' or 'noAuth'."
+        },
+        "headers": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Header name"
+              },
+              "value": {
+                "type": "string",
+                "description": "Header value"
+              }
+            },
+            "required": [
+              "name",
+              "value"
+            ],
+            "title": "FeedsUuidGetResponsesContentApplicationJsonSchemaHeadersItems"
+          },
+          "description": "Custom HTTP headers for the feed request"
+        },
+        "maxRetries": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Maximum number of retry attempts for failed requests"
+        },
+        "cache": {
+          "type": "boolean",
+          "description": "Whether to cache the feed response"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Feed creation timestamp"
+        },
+        "modifiedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Feed last modification timestamp"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "url",
+        "authType",
+        "maxRetries",
+        "cache",
+        "createdAt",
+        "modifiedAt"
+      ],
+      "title": "External Feeds_getExternalFeedByUUID_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/feeds/{{uuid}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#externalFeeds_getExternalFeedByUUID",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "id": "transactional_emails.get_transac_blocked_contacts",
+  "name": "Get the list of blocked or unsubscribed transactional contacts",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Get the list of blocked or unsubscribed transactional contacts. Retrieve a paginated list of transactional contacts that have been blocked or unsubscribed, along with the reason for blocking (e.g. hard bounce, admin blocked, spam complaint, or unsubscription via email/API/Marketing Automation). Both `startDate` and `endDate` must be provided together when filtering by date range, and neither date can be in the future. Results default to 50 per page (max 100) and are sorted in descending order of record…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) from which you want to fetch the blocked or unsubscribed contacts"
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) till which you want to fetch the blocked or unsubscribed contacts"
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 100,
+        "default": 50,
+        "description": "Number of documents returned per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document on the page"
+      },
+      "senders": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Comma separated list of emails of the senders from which contacts are blocked or unsubscribed"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "SmtpBlockedContactsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "contacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "blockedAt": {
+                "type": "string",
+                "description": "Date when the contact was blocked or unsubscribed on"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "Email address of the blocked or unsubscribed contact"
+              },
+              "reason": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "enum": [
+                      "unsubscribedViaMA",
+                      "unsubscribedViaEmail",
+                      "adminBlocked",
+                      "unsubscribedViaApi",
+                      "hardBounce",
+                      "contactFlaggedAsSpam"
+                    ],
+                    "description": "Reason code for blocking / unsubscribing (This code is safe for comparison)",
+                    "title": "SmtpBlockedContactsGetResponsesContentApplicationJsonSchemaContactsItemsReasonCode"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Reason for blocking / unsubscribing (This string is not safe for comparison)"
+                  }
+                },
+                "description": "Reason for blocking / unsubscribing",
+                "title": "SmtpBlockedContactsGetResponsesContentApplicationJsonSchemaContactsItemsReason"
+              },
+              "senderEmail": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "email",
+                "description": "Sender email address of the blocked or unsubscribed contact"
+              }
+            },
+            "required": [
+              "blockedAt",
+              "email",
+              "reason",
+              "senderEmail"
+            ],
+            "title": "SmtpBlockedContactsGetResponsesContentApplicationJsonSchemaContactsItems"
+          }
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Count of blocked or unsubscribed contact"
+        }
+      },
+      "title": "Transactional emails_getTransacBlockedContacts_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/smtp/blockedContacts",
+      "query_params": [
+        "startDate",
+        "endDate",
+        "limit",
+        "offset",
+        "senders",
+        "sort"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getTransacBlockedContacts",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

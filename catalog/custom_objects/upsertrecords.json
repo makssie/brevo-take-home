@@ -1,0 +1,68 @@
+{
+  "id": "custom_objects.upsertrecords",
+  "name": "Create/Update object records in bulk",
+  "category": "custom_objects",
+  "area": "object-management",
+  "description": "Create/Update object records in bulk. Custom objects are only available to Enterprise plans. This feature is in beta. These are subject to change. Performs bulk create or update (upsert) operations for object records in a single asynchronous request. This endpoint is optimized for high-volume data imports and synchronization scenarios. **How Upsert Works:** - **Create**: Omit `identifiers`, or provide only `ext_id` (if it doesn't already exist). A new record is created with a…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "object_type": {
+        "type": "string",
+        "description": "Object type for the records to upsert. Must be a previously created custom object type. Only lowercase alphanumeric characters and underscores are allowed (max 32 characters)."
+      },
+      "records": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "description": "Reference to ObjectsObjectTypeBatchUpsertPostRequestBodyContentApplicationJsonSchemaRecordsItems0"
+            }
+          ],
+          "title": "ObjectsObjectTypeBatchUpsertPostRequestBodyContentApplicationJsonSchemaRecordsItems"
+        },
+        "description": "List of object records to be upsert. Each record can have attributes, identifiers, and associations."
+      }
+    },
+    "required": [
+      "object_type",
+      "records"
+    ]
+  },
+  "outputs": {
+    "status": 202,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "processId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique Id for the batch process used to track the status of the batch. **How to use this processId:**   Refer to the [Get process status API](https://developers.brevo.com/reference/get-process) to check the execution status of this batch using the returned `processId`."
+        }
+      },
+      "title": "Custom Objects_upsertrecords_Response_202"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/objects/{{object_type}}/batch/upsert",
+      "body_template": {
+        "records": "{{records}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/object-management.json#customObjects_upsertrecords",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

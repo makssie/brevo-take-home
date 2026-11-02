@@ -1,0 +1,47 @@
+{
+  "id": "tasks.get_all_task_types",
+  "name": "Get all task types",
+  "category": "tasks",
+  "area": "sales-crm",
+  "description": "Get all task types. Retrieve the list of all available task types, such as Email, Call, Meeting, Todo, Lunch, Deadline, and LinkedIn. If no task types exist yet, the default set is automatically created and returned. Use the task type ID when creating or updating tasks.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Id of task type"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of task type"
+          }
+        },
+        "title": "CrmTasktypesGetResponsesContentApplicationJsonSchemaItems"
+      }
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/crm/tasktypes"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#tasks_getAllTaskTypes",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

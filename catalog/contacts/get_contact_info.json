@@ -1,0 +1,447 @@
+{
+  "id": "contacts.get_contact_info",
+  "name": "Get a contact's details",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Get a contact's details. Follow this format when passing a \"SMS\" phone number as an attribute. Accepted Number Formats 91xxxxxxxxxx +91xxxxxxxxxx 0091xxxxxxxxxx There are 2 ways to get a contact Option 1- https://api.brevo.com/v3/contacts/{identifier} Option 2- https://api.brevo.com/v3/contacts/{identifier}?identifierType={} Option 1 only works if identifierType is email_id (for EMAIL), phone_id (for SMS) or contact_id (for ID of the contact),where you can directly…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "identifier": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "integer"
+          }
+        ],
+        "title": "ContactsIdentifierGetParametersIdentifier",
+        "description": "Email (urlencoded) OR ID of the contact OR its SMS attribute value OR EXT_ID attribute (urlencoded)"
+      },
+      "identifierType": {
+        "type": "string",
+        "enum": [
+          "email_id",
+          "phone_id",
+          "contact_id",
+          "ext_id",
+          "whatsapp_id",
+          "landline_number_id"
+        ],
+        "title": "ContactsIdentifierGetParametersIdentifierType",
+        "description": "email_id for Email, phone_id for SMS attribute, contact_id for ID of the contact, ext_id for EXT_ID attribute, whatsapp_id for WHATSAPP attribute, landline_number_id for LANDLINE_NUMBER attribute"
+      },
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be lower than equal to endDate. Must not be greater than the current date."
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be greater than equal to startDate. Must not be greater than the current date."
+      }
+    },
+    "required": [
+      "identifier"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "attributes": {
+          "type": "object",
+          "properties": {},
+          "description": "Set of attributes of the contact",
+          "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaAttributes"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation UTC date-time of the contact (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the contact for which you requested the details"
+        },
+        "emailBlacklisted": {
+          "type": "boolean",
+          "description": "Blacklist status for email campaigns (true=blacklisted, false=not blacklisted)"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the contact for which you requested the details"
+        },
+        "listIds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "listUnsubscribed": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "modifiedAt": {
+          "type": "string",
+          "description": "Last modification UTC date-time of the contact (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "smsBlacklisted": {
+          "type": "boolean",
+          "description": "Blacklist status for SMS campaigns (true=blacklisted, false=not blacklisted)"
+        },
+        "whatsappBlacklisted": {
+          "type": "boolean",
+          "description": "Blacklist status for WhatsApp campaigns (true=blacklisted, false=not blacklisted)"
+        },
+        "consentGroups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "ID of the consent group"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "subscribed",
+                  "unsubscribed"
+                ],
+                "description": "The contact's subscription status within this consent group",
+                "title": "ConsentGroupItemStatus"
+              }
+            },
+            "required": [
+              "id",
+              "status"
+            ],
+            "description": "A contact's membership status in a single consent group.",
+            "title": "ConsentGroupItem"
+          },
+          "description": "Consent groups the contact belongs to, with their subscription status. Only present when the Consent Groups feature is enabled for your account."
+        },
+        "statistics": {
+          "type": "object",
+          "properties": {
+            "clicked": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "campaignId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "ID of the campaign which generated the event"
+                  },
+                  "links": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "integer",
+                          "format": "int64",
+                          "description": "Number of clicks on this link for the campaign"
+                        },
+                        "eventTime": {
+                          "type": "string",
+                          "description": "UTC date-time of the event"
+                        },
+                        "ip": {
+                          "type": "string",
+                          "description": "IP from which the user has clicked on the link"
+                        },
+                        "url": {
+                          "type": "string",
+                          "description": "URL of the clicked link"
+                        }
+                      },
+                      "required": [
+                        "count",
+                        "eventTime",
+                        "ip",
+                        "url"
+                      ],
+                      "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsClickedItemsLinksItems"
+                    },
+                    "description": "Listing of the clicked links for the campaign"
+                  }
+                },
+                "required": [
+                  "campaignId",
+                  "links"
+                ],
+                "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsClickedItems"
+              },
+              "description": "Listing of the clicks generated by the contact"
+            },
+            "complaints": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "campaignId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "ID of the campaign which generated the event"
+                  },
+                  "eventTime": {
+                    "type": "string",
+                    "description": "UTC date-time of the event"
+                  }
+                },
+                "required": [
+                  "campaignId",
+                  "eventTime"
+                ],
+                "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsComplaintsItems"
+              },
+              "description": "Listing of the complaints generated by the contact"
+            },
+            "delivered": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "campaignId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "ID of the campaign which generated the event"
+                  },
+                  "eventTime": {
+                    "type": "string",
+                    "description": "UTC date-time of the event"
+                  }
+                },
+                "required": [
+                  "campaignId",
+                  "eventTime"
+                ],
+                "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsDeliveredItems"
+              },
+              "description": "Listing of the delivered campaign for the contact"
+            },
+            "hardBounces": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "campaignId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "ID of the campaign which generated the event"
+                  },
+                  "eventTime": {
+                    "type": "string",
+                    "description": "UTC date-time of the event"
+                  }
+                },
+                "required": [
+                  "campaignId",
+                  "eventTime"
+                ],
+                "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsHardBouncesItems"
+              },
+              "description": "Listing of the hard bounces generated by the contact"
+            },
+            "messagesSent": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "campaignId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "ID of the campaign which generated the event"
+                  },
+                  "eventTime": {
+                    "type": "string",
+                    "description": "UTC date-time of the event"
+                  }
+                },
+                "required": [
+                  "campaignId",
+                  "eventTime"
+                ],
+                "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsMessagesSentItems"
+              },
+              "description": "Listing of the sent campaign for the contact"
+            },
+            "opened": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "campaignId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "ID of the campaign which generated the event"
+                  },
+                  "count": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Number of openings for the campaign"
+                  },
+                  "eventTime": {
+                    "type": "string",
+                    "description": "UTC date-time of the event"
+                  },
+                  "ip": {
+                    "type": "string",
+                    "description": "IP from which the user has opened the email"
+                  }
+                },
+                "required": [
+                  "campaignId",
+                  "count",
+                  "eventTime",
+                  "ip"
+                ],
+                "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsOpenedItems"
+              },
+              "description": "Listing of the openings generated by the contact"
+            },
+            "softBounces": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "campaignId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "ID of the campaign which generated the event"
+                  },
+                  "eventTime": {
+                    "type": "string",
+                    "description": "UTC date-time of the event"
+                  }
+                },
+                "required": [
+                  "campaignId",
+                  "eventTime"
+                ],
+                "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsSoftBouncesItems"
+              },
+              "description": "Listing of the soft bounces generated by the contact"
+            },
+            "transacAttributes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {},
+                "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsTransacAttributesItems"
+              },
+              "description": "Listing of the transactional attributes for the contact"
+            },
+            "unsubscriptions": {
+              "type": "object",
+              "properties": {
+                "adminUnsubscription": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "eventTime": {
+                        "type": "string",
+                        "description": "UTC date-time of the event"
+                      },
+                      "ip": {
+                        "type": "string",
+                        "description": "IP from which the user has been unsubscribed"
+                      }
+                    },
+                    "required": [
+                      "eventTime"
+                    ],
+                    "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsUnsubscriptionsAdminUnsubscriptionItems"
+                  },
+                  "description": "Contact has been unsubscribed from the administrator"
+                },
+                "userUnsubscription": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "campaignId": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "format": "int64",
+                        "description": "ID of the campaign which generated the event"
+                      },
+                      "eventTime": {
+                        "type": "string",
+                        "description": "UTC date-time of the event"
+                      },
+                      "ip": {
+                        "type": "string",
+                        "description": "IP from which the user has unsubscribed"
+                      }
+                    },
+                    "required": [
+                      "campaignId",
+                      "eventTime"
+                    ],
+                    "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsUnsubscriptionsUserUnsubscriptionItems"
+                  },
+                  "description": "Contact unsubscribe via unsubscription link in a campaign"
+                }
+              },
+              "required": [
+                "adminUnsubscription",
+                "userUnsubscription"
+              ],
+              "description": "Listing of the unsubscription for the contact",
+              "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatisticsUnsubscriptions"
+            }
+          },
+          "description": "Campaign statistics of the contact",
+          "title": "ContactsIdentifierGetResponsesContentApplicationJsonSchemaStatistics"
+        }
+      },
+      "required": [
+        "attributes",
+        "createdAt",
+        "emailBlacklisted",
+        "id",
+        "listIds",
+        "modifiedAt",
+        "smsBlacklisted",
+        "whatsappBlacklisted",
+        "statistics"
+      ],
+      "title": "Contacts_getContactInfo_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/contacts/{{identifier}}",
+      "query_params": [
+        "identifierType",
+        "startDate",
+        "endDate"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_getContactInfo",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

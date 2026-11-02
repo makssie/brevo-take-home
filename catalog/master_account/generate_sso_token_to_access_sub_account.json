@@ -1,0 +1,81 @@
+{
+  "id": "master_account.generate_sso_token_to_access_sub_account",
+  "name": "Generate SSO token to access sub-account",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Generate SSO token to access sub-account. This endpoint generates an sso token to authenticate and access a sub-account of the master using the account endpoint https://account-app.brevo.com/account/login/sub-account/sso/[token], where [token] will be replaced by the actual token.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "description": "User email of sub-account organization"
+      },
+      "id": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the sub-account organization"
+      },
+      "target": {
+        "type": "string",
+        "enum": [
+          "automation",
+          "email_campaign",
+          "contacts",
+          "landing_pages",
+          "email_transactional",
+          "senders",
+          "sms_campaign",
+          "sms_transactional"
+        ],
+        "description": "**Set target after login success** * **automation** - Redirect\nto Automation after login * **email_campaign** - Redirect to\nEmail Campaign after login * **contacts** - Redirect to Contacts\nafter login * **landing_pages** - Redirect to Landing Pages\nafter login * **email_transactional** - Redirect to Email\nTransactional after login * **senders** - Redirect to Senders\nafter login * **sms_campaign** - Redirect to Sms Campaign after\nlogin * **sms_transactional** - Redirect to Sms Transactional\nafter login",
+        "title": "CorporateSubAccountSsoTokenPostRequestBodyContentApplicationJsonSchemaTarget"
+      },
+      "url": {
+        "type": "string",
+        "description": "Set the full target URL after login success. The user will land\ndirectly on this target URL after login"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Session token, it will remain valid for 15 days."
+        }
+      },
+      "required": [
+        "token"
+      ],
+      "title": "getSsoToken"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/corporate/subAccount/ssoToken",
+      "body_template": {
+        "email": "{{email}}",
+        "id": "{{id}}",
+        "target": "{{target}}",
+        "url": "{{url}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_generateSsoTokenToAccessSubAccount",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

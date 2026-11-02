@@ -1,0 +1,158 @@
+{
+  "id": "webhooks.create_webhook",
+  "name": "Create a webhook",
+  "category": "webhooks",
+  "area": "accounts-and-settings",
+  "description": "Create a webhook. Creates a new webhook to receive real-time notifications for specified events. Use this to: - Set up event notifications for transactional or marketing emails - Configure webhook endpoints for campaign tracking - Enable real-time monitoring of email delivery status - Subscribe to contact list changes and updates - Implement custom event handling and automation Key information returned: - Created webhook ID and configuration - Success…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "auth": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Webhook authentication token"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of authentication"
+          }
+        },
+        "description": "Add authentication on webhook url",
+        "title": "WebhooksPostRequestBodyContentApplicationJsonSchemaAuth"
+      },
+      "batched": {
+        "type": "boolean",
+        "description": "To send batched webhooks"
+      },
+      "channel": {
+        "type": "string",
+        "enum": [
+          "email",
+          "sms"
+        ],
+        "default": "email",
+        "description": "Channel of the webhook",
+        "title": "WebhooksPostRequestBodyContentApplicationJsonSchemaChannel"
+      },
+      "description": {
+        "type": "string",
+        "description": "Description of the webhook"
+      },
+      "domain": {
+        "type": "string",
+        "description": "Inbound domain of webhook, required in case of event type\n`inbound`"
+      },
+      "events": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "sent",
+            "hardBounce",
+            "softBounce",
+            "blocked",
+            "spam",
+            "delivered",
+            "request",
+            "click",
+            "invalid",
+            "deferred",
+            "opened",
+            "uniqueOpened",
+            "unsubscribed",
+            "listAddition",
+            "contactUpdated",
+            "contactDeleted",
+            "inboundEmailProcessed",
+            "reply"
+          ],
+          "title": "WebhooksPostRequestBodyContentApplicationJsonSchemaEventsItems"
+        },
+        "description": "Events triggering the webhook. Required for transactional and\nmarketing types, optional for inbound type (defaults to\n`inboundEmailProcessed`). Possible values for **Transactional**\ntype webhook: `sent` OR `request`, `delivered`, `hardBounce`,\n`softBounce`, `blocked`, `spam`, `invalid`, `deferred`, `click`,\n`opened`, `uniqueOpened` and `unsubscribed`. Possible values for\n**Marketing** type webhook: `spam`, `opened`, `click`,\n`hardBounce`, `softBounce`, `unsubscribed`, `listAddition`,\n`delivered`, `contactUpdated` & `contactDeleted`. Possible values\nfor **Inbound** type webhook: `inboundEmailProcessed`."
+      },
+      "headers": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "key": {
+              "type": "string",
+              "description": "Header key name"
+            },
+            "value": {
+              "type": "string",
+              "description": "Header value"
+            }
+          },
+          "title": "WebhooksPostRequestBodyContentApplicationJsonSchemaHeadersItems"
+        },
+        "description": "Custom headers to be send with webhooks"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "transactional",
+          "marketing",
+          "inbound"
+        ],
+        "default": "transactional",
+        "description": "Type of the webhook",
+        "title": "WebhooksPostRequestBodyContentApplicationJsonSchemaType"
+      },
+      "url": {
+        "type": "string",
+        "format": "url",
+        "description": "URL of the webhook"
+      }
+    },
+    "required": [
+      "url"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the object created"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "Webhooks_createWebhook_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/webhooks",
+      "body_template": {
+        "auth": "{{auth}}",
+        "batched": "{{batched}}",
+        "channel": "{{channel}}",
+        "description": "{{description}}",
+        "domain": "{{domain}}",
+        "events": "{{events}}",
+        "headers": "{{headers}}",
+        "type": "{{type}}",
+        "url": "{{url}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#webhooks_createWebhook",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

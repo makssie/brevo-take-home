@@ -1,0 +1,54 @@
+{
+  "id": "master_account.delete_sub_account_from_group",
+  "name": "Delete sub-account from group",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Delete sub-account from group. This endpoint allows you to remove a sub-organization from a group.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "groupId": {
+        "type": "string",
+        "description": "Group id"
+      },
+      "subAccountIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "List of sub-account ids"
+      }
+    },
+    "required": [
+      "groupId",
+      "subAccountIds"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/corporate/group/unlink/{{groupId}}/subAccounts",
+      "body_template": {
+        "subAccountIds": "{{subAccountIds}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_deleteSubAccountFromGroup",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

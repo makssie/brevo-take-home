@@ -1,0 +1,212 @@
+{
+  "id": "balance.begin_transaction",
+  "name": "Create new transaction",
+  "category": "balance",
+  "area": "loyalty",
+  "description": "Create new transaction. Creates new transaction and returns information",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program Id"
+      },
+      "amount": {
+        "type": "number",
+        "format": "double",
+        "description": "Transaction amount. A positive value creates a credit transaction and a negative value creates a debit transaction (unless transactionType is explicitly provided)."
+      },
+      "transactionType": {
+        "type": "string",
+        "enum": [
+          "credit",
+          "debit"
+        ],
+        "description": "Explicit transaction type. If not provided, the type is inferred from the sign of the amount (positive = credit, negative = debit).",
+        "title": "LoyaltyBalanceProgramsPidTransactionsPostRequestBodyContentApplicationJsonSchemaTransactionType"
+      },
+      "balanceDefinitionId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Unique identifier (UUID) of the associated balance definition."
+      },
+      "contactId": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1,
+        "description": "Unique identifier of the contact involved in the transaction. Required unless `LoyaltySubscriptionId` is provided."
+      },
+      "LoyaltySubscriptionId": {
+        "type": "string",
+        "description": "Unique identifier for the loyalty subscription. Required unless `contactId` is provided."
+      },
+      "meta": {
+        "type": "object",
+        "additionalProperties": {
+          "description": "Any type"
+        },
+        "description": "Optional metadata associated with the transaction."
+      },
+      "ttl": {
+        "type": "integer",
+        "minimum": 10,
+        "description": "Time-to-live for the transaction in seconds. Must be at least 10 seconds if provided."
+      },
+      "eventTime": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Timestamp specifying when the transaction event occurred (ISO 8601 / RFC 3339 format)."
+      },
+      "autoComplete": {
+        "type": "boolean",
+        "description": "Whether the transaction should be automatically completed."
+      },
+      "balanceExpiryInMinutes": {
+        "type": "integer",
+        "minimum": 1,
+        "description": "Expiry time for the balance in minutes. Must be greater than 0 if provided. Only applicable when autoComplete is true."
+      }
+    },
+    "required": [
+      "pid",
+      "amount",
+      "balanceDefinitionId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier (UUID) of the transaction."
+        },
+        "amount": {
+          "type": "string",
+          "title": "float",
+          "description": "The transaction amount."
+        },
+        "balance": {
+          "type": "string",
+          "title": "float",
+          "description": "The contact's total balance for this balance definition after the transaction was applied. Only returned when the transaction actually updated the balance (i.e. it was completed or auto-completed)."
+        },
+        "transactionType": {
+          "type": "string",
+          "enum": [
+            "credit",
+            "debit"
+          ],
+          "description": "The type of the transaction.",
+          "title": "TransactionTransactionType"
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "Any type"
+          },
+          "description": "Optional metadata associated with the transaction."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "completed",
+            "rejected",
+            "cancelled",
+            "expired"
+          ],
+          "description": "The current status of the transaction.",
+          "title": "TransactionStatus"
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier (UUID) of the associated loyalty program."
+        },
+        "balanceDefinitionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier (UUID) of the associated balance definition."
+        },
+        "contactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier of the contact associated with the transaction."
+        },
+        "eventTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Optional timestamp indicating when the transaction event occurred (ISO 8601 format)."
+        },
+        "rejectReason": {
+          "type": "string",
+          "description": "Reason for rejection if the transaction was declined (nullable)."
+        },
+        "rejectedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the transaction was rejected (nullable)."
+        },
+        "expirationDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Expiry date of the transaction (nullable)."
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the transaction was completed (nullable)."
+        },
+        "cancelledAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the transaction was canceled (nullable)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the transaction was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the transaction was last updated."
+        }
+      },
+      "description": "Represents a transaction involving a balance, including status and timestamps.",
+      "title": "transaction"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/balance/programs/{{pid}}/transactions",
+      "body_template": {
+        "amount": "{{amount}}",
+        "transactionType": "{{transactionType}}",
+        "balanceDefinitionId": "{{balanceDefinitionId}}",
+        "contactId": "{{contactId}}",
+        "LoyaltySubscriptionId": "{{LoyaltySubscriptionId}}",
+        "meta": "{{meta}}",
+        "ttl": "{{ttl}}",
+        "eventTime": "{{eventTime}}",
+        "autoComplete": "{{autoComplete}}",
+        "balanceExpiryInMinutes": "{{balanceExpiryInMinutes}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#balance_beginTransaction",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

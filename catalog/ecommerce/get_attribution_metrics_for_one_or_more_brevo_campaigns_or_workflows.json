@@ -1,0 +1,154 @@
+{
+  "id": "ecommerce.get_attribution_metrics_for_one_or_more_brevo_campaigns_or_workflows",
+  "name": "Get attribution metrics for one or more Brevo campaigns or workflows",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Get attribution metrics for one or more Brevo campaigns or workflows. Retrieve aggregated ecommerce attribution metrics for one or more Brevo email campaigns, SMS campaigns, or automation workflows. You can optionally filter by a date range using `periodFrom` and `periodTo` in RFC3339 format. The response includes per-source metrics (orders count, revenue, and average basket) as well as aggregated totals across all requested sources.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "periodFrom": {
+        "type": "string",
+        "format": "date-time",
+        "description": "When getting metrics for a specific period, define the starting datetime in RFC3339 format"
+      },
+      "periodTo": {
+        "type": "string",
+        "format": "date-time",
+        "description": "When getting metrics for a specific period, define the end datetime in RFC3339 format"
+      },
+      "emailCampaignId[]": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "The email campaign ID(s) to get metrics for"
+      },
+      "smsCampaignId[]": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "The SMS campaign ID(s) to get metrics for"
+      },
+      "automationWorkflowEmailId[]": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "The automation workflow ID(s) to get email attribution metrics for"
+      },
+      "automationWorkflowSmsId[]": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "The automation workflow ID(s) to get SMS attribution metrics for"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "averageBasket": {
+                "type": "string",
+                "title": "float"
+              },
+              "conversionSource": {
+                "type": "string",
+                "enum": [
+                  "email_campaign",
+                  "sms_campaign",
+                  "automation_workflow_email",
+                  "automation_workflow_sms"
+                ],
+                "title": "ConversionSourceMetricsConversionSource"
+              },
+              "id": {
+                "type": "number",
+                "format": "double"
+              },
+              "ordersCount": {
+                "type": "number",
+                "format": "double"
+              },
+              "revenue": {
+                "type": "string",
+                "title": "float"
+              }
+            },
+            "required": [
+              "averageBasket",
+              "conversionSource",
+              "id",
+              "ordersCount",
+              "revenue"
+            ],
+            "title": "ConversionSourceMetrics"
+          },
+          "description": "List of conversion attribution metrics"
+        },
+        "totals": {
+          "type": "object",
+          "properties": {
+            "averageBasket": {
+              "type": "string",
+              "title": "float"
+            },
+            "ordersCount": {
+              "type": "number",
+              "format": "double"
+            },
+            "revenue": {
+              "type": "string",
+              "title": "float"
+            }
+          },
+          "required": [
+            "averageBasket",
+            "ordersCount",
+            "revenue"
+          ],
+          "description": "Attribution list aggregated totals",
+          "title": "EcommerceAttributionMetricsGetResponsesContentApplicationJsonSchemaTotals"
+        }
+      },
+      "required": [
+        "results",
+        "totals"
+      ],
+      "title": "Ecommerce_getAttributionMetricsForOneOrMoreBrevoCampaignsOrWorkflows_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/ecommerce/attribution/metrics",
+      "query_params": [
+        "periodFrom",
+        "periodTo",
+        "emailCampaignId[]",
+        "smsCampaignId[]",
+        "automationWorkflowEmailId[]",
+        "automationWorkflowSmsId[]"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_getAttributionMetricsForOneOrMoreBrevoCampaignsOrWorkflows",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

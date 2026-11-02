@@ -1,0 +1,64 @@
+{
+  "id": "automations.create_workflow",
+  "name": "Create an empty automation",
+  "category": "automations",
+  "area": "web-app-internal",
+  "description": "Create a new empty automation (workflow) in draft/inactive state. It has no trigger yet. Use as the first step of building an automation; then add a trigger with automations.add_trigger. The public API has no automation endpoints.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "workflow_name": {
+        "type": "string",
+        "default": "Automation"
+      },
+      "workflow_desc": {
+        "type": "string",
+        "default": ""
+      },
+      "multiple_trigger": {
+        "type": "boolean",
+        "default": false
+      },
+      "is_default": {
+        "type": "boolean",
+        "default": true
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "workflow_id": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "POST",
+      "url": "https://workflow-apis.brevo.com/v1/workflow/createcustom",
+      "body_template": {
+        "workflow_name": "{{workflow_name}}",
+        "workflow_desc": "{{workflow_desc}}",
+        "multiple_trigger": "{{multiple_trigger}}",
+        "is_default": "{{is_default}}"
+      }
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Executed through the UI with request capture. Created 'Automation #1' via 'Create from scratch'. Observed on the test account: a banner says it is suspended for marketing emails, so activating a workflow that sends email is expected to be blocked. Not tested."
+  },
+  "side_effects": [
+    "Creates an inactive workflow named 'Automation #<n>' (the UI ignores workflow_name and numbers it)."
+  ]
+}

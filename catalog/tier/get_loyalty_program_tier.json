@@ -1,0 +1,148 @@
+{
+  "id": "tier.get_loyalty_program_tier",
+  "name": "List tiers",
+  "category": "tier",
+  "area": "loyalty",
+  "description": "List tiers. Returns the list of tiers defined within the loyalty program.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "version": {
+        "type": "string",
+        "enum": [
+          "active",
+          "draft"
+        ],
+        "default": "draft",
+        "title": "LoyaltyTierProgramsPidTiersGetParametersVersion",
+        "description": "Select 'active' to retrieve list of all tiers which are live for clients. Select draft to retrieve list of all non deleted tiers."
+      }
+    },
+    "required": [
+      "pid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "accessConditions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "balanceDefinitionId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "Balance definition identifier"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "minimumValue": {
+                      "type": "integer",
+                      "description": "Minimum value required to access this tier"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "title": "TierAccessConditionsItems"
+                },
+                "description": "Conditions required to access this tier"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "groupId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Associated group Id"
+              },
+              "imageRef": {
+                "type": "string",
+                "description": "Tier image reference"
+              },
+              "loyaltyProgramId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Associated loyalty program Id"
+              },
+              "name": {
+                "type": "string",
+                "description": "Tier name"
+              },
+              "tierId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Tier id"
+              },
+              "tierRewards": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "rewardId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "Reward to be attributed on tier assignment"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "title": "TierTierRewardsItems"
+                },
+                "description": "Rewards associated with this tier"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "title": "tier"
+          }
+        }
+      },
+      "title": "Tier_getLoyaltyProgramTier_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/tier/programs/{{pid}}/tiers",
+      "query_params": [
+        "version"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#tier_getLoyaltyProgramTier",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

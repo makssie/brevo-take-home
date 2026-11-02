@@ -1,0 +1,156 @@
+{
+  "id": "ecommerce.create_update_batch_products",
+  "name": "Create products in batch",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Create products in batch. Create or update multiple ecommerce products in a single request. The `products` array accepts up to 100 product objects for creation (or up to 1000 when `updateEnabled` is `true` and the account has an increased limit). Each product requires a unique `id` and `name` (name is mandatory for creation only). When `updateEnabled` is `false`, all products are inserted as new; if any ID already exists, a `400` error is returned. When `updateEnabled`…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "products": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "brand": {
+              "type": "string",
+              "maxLength": 128,
+              "description": "Brand of the product"
+            },
+            "categories": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Category ID-s of the product"
+            },
+            "deletedAt": {
+              "type": "string",
+              "description": "UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) of the product deleted from the shop's database"
+            },
+            "description": {
+              "type": "string",
+              "maxLength": 3000,
+              "description": "Description of the product"
+            },
+            "id": {
+              "type": "string",
+              "format": "string",
+              "description": "Product ID for which you requested the details"
+            },
+            "imageUrl": {
+              "type": "string",
+              "format": "string",
+              "description": "Absolute URL to the cover image of the product"
+            },
+            "isDeleted": {
+              "type": "boolean",
+              "description": "product deleted from the shop's database"
+            },
+            "metaInfo": {
+              "type": "object",
+              "additionalProperties": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ],
+                "title": "ProductsBatchPostRequestBodyContentApplicationJsonSchemaProductsItemsMetaInfo"
+              },
+              "description": "Meta data of product such as description, vendor, producer, stock level. The total characters of cumulative metaInfo shall not exceed **20000 characters**."
+            },
+            "name": {
+              "type": "string",
+              "description": "**Mandatory in case of creation**. Name of the product, as displayed in the shop"
+            },
+            "parentId": {
+              "type": "string",
+              "format": "string",
+              "description": "Parent product id of the product"
+            },
+            "price": {
+              "type": "string",
+              "title": "float",
+              "description": "Price of the product"
+            },
+            "alternativePrice": {
+              "type": "string",
+              "title": "float",
+              "description": "Alternative price of the product"
+            },
+            "sku": {
+              "type": "string",
+              "format": "string",
+              "description": "Product identifier from the shop"
+            },
+            "stock": {
+              "type": "number",
+              "format": "double",
+              "description": "Current stock value of the product from the shop's database"
+            },
+            "url": {
+              "type": "string",
+              "format": "string",
+              "description": "URL to the product"
+            }
+          },
+          "required": [
+            "id",
+            "name"
+          ],
+          "title": "ProductsBatchPostRequestBodyContentApplicationJsonSchemaProductsItems"
+        },
+        "description": "array of products objects"
+      },
+      "updateEnabled": {
+        "type": "boolean",
+        "description": "Facilitate to update the existing products in the same request (updateEnabled = true)"
+      }
+    },
+    "required": [
+      "products"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "createdCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of the new created products"
+        },
+        "updatedCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of the existing products updated"
+        }
+      },
+      "title": "Ecommerce_createUpdateBatchProducts_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/products/batch",
+      "body_template": {
+        "products": "{{products}}",
+        "updateEnabled": "{{updateEnabled}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_createUpdateBatchProducts",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "id": "ecommerce.get_attributed_product_sales_for_asingle_brevo_campaign_or_workflow",
+  "name": "Get attributed product sales for a single Brevo campaign or workflow",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Get attributed product sales for a single Brevo campaign or workflow. Retrieve the list of products whose sales have been attributed to a specific Brevo campaign or automation workflow. Each product entry includes its ID, name, SKU, image URL, product URL, price, revenue, and orders count. The conversion source type must be one of `email_campaign`, `sms_campaign`, `automation_workflow_email`, or `automation_workflow_sms`.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "conversionSource": {
+        "type": "string",
+        "enum": [
+          "email_campaign",
+          "sms_campaign",
+          "automation_workflow_email",
+          "automation_workflow_sms"
+        ],
+        "title": "EcommerceAttributionProductsConversionSourceConversionSourceIdGetParametersConversionSource",
+        "description": "The Brevo campaign or automation workflow type for which data will be retrieved"
+      },
+      "conversionSourceId": {
+        "type": "string",
+        "description": "The Brevo campaign or automation workflow id for which data will be retrieved"
+      }
+    },
+    "required": [
+      "conversionSource",
+      "conversionSourceId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "imageUrl": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "ordersCount": {
+                "type": "integer"
+              },
+              "price": {
+                "type": "string",
+                "title": "float"
+              },
+              "revenue": {
+                "type": "string",
+                "title": "float"
+              },
+              "sku": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "title": "EcommerceAttributionProductsConversionSourceConversionSourceIdGetResponsesContentApplicationJsonSchemaProductsItems"
+          },
+          "description": "List of attributed products"
+        }
+      },
+      "required": [
+        "products"
+      ],
+      "title": "Ecommerce_getAttributedProductSalesForASingleBrevoCampaignOrWorkflow_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/ecommerce/attribution/products/{{conversionSource}}/{{conversionSourceId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_getAttributedProductSalesForASingleBrevoCampaignOrWorkflow",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

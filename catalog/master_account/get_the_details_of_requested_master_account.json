@@ -1,0 +1,191 @@
+{
+  "id": "master_account.get_the_details_of_requested_master_account",
+  "name": "Get the details of requested master account",
+  "category": "master_account",
+  "area": "accounts-and-settings",
+  "description": "Get the details of requested master account. This endpoint will provide the details of the master account.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "billingInfo": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "object",
+              "properties": {
+                "countryCode": {
+                  "type": "string",
+                  "description": "Country code"
+                },
+                "locality": {
+                  "type": "string",
+                  "description": "Locality"
+                },
+                "postalCode": {
+                  "type": "string",
+                  "description": "Postal code"
+                },
+                "stateCode": {
+                  "type": "string",
+                  "description": "State code"
+                },
+                "streetAddress": {
+                  "type": "string",
+                  "description": "Street address"
+                }
+              },
+              "description": "Billing address of master account",
+              "title": "CorporateMasterAccountGetResponsesContentApplicationJsonSchemaBillingInfoAddress"
+            },
+            "companyName": {
+              "type": "string",
+              "description": "Company name of master account"
+            },
+            "email": {
+              "type": "string",
+              "description": "Billing email id of master account"
+            },
+            "name": {
+              "type": "object",
+              "properties": {
+                "familyName": {
+                  "type": "string",
+                  "description": "Last name for billing"
+                },
+                "givenName": {
+                  "type": "string",
+                  "description": "First name for billing"
+                }
+              },
+              "description": "Billing name of master account holder",
+              "title": "CorporateMasterAccountGetResponsesContentApplicationJsonSchemaBillingInfoName"
+            }
+          },
+          "description": "Billing details of the master account organization",
+          "title": "CorporateMasterAccountGetResponsesContentApplicationJsonSchemaBillingInfo"
+        },
+        "companyName": {
+          "type": "string",
+          "description": "Company name of master account organization"
+        },
+        "currencyCode": {
+          "type": "string",
+          "description": "Currency code of the master account organization"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email id of master account"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier of the master account organization"
+        },
+        "planInfo": {
+          "type": "object",
+          "properties": {
+            "currencyCode": {
+              "type": "string",
+              "description": "Plan currency"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the feature"
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Quantity provided in the plan"
+                  },
+                  "quantityWithOverages": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Quantity with overages provided in the plan (only\napplicable on ENTv2)"
+                  },
+                  "remaining": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Quantity remaining in the plan"
+                  },
+                  "unitValue": {
+                    "type": "string",
+                    "description": "Unit value of the feature"
+                  },
+                  "used": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Quantity consumed by master"
+                  },
+                  "usedOverages": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Quantity consumed by sub-organizations over the\nadmin plan limit (only applicable on ENTv2)"
+                  }
+                },
+                "title": "CorporateMasterAccountGetResponsesContentApplicationJsonSchemaPlanInfoFeaturesItems"
+              },
+              "description": "List of provided features in the plan"
+            },
+            "nextBillingAt": {
+              "type": "integer",
+              "format": "int64",
+              "description": "Timestamp of next billing date"
+            },
+            "planPeriod": {
+              "type": "string",
+              "enum": [
+                "month",
+                "year"
+              ],
+              "description": "Plan period type",
+              "title": "CorporateMasterAccountGetResponsesContentApplicationJsonSchemaPlanInfoPlanPeriod"
+            },
+            "price": {
+              "type": "number",
+              "format": "double",
+              "description": "Plan amount"
+            },
+            "subAccounts": {
+              "type": "integer",
+              "description": "Number of sub-accounts"
+            }
+          },
+          "description": "Plan details",
+          "title": "CorporateMasterAccountGetResponsesContentApplicationJsonSchemaPlanInfo"
+        },
+        "timezone": {
+          "type": "string",
+          "description": "Timezone of the master account organization"
+        }
+      },
+      "title": "Master account_getTheDetailsOfRequestedMasterAccount_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/corporate/masterAccount"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#masterAccount_getTheDetailsOfRequestedMasterAccount",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

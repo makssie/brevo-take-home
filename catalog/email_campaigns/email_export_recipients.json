@@ -1,0 +1,78 @@
+{
+  "id": "email_campaigns.email_export_recipients",
+  "name": "Export the recipients of an email campaign",
+  "category": "email_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Export the recipients of an email campaign. Export the recipients of a sent email campaign as an asynchronous process, filtered by recipient type (e.g. openers, clickers, hardBounces). The recipientsType field is required and determines which subset of recipients to export. An optional notifyURL webhook will be called once the export is complete, and the response returns a processId to track the export status.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the campaign"
+      },
+      "notifyURL": {
+        "type": "string",
+        "format": "url",
+        "description": "Webhook called once the export process is finished. For reference, https://help.brevo.com/hc/en-us/articles/360007666479"
+      },
+      "recipientsType": {
+        "type": "string",
+        "enum": [
+          "all",
+          "nonClickers",
+          "nonOpeners",
+          "clickers",
+          "openers",
+          "softBounces",
+          "hardBounces",
+          "unsubscribed"
+        ],
+        "description": "Type of recipients to export for a campaign",
+        "title": "EmailCampaignsCampaignIdExportRecipientsPostRequestBodyContentApplicationJsonSchemaRecipientsType"
+      }
+    },
+    "required": [
+      "campaignId",
+      "recipientsType"
+    ]
+  },
+  "outputs": {
+    "status": 202,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "processId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Id of the process created"
+        }
+      },
+      "required": [
+        "processId"
+      ],
+      "title": "Email Campaigns_emailExportRecipients_Response_202"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/emailCampaigns/{{campaignId}}/exportRecipients",
+      "body_template": {
+        "notifyURL": "{{notifyURL}}",
+        "recipientsType": "{{recipientsType}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#emailCampaigns_emailExportRecipients",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

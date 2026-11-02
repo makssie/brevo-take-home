@@ -1,0 +1,122 @@
+{
+  "id": "contacts.remove_contact_from_list",
+  "name": "Delete a contact from a list",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Delete a contact from a list",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "listId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the list"
+      },
+      "body": {
+        "oneOf": [
+          {
+            "description": "Reference to ContactsRemoveContactFromListRequest0"
+          },
+          {
+            "description": "Reference to ContactsRemoveContactFromListRequest1"
+          },
+          {
+            "description": "Reference to ContactsRemoveContactFromListRequest2"
+          },
+          {
+            "description": "Reference to ContactsRemoveContactFromListRequest3"
+          }
+        ],
+        "title": "Contacts_removeContactFromList_Request"
+      }
+    },
+    "required": [
+      "listId"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "contacts": {
+          "type": "object",
+          "properties": {
+            "failure": {
+              "oneOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "email"
+                  }
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              ],
+              "title": "PostContactInfoContactsFailure"
+            },
+            "processId": {
+              "type": "integer",
+              "format": "int64",
+              "description": "Id of the process created to remove contacts from list when user opts for \"all\" option."
+            },
+            "success": {
+              "oneOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "email"
+                  }
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              ],
+              "title": "PostContactInfoContactsSuccess"
+            },
+            "total": {
+              "type": "integer",
+              "format": "int64",
+              "description": "Displays the count of total number of contacts removed from list when user opts for \"all\" option."
+            }
+          },
+          "title": "PostContactInfoContacts"
+        }
+      },
+      "required": [
+        "contacts"
+      ],
+      "title": "postContactInfo"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/contacts/lists/{{listId}}/contacts/remove",
+      "body_template": {
+        "body": "{{body}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_removeContactFromList",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

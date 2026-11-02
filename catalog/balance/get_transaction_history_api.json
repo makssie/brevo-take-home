@@ -1,0 +1,204 @@
+{
+  "id": "balance.get_transaction_history_api",
+  "name": "Get Transaction History API",
+  "category": "balance",
+  "area": "loyalty",
+  "description": "Get Transaction History API. Returns transaction history",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program Id"
+      },
+      "limit": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Limit the number of records returned"
+      },
+      "offset": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Page number to retrieve"
+      },
+      "sortField": {
+        "type": "string",
+        "enum": [
+          "createdAt"
+        ],
+        "default": "createdAt",
+        "title": "LoyaltyBalanceProgramsPidTransactionHistoryGetParametersSortField",
+        "description": "Field to sort by"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "title": "LoyaltyBalanceProgramsPidTransactionHistoryGetParametersSort",
+        "description": "Sort order"
+      },
+      "contactId": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1,
+        "description": "Contact ID"
+      },
+      "balanceDefinitionId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Balance Definition ID"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "completed",
+          "rejected",
+          "cancelled",
+          "expired"
+        ],
+        "title": "LoyaltyBalanceProgramsPidTransactionHistoryGetParametersStatus",
+        "description": "Transaction status filter"
+      },
+      "transactionType": {
+        "type": "string",
+        "enum": [
+          "credit",
+          "debit"
+        ],
+        "title": "LoyaltyBalanceProgramsPidTransactionHistoryGetParametersTransactionType",
+        "description": "Transaction type filter"
+      },
+      "loyaltySubscriptionId": {
+        "type": "string",
+        "description": "Loyalty Subscription ID filter"
+      }
+    },
+    "required": [
+      "pid",
+      "contactId",
+      "balanceDefinitionId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "balanceDefinitionId": {
+          "type": "string",
+          "description": "Unique identifier of the associated balance definition."
+        },
+        "contactId": {
+          "type": "integer",
+          "description": "Unique identifier of the contact related to the transactions."
+        },
+        "count": {
+          "type": "integer",
+          "description": "Total number of transactions in the history."
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "description": "Unique identifier of the associated loyalty program."
+        },
+        "transactionHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "string",
+                "title": "float",
+                "description": "The transaction amount."
+              },
+              "transactionType": {
+                "type": "string",
+                "enum": [
+                  "credit",
+                  "debit"
+                ],
+                "description": "The type of the transaction.",
+                "title": "LoyaltyBalanceProgramsPidTransactionHistoryGetResponsesContentApplicationJsonSchemaTransactionHistoryItemsTransactionType"
+              },
+              "balanceExpirationDate": {
+                "type": "string",
+                "description": "Expiration date of the balance associated with this transaction."
+              },
+              "cancelledAt": {
+                "type": "string",
+                "description": "Timestamp when the transaction was canceled, if applicable."
+              },
+              "completedAt": {
+                "type": "string",
+                "description": "Timestamp when the transaction was successfully completed."
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Timestamp when the transaction was initiated."
+              },
+              "id": {
+                "type": "string",
+                "description": "Unique identifier of the transaction."
+              },
+              "meta": {
+                "type": "object",
+                "additionalProperties": {
+                  "description": "Any type"
+                },
+                "description": "Optional metadata associated with the transaction."
+              },
+              "rejectReason": {
+                "type": "string",
+                "description": "Reason for rejection, if the transaction was declined."
+              },
+              "rejectedAt": {
+                "type": "string",
+                "description": "Timestamp when the transaction was rejected."
+              },
+              "status": {
+                "type": "string",
+                "description": "Current status of the transaction (e.g., pending, completed, rejected)."
+              }
+            },
+            "description": "Represents a record of a past transaction, including status and key timestamps.",
+            "title": "LoyaltyBalanceProgramsPidTransactionHistoryGetResponsesContentApplicationJsonSchemaTransactionHistoryItems"
+          },
+          "description": "List of past transactions associated with the balance."
+        }
+      },
+      "description": "Response containing transaction history details for a specific balance and contact.",
+      "title": "Balance_getTransactionHistoryApi_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/balance/programs/{{pid}}/transaction-history",
+      "query_params": [
+        "limit",
+        "offset",
+        "sortField",
+        "sort",
+        "contactId",
+        "balanceDefinitionId",
+        "status",
+        "transactionType",
+        "loyaltySubscriptionId"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#balance_getTransactionHistoryApi",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

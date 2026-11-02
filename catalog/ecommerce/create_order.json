@@ -1,0 +1,248 @@
+{
+  "id": "ecommerce.create_order",
+  "name": "Managing the status of the order",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Managing the status of the order. Manages the transactional status of the order",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "amount": {
+        "type": "number",
+        "format": "double",
+        "description": "Total amount of the order, including all shipping expenses, tax and the price of items."
+      },
+      "billing": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "Full billing address."
+          },
+          "city": {
+            "type": "string",
+            "description": "Exact city of the address."
+          },
+          "country": {
+            "type": "string",
+            "description": "Billing country name."
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "Billing country 2-letter ISO code."
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "How the visitor will pay for the item(s), e.g. paypal, check, etc."
+          },
+          "phone": {
+            "type": "string",
+            "description": "Billing phone number."
+          },
+          "postCode": {
+            "type": "string",
+            "description": "Billing postcode."
+          },
+          "region": {
+            "type": "string",
+            "description": "Exact region (state/province) for billing."
+          }
+        },
+        "description": "Billing details of an order.",
+        "title": "OrderBilling"
+      },
+      "coupons": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Coupons applied to the order. Stored case insensitive."
+      },
+      "createdAt": {
+        "type": "string",
+        "description": "Event occurrence UTC date-time (YYYY-MM-DDTHH:mm:ssZ), when order is actually created."
+      },
+      "id": {
+        "type": "string",
+        "description": "Unique ID of the order."
+      },
+      "identifiers": {
+        "type": "object",
+        "properties": {
+          "email_id": {
+            "type": "string",
+            "description": "Email of the contact associated with the order"
+          },
+          "ext_id": {
+            "type": "string",
+            "description": "ext_id associated with the order"
+          },
+          "loyalty_subscription_id": {
+            "type": "string",
+            "description": "loyalty_subscription_id associated with the order"
+          },
+          "phone_id": {
+            "type": "string",
+            "description": "Phone number of the contact associated with the order"
+          }
+        },
+        "description": "Identifies the contact associated with the order.",
+        "title": "OrderIdentifiers"
+      },
+      "metaInfo": {
+        "type": "object",
+        "additionalProperties": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "title": "OrderMetaInfo"
+        },
+        "description": "Meta data of order to store additional detail such as custom message, customer type, source."
+      },
+      "products": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "price": {
+              "type": "number",
+              "format": "double",
+              "description": "The price of a unit of product"
+            },
+            "productId": {
+              "type": "string",
+              "description": "ID of the product."
+            },
+            "sku": {
+              "type": "string",
+              "description": "Stock Keeping Unit identifier for the product line item. Stored as sent: it is not matched against the product catalog."
+            },
+            "variantId": {
+              "type": "string",
+              "description": "Product ID of the red color shirts."
+            },
+            "quantity": {
+              "type": "integer",
+              "description": "**Required if quantityFloat is empty.**\n\nNumber of product units added to the cart (whole numbers only, e.g., 10)\n"
+            },
+            "quantityFloat": {
+              "type": "number",
+              "format": "double",
+              "description": "**Required if quantity is empty.**\n\nNumber of product units added to the cart(supports decimals, e.g., 20.52)\n"
+            }
+          },
+          "required": [
+            "price",
+            "productId"
+          ],
+          "description": "Details for the Products in an order.",
+          "title": "OrderProductsItems"
+        }
+      },
+      "shipping": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "Full shipping address."
+          },
+          "city": {
+            "type": "string",
+            "description": "Exact city of the address."
+          },
+          "country": {
+            "type": "string",
+            "description": "Shipping country name."
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "Shipping country 2-letter ISO code."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the shipping recipient."
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number to contact for shipping questions. If invalid, it is dropped and the order is still accepted. Unlike `billing.phone`, it is never used to identify the contact."
+          },
+          "postCode": {
+            "type": "string",
+            "description": "Shipping postcode."
+          },
+          "region": {
+            "type": "string",
+            "description": "Exact region (state/province) for shipping."
+          }
+        },
+        "description": "Shipping details of an order, when the recipient or ship-to address differs from billing.",
+        "title": "OrderShipping"
+      },
+      "status": {
+        "type": "string",
+        "description": "State of the order."
+      },
+      "storeId": {
+        "type": "string",
+        "description": "ID of store where the order is placed"
+      },
+      "updatedAt": {
+        "type": "string",
+        "description": "Event updated UTC date-time (YYYY-MM-DDTHH:mm:ssZ), when the status of the order is actually changed/updated."
+      }
+    },
+    "required": [
+      "amount",
+      "createdAt",
+      "id",
+      "products",
+      "status",
+      "updatedAt"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/orders/status",
+      "body_template": {
+        "amount": "{{amount}}",
+        "billing": "{{billing}}",
+        "coupons": "{{coupons}}",
+        "createdAt": "{{createdAt}}",
+        "id": "{{id}}",
+        "identifiers": "{{identifiers}}",
+        "metaInfo": "{{metaInfo}}",
+        "products": "{{products}}",
+        "shipping": "{{shipping}}",
+        "status": "{{status}}",
+        "storeId": "{{storeId}}",
+        "updatedAt": "{{updatedAt}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_createOrder",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

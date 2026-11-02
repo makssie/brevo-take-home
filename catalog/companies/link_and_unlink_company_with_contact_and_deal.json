@@ -1,0 +1,77 @@
+{
+  "id": "companies.link_and_unlink_company_with_contact_and_deal",
+  "name": "Link and Unlink company with contact and deal",
+  "category": "companies",
+  "area": "sales-crm",
+  "description": "Link and Unlink company with contact and deal. Link or unlink contacts and deals with a specific company in a single request. You can simultaneously link new contacts/deals and unlink existing ones by providing the respective ID arrays in the request body.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "linkContactIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Contact ids for contacts to be linked with company"
+      },
+      "linkDealsIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Deal ids for deals to be linked with company"
+      },
+      "unlinkContactIds": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": "Contact ids for contacts to be unlinked from company"
+      },
+      "unlinkDealsIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Deal ids for deals to be unlinked from company"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PATCH",
+      "url": "https://api.brevo.com/v3/companies/link-unlink/{{id}}",
+      "body_template": {
+        "linkContactIds": "{{linkContactIds}}",
+        "linkDealsIds": "{{linkDealsIds}}",
+        "unlinkContactIds": "{{unlinkContactIds}}",
+        "unlinkDealsIds": "{{unlinkDealsIds}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#companies_linkAndUnlinkCompanyWithContactAndDeal",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

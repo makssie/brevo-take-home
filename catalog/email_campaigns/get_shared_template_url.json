@@ -1,0 +1,53 @@
+{
+  "id": "email_campaigns.get_shared_template_url",
+  "name": "Get a shared template url",
+  "category": "email_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Get a shared template url. Get a unique URL to share & import an email template from one Brevo account to another.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the campaign or template"
+      }
+    },
+    "required": [
+      "campaignId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "sharedUrl": {
+          "type": "string",
+          "format": "url",
+          "description": "A unique URL for the email campaign or transactional template. This URL can be shared with other Brevo users."
+        }
+      },
+      "required": [
+        "sharedUrl"
+      ],
+      "title": "Email Campaigns_getSharedTemplateUrl_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/emailCampaigns/{{campaignId}}/sharedUrl"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#emailCampaigns_getSharedTemplateUrl",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "id": "whats_app_campaigns.create_whats_app_template",
+  "name": "Create a WhatsApp template",
+  "category": "whats_app_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Create a WhatsApp template. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating WhatsApp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "bodyText": {
+        "type": "string",
+        "description": "Body of the template. **Maximum allowed characters are 1024**"
+      },
+      "category": {
+        "type": "string",
+        "enum": [
+          "MARKETING",
+          "UTILITY"
+        ],
+        "description": "Category of the template",
+        "title": "WhatsappCampaignsTemplatePostRequestBodyContentApplicationJsonSchemaCategory"
+      },
+      "headerText": {
+        "type": "string",
+        "description": "Text content of the header in the template.  **Maximum allowed characters are 45** **Use this field to add text content in template header and if mediaUrl is empty**\n"
+      },
+      "language": {
+        "type": "string",
+        "description": "Language of the template. For Example :\n**en** for English\n"
+      },
+      "mediaUrl": {
+        "type": "string",
+        "description": "Absolute url of the media file **(no local file)** for the header. **Use this field in you want to add media in Template header and headerText is empty** Allowed extensions for media files are: #### jpeg | png | mp4 | pdf\n"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the template"
+      },
+      "source": {
+        "type": "string",
+        "enum": [
+          "Automation",
+          "Conversations"
+        ],
+        "description": "source of the template",
+        "title": "WhatsappCampaignsTemplatePostRequestBodyContentApplicationJsonSchemaSource"
+      }
+    },
+    "required": [
+      "bodyText",
+      "category",
+      "language",
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the object created"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "WhatsApp Campaigns_createWhatsAppTemplate_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/whatsappCampaigns/template",
+      "body_template": {
+        "bodyText": "{{bodyText}}",
+        "category": "{{category}}",
+        "headerText": "{{headerText}}",
+        "language": "{{language}}",
+        "mediaUrl": "{{mediaUrl}}",
+        "name": "{{name}}",
+        "source": "{{source}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#whatsAppCampaigns_createWhatsAppTemplate",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "files.download_afile",
+  "name": "Download a file",
+  "category": "files",
+  "area": "sales-crm",
+  "description": "Download a file. Get a temporary download URL for a CRM file by its identifier. The returned URL is valid for 5 minutes only and provides direct access to the file content.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "File id to download."
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "fileUrl": {
+          "type": "string",
+          "description": "A unique link to download the requested file."
+        }
+      },
+      "description": "Downloadable file link",
+      "title": "Files_downloadAFile_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/crm/files/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#files_downloadAFile",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

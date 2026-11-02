@@ -1,0 +1,71 @@
+{
+  "id": "user.putresendcancelinvitation",
+  "name": "Resend / Cancel invitation",
+  "category": "user",
+  "area": "accounts-and-settings",
+  "description": "Resend / Cancel invitation. Resends or cancels a pending invitation for a user in the organization, depending on the action path parameter. Use `resend` to send a new invitation email to the user, or `cancel` to revoke the pending invitation entirely and remove the user''s pending access.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "resend",
+          "cancel"
+        ],
+        "title": "OrganizationUserInvitationActionEmailPutParametersAction",
+        "description": "action"
+      },
+      "email": {
+        "type": "string",
+        "description": "Email of the invited user."
+      }
+    },
+    "required": [
+      "action",
+      "email"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "credit_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Credit note"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the API operation."
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "User_putresendcancelinvitation_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/organization/user/invitation/{{action}}/{{email}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "side_effects": [
+    "Sends real messages to recipients and consumes plan quota. Cannot be undone."
+  ],
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#user_putresendcancelinvitation",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

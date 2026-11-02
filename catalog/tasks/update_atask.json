@@ -1,0 +1,144 @@
+{
+  "id": "tasks.update_atask",
+  "name": "Update a task",
+  "category": "tasks",
+  "area": "sales-crm",
+  "description": "Update a task. Update an existing CRM task''s properties such as name, type, due date, status, duration, notes, assignee, reminder, or linked entities. Only the fields provided in the request body will be updated; omitted fields remain unchanged.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "assignToId": {
+        "type": "string",
+        "description": "To assign a task to a user you can use either the account email or ID."
+      },
+      "companiesIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Companies ids for companies a task is linked to"
+      },
+      "contactsIds": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "description": "Contact ids for contacts linked to this task"
+      },
+      "date": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Task date/time"
+      },
+      "dealsIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Deal ids for deals a task is linked to"
+      },
+      "done": {
+        "type": "boolean",
+        "description": "Task marked as done"
+      },
+      "duration": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Duration of task in milliseconds [1 minute = 60000 ms]"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of task"
+      },
+      "notes": {
+        "type": "string",
+        "description": "Notes added to a task"
+      },
+      "reminder": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "email",
+                "push"
+              ],
+              "title": "TaskReminderTypesItems"
+            },
+            "description": "Type of task reminder e.g email, push"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "minutes",
+              "hours",
+              "weeks",
+              "days"
+            ],
+            "description": "Unit of time before reminder is to be sent",
+            "title": "TaskReminderUnit"
+          },
+          "value": {
+            "type": "integer",
+            "description": "Value of time unit before reminder is to be sent"
+          }
+        },
+        "required": [
+          "types",
+          "unit",
+          "value"
+        ],
+        "description": "Task reminder date/time for a task",
+        "title": "TaskReminder"
+      },
+      "taskTypeId": {
+        "type": "string",
+        "description": "Id for type of task e.g Call / Email / Meeting etc."
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PATCH",
+      "url": "https://api.brevo.com/v3/crm/tasks/{{id}}",
+      "body_template": {
+        "assignToId": "{{assignToId}}",
+        "companiesIds": "{{companiesIds}}",
+        "contactsIds": "{{contactsIds}}",
+        "date": "{{date}}",
+        "dealsIds": "{{dealsIds}}",
+        "done": "{{done}}",
+        "duration": "{{duration}}",
+        "name": "{{name}}",
+        "notes": "{{notes}}",
+        "reminder": "{{reminder}}",
+        "taskTypeId": "{{taskTypeId}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#tasks_updateATask",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

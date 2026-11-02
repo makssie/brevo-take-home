@@ -1,0 +1,49 @@
+{
+  "id": "balance.delete_balance_definition",
+  "name": "Delete balance definition",
+  "category": "balance",
+  "area": "loyalty",
+  "description": "Delete balance definition. Delete Balance definition",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program Id"
+      },
+      "bdid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Balance Definition Id"
+      }
+    },
+    "required": [
+      "pid",
+      "bdid"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/loyalty/balance/programs/{{pid}}/balance-definitions/{{bdid}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#balance_deleteBalanceDefinition",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

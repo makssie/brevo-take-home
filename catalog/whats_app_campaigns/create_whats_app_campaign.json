@@ -1,0 +1,100 @@
+{
+  "id": "whats_app_campaigns.create_whats_app_campaign",
+  "name": "Create and Send a WhatsApp campaign",
+  "category": "whats_app_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Create and Send a WhatsApp campaign. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating Whatsapp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account This API requires the List and Segment ids as recipients in Body params.You can use the below Contact endpoints to get the required information. [Get all the…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the WhatsApp campaign creation"
+      },
+      "recipients": {
+        "type": "object",
+        "properties": {
+          "excludedListIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "List ids to exclude from the campaign"
+          },
+          "listIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "**Mandatory if scheduledAt is not empty**. List Ids to send the campaign to\n"
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "**Mandatory if listIds are not used**. Segment ids to send the campaign to.\n"
+          }
+        },
+        "description": "Segment ids and List ids to include/exclude from campaign",
+        "title": "WhatsappCampaignsPostRequestBodyContentApplicationJsonSchemaRecipients"
+      },
+      "scheduledAt": {
+        "type": "string",
+        "description": "Sending UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). **Prefer to pass your timezone in date-time format for accurate result.For example: **2017-06-01T12:30:00+02:00**\n"
+      },
+      "templateId": {
+        "type": "integer",
+        "description": "Id of the WhatsApp template in **approved** state"
+      }
+    },
+    "required": [
+      "name",
+      "recipients",
+      "scheduledAt",
+      "templateId"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the object created"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "WhatsApp Campaigns_createWhatsAppCampaign_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/whatsappCampaigns",
+      "body_template": {
+        "name": "{{name}}",
+        "recipients": "{{recipients}}",
+        "scheduledAt": "{{scheduledAt}}",
+        "templateId": "{{templateId}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#whatsAppCampaigns_createWhatsAppCampaign",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

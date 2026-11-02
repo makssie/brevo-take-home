@@ -1,0 +1,51 @@
+{
+  "id": "program.delete_contact_members",
+  "name": "Delete subscription member",
+  "category": "program",
+  "area": "loyalty",
+  "description": "Delete subscription member. Deletes member from a subscription",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID. A unique identifier for the loyalty program."
+      },
+      "memberContactIds": {
+        "type": "string",
+        "description": "Comma-separated list of member contact IDs to delete from the subscription."
+      }
+    },
+    "required": [
+      "pid",
+      "memberContactIds"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/loyalty/config/programs/{{pid}}/subscription-members",
+      "query_params": [
+        "memberContactIds"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#program_deleteContactMembers",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

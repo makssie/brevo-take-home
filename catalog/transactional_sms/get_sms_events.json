@@ -1,0 +1,161 @@
+{
+  "id": "transactional_sms.get_sms_events",
+  "name": "Get all your SMS activity (unaggregated events)",
+  "category": "transactional_sms",
+  "area": "transactional-sms",
+  "description": "Get all your SMS activity (unaggregated events). Retrieve a paginated list of individual SMS event records (unaggregated), including event type, phone number, message ID, timestamp, tag, and reason or reply content where applicable. Results default to 50 per page (max 100) and are sorted in descending order unless overridden. Filter by date range (`startDate`/`endDate`), past `days` (not compatible with date range), specific `event` type (e.g. delivered, bounces, replies), `phoneNumber`, or…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 100,
+        "default": 50,
+        "description": "Number of documents per page"
+      },
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used.** Starting date (YYYY-MM-DD) of the report"
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used.** Ending date (YYYY-MM-DD) of the report"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document of the page"
+      },
+      "days": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Number of days in the past including today (positive integer). **Not compatible with 'startDate' and 'endDate'**"
+      },
+      "phoneNumber": {
+        "type": "string",
+        "description": "Filter the report for a specific phone number"
+      },
+      "event": {
+        "type": "string",
+        "enum": [
+          "bounces",
+          "hardBounces",
+          "softBounces",
+          "delivered",
+          "sent",
+          "accepted",
+          "unsubscription",
+          "replies",
+          "blocked",
+          "rejected",
+          "skipped"
+        ],
+        "title": "TransactionalSmsStatisticsEventsGetParametersEvent",
+        "description": "Filter the report for specific events"
+      },
+      "tags": {
+        "type": "string",
+        "description": "Filter the report for specific tags passed as a serialized urlencoded array"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "TransactionalSmsStatisticsEventsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "description": "UTC date-time on which the event has been generated"
+              },
+              "event": {
+                "type": "string",
+                "enum": [
+                  "bounces",
+                  "hardBounces",
+                  "softBounces",
+                  "delivered",
+                  "sent",
+                  "accepted",
+                  "unsubscription",
+                  "replies",
+                  "blocked",
+                  "rejected",
+                  "skipped"
+                ],
+                "description": "Event which occurred",
+                "title": "TransactionalSmsStatisticsEventsGetResponsesContentApplicationJsonSchemaEventsItemsEvent"
+              },
+              "messageId": {
+                "type": "string",
+                "description": "Message ID which generated the event"
+              },
+              "phoneNumber": {
+                "type": "string",
+                "description": "Phone number which has generated the event"
+              },
+              "reason": {
+                "type": "string",
+                "description": "Reason of bounce (only available if the event is hardbounce or softbounce)"
+              },
+              "reply": {
+                "type": "string"
+              },
+              "tag": {
+                "type": "string",
+                "description": "Tag of the SMS which generated the event"
+              }
+            },
+            "title": "TransactionalSmsStatisticsEventsGetResponsesContentApplicationJsonSchemaEventsItems"
+          }
+        }
+      },
+      "title": "Transactional SMS_getSmsEvents_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/transactionalSMS/statistics/events",
+      "query_params": [
+        "limit",
+        "startDate",
+        "endDate",
+        "offset",
+        "days",
+        "phoneNumber",
+        "event",
+        "tags",
+        "sort"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/transactional-sms.json#transactionalSms_getSmsEvents",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "id": "segments.list_filterable_fields",
+  "name": "List fields a segment can filter on",
+  "category": "segments",
+  "area": "web-app-internal",
+  "description": "List contact attributes and system fields that can be used in a segment filter, with the data type of each. Use before building fe_query so the field and operator are valid.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "attributes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "field": {
+                    "type": "string"
+                  },
+                  "field_key": {
+                    "type": "string"
+                  },
+                  "dataType": {
+                    "type": "string",
+                    "description": "Observed: email, text, category, date, boolean, list, flagged, last_modified, entered. Subscription filters use dataType 'subscription_status' (field email_blacklisted, operator subscribed), which this endpoint does not list."
+                  }
+                }
+              }
+            },
+            "active_channels": {
+              "type": "array"
+            }
+          }
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "GET",
+      "url": "https://contacts-api.brevo.com/contact/backend/segment/properties"
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Observed in UI traffic, then replayed from inside the logged-in page. Free account returned 24 fields. Operators per data type were not enumerated."
+  }
+}

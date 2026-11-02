@@ -1,0 +1,76 @@
+{
+  "id": "segments.count_matching_contacts",
+  "name": "Count contacts matching a filter",
+  "category": "segments",
+  "area": "web-app-internal",
+  "description": "Return how many contacts match a filter without saving a segment. Use to preview audience size.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "fe_query": {
+        "type": "object",
+        "description": "Filter tree. An 'or' list of groups; each group has an 'and' list of conditions. A condition is {contact: {field, dataType, operator, value: [..]}, isValidated: true}. Valid fields and data types come from segments.list_filterable_fields.",
+        "example": {
+          "or": [
+            {
+              "and": [
+                {
+                  "contact": {
+                    "field": "email_blacklisted",
+                    "dataType": "subscription_status",
+                    "operator": "subscribed",
+                    "value": [
+                      "subscribed"
+                    ]
+                  },
+                  "isValidated": true
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "searchBy": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "required": [
+      "fe_query"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "contact_count": {
+          "type": "integer"
+        },
+        "total_count": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "POST",
+      "url": "https://contacts-api.brevo.com/contact/backend/segment/contact/count",
+      "body_template": {
+        "fe_query": "{{fe_query}}",
+        "searchBy": "{{searchBy}}"
+      }
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Executed through the UI with request capture. An empty fe_query ({}) counts all contacts."
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "sms_campaigns.send_test_sms",
+  "name": "Send a test SMS campaign",
+  "category": "sms_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Send a test SMS campaign. Send a test SMS to a specified phone number to preview the campaign before sending it to all recipients. The phone number must belong to one of your existing contacts in your Brevo account and must not be blacklisted. The number should include the country code (e.g. 33689965433).",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the SMS campaign"
+      },
+      "phoneNumber": {
+        "type": "string",
+        "description": "Mobile number of the recipient with the country code. This number **must belong to one of your contacts in Brevo account and must not be blacklisted**\n"
+      }
+    },
+    "required": [
+      "campaignId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/smsCampaigns/{{campaignId}}/sendTest",
+      "body_template": {
+        "phoneNumber": "{{phoneNumber}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "side_effects": [
+    "Sends real messages to recipients and consumes plan quota. Cannot be undone."
+  ],
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#smsCampaigns_sendTestSms",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

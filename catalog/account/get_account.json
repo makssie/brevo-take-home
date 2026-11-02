@@ -1,0 +1,291 @@
+{
+  "id": "account.get_account",
+  "name": "Get account details",
+  "category": "account",
+  "area": "accounts-and-settings",
+  "description": "Get account details. Retrieves details of your Brevo account. **Use this to:** - Get account information (email, name, company, address) - Check plan details (type, credits, expiration) - Get relay information (for transactional emails) - Check Marketing Automation status - Access organization and user identifiers **Key information returned:** - Complete account details (organization ID, user ID, company information) - Address and contact information - Plan…",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "organization_id": {
+          "type": "string",
+          "description": "Unique identifier for the organization"
+        },
+        "user_id": {
+          "type": "integer",
+          "description": "Unique identifier for the user"
+        },
+        "enterprise": {
+          "type": "boolean",
+          "description": "Indicates if the account has enterprise features"
+        },
+        "companyName": {
+          "type": "string",
+          "description": "Name of the company"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Login Email"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First Name"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last Name"
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City information"
+            },
+            "country": {
+              "type": "string",
+              "description": "Country information"
+            },
+            "street": {
+              "type": "string",
+              "description": "Street information"
+            },
+            "zipCode": {
+              "type": "string",
+              "description": "Zip Code information"
+            }
+          },
+          "required": [
+            "city",
+            "country",
+            "street",
+            "zipCode"
+          ],
+          "description": "Address informations",
+          "title": "AccountGetResponsesContentApplicationJsonSchemaAddress"
+        },
+        "marketingAutomation": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Status of Marketing Automation Plateform activation\nfor your account (true=enabled, false=disabled)"
+            },
+            "key": {
+              "type": "string",
+              "description": "Marketing Automation Tracker ID"
+            }
+          },
+          "required": [
+            "enabled"
+          ],
+          "title": "AccountGetResponsesContentApplicationJsonSchemaMarketingAutomation"
+        },
+        "plan": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "credits": {
+                "type": "string",
+                "title": "float",
+                "description": "Remaining credits of the user"
+              },
+              "creditsType": {
+                "type": "string",
+                "enum": [
+                  "sendLimit"
+                ],
+                "description": "This is the type of the credit, \"Send Limit\" is one\nof the possible types of credit of a user. \"Send\nLimit\" implies the total number of emails you can\nsend to the subscribers in your account.",
+                "title": "AccountGetResponsesContentApplicationJsonSchemaPlanItemsCreditsType"
+              },
+              "endDate": {
+                "type": "string",
+                "description": "Date of the period from which the plan will end\n(Unix timestamp format)"
+              },
+              "startDate": {
+                "type": "string",
+                "description": "Date of the period from which the plan will start\n(Unix timestamp format)"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "payAsYouGo",
+                  "free",
+                  "subscription",
+                  "sms"
+                ],
+                "description": "Displays the plan type of the user",
+                "title": "AccountGetResponsesContentApplicationJsonSchemaPlanItemsType"
+              }
+            },
+            "required": [
+              "credits",
+              "creditsType",
+              "type"
+            ],
+            "title": "AccountGetResponsesContentApplicationJsonSchemaPlanItems"
+          },
+          "description": "Information about your plans and credits"
+        },
+        "planVerticals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "planCategory": {
+                "type": "string",
+                "enum": [
+                  "Marketing",
+                  "Chat",
+                  "CRM"
+                ],
+                "description": "Category of the plan",
+                "title": "AccountGetResponsesContentApplicationJsonSchemaPlanVerticalsItemsPlanCategory"
+              },
+              "planType": {
+                "type": "string",
+                "description": "Type of plan within the category"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the plan"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "inactive"
+                ],
+                "description": "Current status of the plan",
+                "title": "AccountGetResponsesContentApplicationJsonSchemaPlanVerticalsItemsStatus"
+              },
+              "startDate": {
+                "type": "string",
+                "description": "Plan start date (Unix timestamp)"
+              },
+              "endDate": {
+                "type": "string",
+                "description": "Plan end date (Unix timestamp)"
+              },
+              "users": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "purchasedSeats": {
+                        "type": "string",
+                        "description": "Number of purchased user seats"
+                      },
+                      "usedSeats": {
+                        "type": "string",
+                        "description": "Number of used user seats"
+                      }
+                    },
+                    "required": [
+                      "purchasedSeats",
+                      "usedSeats"
+                    ],
+                    "description": "User seat information for the plan",
+                    "title": "AccountGetResponsesContentApplicationJsonSchemaPlanVerticalsItemsUsers"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "User seat information for the plan"
+              },
+              "credits": {
+                "type": "string",
+                "description": "Credits allocated for this plan category (optional, may not be present for all plan categories)"
+              }
+            },
+            "required": [
+              "planCategory",
+              "planType",
+              "name",
+              "status"
+            ],
+            "title": "AccountGetResponsesContentApplicationJsonSchemaPlanVerticalsItems"
+          },
+          "description": "Detailed information about different plan categories"
+        },
+        "relay": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "port": {
+                  "type": "integer",
+                  "description": "Port used for SMTP Relay"
+                },
+                "relay": {
+                  "type": "string",
+                  "description": "URL of the SMTP Relay"
+                },
+                "userName": {
+                  "type": "string",
+                  "format": "email",
+                  "description": "Email to use as login on transactional platform"
+                }
+              },
+              "required": [
+                "port",
+                "relay",
+                "userName"
+              ],
+              "description": "Data regarding the transactional email account",
+              "title": "AccountGetResponsesContentApplicationJsonSchemaRelayData"
+            },
+            "enabled": {
+              "type": "boolean",
+              "description": "Status of your transactional email Account\n(true=Enabled, false=Disabled)"
+            }
+          },
+          "required": [
+            "data",
+            "enabled"
+          ],
+          "description": "Information about your transactional email account",
+          "title": "AccountGetResponsesContentApplicationJsonSchemaRelay"
+        }
+      },
+      "required": [
+        "organization_id",
+        "user_id",
+        "enterprise",
+        "companyName",
+        "email",
+        "firstName",
+        "lastName",
+        "plan",
+        "relay"
+      ],
+      "title": "Account_getAccount_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/account"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#account_getAccount",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

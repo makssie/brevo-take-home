@@ -1,0 +1,301 @@
+{
+  "id": "tier.create_tier_group",
+  "name": "Create a tier group",
+  "category": "tier",
+  "area": "loyalty",
+  "description": "Create a tier group. Creates a new tier group in a loyalty program. *(The changes will take effect with the next publication of the loyalty program)*",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "downgradeStrategy": {
+        "type": "string",
+        "enum": [
+          "real_time",
+          "membership_anniversary",
+          "tier_anniversary"
+        ],
+        "default": "real_time",
+        "description": "Select real_time to downgrade tier on real time balance updates. Select membership_anniversary to downgrade tier on subscription anniversary. Select tier_anniversary to downgrade tier on tier anniversary.",
+        "title": "LoyaltyTierProgramsPidTierGroupsPostRequestBodyContentApplicationJsonSchemaDowngradeStrategy"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the tier group"
+      },
+      "meta": {
+        "type": "object",
+        "properties": {
+          "isInternal": {
+            "type": "boolean",
+            "description": "Indicates whether the tier group is internal."
+          }
+        },
+        "description": "Additional metadata for the tier group.",
+        "title": "LoyaltyTierProgramsPidTierGroupsPostRequestBodyContentApplicationJsonSchemaMeta"
+      },
+      "tierOrder": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Order of the tiers in the group in ascending order"
+      },
+      "upgradeStrategy": {
+        "type": "string",
+        "enum": [
+          "real_time",
+          "membership_anniversary",
+          "tier_anniversary"
+        ],
+        "default": "real_time",
+        "description": "Select real_time to upgrade tier on real time balance updates. Select membership_anniversary to upgrade tier on subscription anniversary. Select tier_anniversary to upgrade tier on tier anniversary.",
+        "title": "LoyaltyTierProgramsPidTierGroupsPostRequestBodyContentApplicationJsonSchemaUpgradeStrategy"
+      },
+      "upgradeSchedule": {
+        "type": "object",
+        "properties": {
+          "durationValue": {
+            "type": "integer",
+            "description": "Duration value for the schedule."
+          },
+          "durationUnit": {
+            "type": "string",
+            "enum": [
+              "day",
+              "week",
+              "month",
+              "year"
+            ],
+            "description": "Duration unit for the schedule.",
+            "title": "LoyaltyTierProgramsPidTierGroupsPostRequestBodyContentApplicationJsonSchemaUpgradeScheduleDurationUnit"
+          },
+          "durationModifier": {
+            "type": "string",
+            "enum": [
+              "start_of_period",
+              "end_of_period"
+            ],
+            "description": "Modifier for the duration.",
+            "title": "LoyaltyTierProgramsPidTierGroupsPostRequestBodyContentApplicationJsonSchemaUpgradeScheduleDurationModifier"
+          },
+          "scheduledDate": {
+            "type": "string",
+            "description": "Scheduled date in DD/MM format."
+          }
+        },
+        "description": "Schedule configuration for tier upgrades. Required when upgradeStrategy is set to a schedule-based strategy.",
+        "title": "LoyaltyTierProgramsPidTierGroupsPostRequestBodyContentApplicationJsonSchemaUpgradeSchedule"
+      },
+      "downgradeSchedule": {
+        "type": "object",
+        "properties": {
+          "durationValue": {
+            "type": "integer",
+            "description": "Duration value for the schedule."
+          },
+          "durationUnit": {
+            "type": "string",
+            "enum": [
+              "day",
+              "week",
+              "month",
+              "year"
+            ],
+            "description": "Duration unit for the schedule.",
+            "title": "LoyaltyTierProgramsPidTierGroupsPostRequestBodyContentApplicationJsonSchemaDowngradeScheduleDurationUnit"
+          },
+          "durationModifier": {
+            "type": "string",
+            "enum": [
+              "start_of_period",
+              "end_of_period"
+            ],
+            "description": "Modifier for the duration.",
+            "title": "LoyaltyTierProgramsPidTierGroupsPostRequestBodyContentApplicationJsonSchemaDowngradeScheduleDurationModifier"
+          },
+          "scheduledDate": {
+            "type": "string",
+            "description": "Scheduled date in DD/MM format."
+          }
+        },
+        "description": "Schedule configuration for tier downgrades. Required when downgradeStrategy is set to a schedule-based strategy.",
+        "title": "LoyaltyTierProgramsPidTierGroupsPostRequestBodyContentApplicationJsonSchemaDowngradeSchedule"
+      }
+    },
+    "required": [
+      "pid",
+      "name"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the tier group was created"
+        },
+        "downgradeStrategy": {
+          "type": "string",
+          "enum": [
+            "real_time",
+            "membership_anniversary",
+            "tier_anniversary"
+          ],
+          "default": "real_time",
+          "description": "Select real_time to downgrade tier on real time balance updates. Select membership_anniversary to downgrade tier on subscription anniversary. Select tier_anniversary to downgrade tier on tier anniversary.",
+          "title": "TierGroupDowngradeStrategy"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Tier group unique identifier"
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Associated loyalty program Id"
+        },
+        "name": {
+          "type": "string",
+          "description": "Tier group name"
+        },
+        "tierOrder": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "Order of the tiers in the group in ascending order"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the tier group was last updated"
+        },
+        "upgradeStrategy": {
+          "type": "string",
+          "enum": [
+            "real_time",
+            "membership_anniversary",
+            "tier_anniversary"
+          ],
+          "default": "real_time",
+          "description": "Select real_time to upgrade tier on real time balance updates. Select membership_anniversary to upgrade tier on subscription anniversary. Select tier_anniversary to upgrade tier on tier anniversary.",
+          "title": "TierGroupUpgradeStrategy"
+        },
+        "upgradeSchedule": {
+          "type": "object",
+          "properties": {
+            "strategy": {
+              "type": "string",
+              "description": "Schedule strategy type."
+            },
+            "durationValue": {
+              "type": "integer",
+              "description": "Duration value for the schedule."
+            },
+            "durationUnit": {
+              "type": "string",
+              "enum": [
+                "day",
+                "week",
+                "month",
+                "year"
+              ],
+              "description": "Duration unit for the schedule.",
+              "title": "TierGroupUpgradeScheduleDurationUnit"
+            },
+            "durationModifier": {
+              "type": "string",
+              "enum": [
+                "start_of_period",
+                "end_of_period"
+              ],
+              "description": "Modifier for the duration.",
+              "title": "TierGroupUpgradeScheduleDurationModifier"
+            },
+            "scheduledDate": {
+              "type": "string",
+              "description": "Scheduled date in DD/MM format."
+            }
+          },
+          "description": "Schedule configuration for tier upgrades.",
+          "title": "TierGroupUpgradeSchedule"
+        },
+        "downgradeSchedule": {
+          "type": "object",
+          "properties": {
+            "strategy": {
+              "type": "string",
+              "description": "Schedule strategy type."
+            },
+            "durationValue": {
+              "type": "integer",
+              "description": "Duration value for the schedule."
+            },
+            "durationUnit": {
+              "type": "string",
+              "enum": [
+                "day",
+                "week",
+                "month",
+                "year"
+              ],
+              "description": "Duration unit for the schedule.",
+              "title": "TierGroupDowngradeScheduleDurationUnit"
+            },
+            "durationModifier": {
+              "type": "string",
+              "enum": [
+                "start_of_period",
+                "end_of_period"
+              ],
+              "description": "Modifier for the duration.",
+              "title": "TierGroupDowngradeScheduleDurationModifier"
+            },
+            "scheduledDate": {
+              "type": "string",
+              "description": "Scheduled date in DD/MM format."
+            }
+          },
+          "description": "Schedule configuration for tier downgrades.",
+          "title": "TierGroupDowngradeSchedule"
+        }
+      },
+      "title": "tierGroup"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/tier/programs/{{pid}}/tier-groups",
+      "body_template": {
+        "downgradeStrategy": "{{downgradeStrategy}}",
+        "name": "{{name}}",
+        "meta": "{{meta}}",
+        "tierOrder": "{{tierOrder}}",
+        "upgradeStrategy": "{{upgradeStrategy}}",
+        "upgradeSchedule": "{{upgradeSchedule}}",
+        "downgradeSchedule": "{{downgradeSchedule}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#tier_createTierGroup",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

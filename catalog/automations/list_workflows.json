@@ -1,0 +1,77 @@
+{
+  "id": "automations.list_workflows",
+  "name": "List automations",
+  "category": "automations",
+  "area": "web-app-internal",
+  "description": "List all automations with id, name, active/paused state and contact counters (started, holding, completed, stopped).",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "total_fetched_workflows_count": {
+          "type": "integer"
+        },
+        "workflows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "scenario_name": {
+                "type": "string"
+              },
+              "active": {
+                "type": "boolean"
+              },
+              "paused": {
+                "type": "boolean"
+              },
+              "status": {
+                "type": "string"
+              },
+              "started_users": {
+                "type": "integer"
+              },
+              "holding_users": {
+                "type": "integer"
+              },
+              "completed_users": {
+                "type": "integer"
+              },
+              "stopped_users": {
+                "type": "integer"
+              },
+              "updated_at": {
+                "type": "integer",
+                "description": "Epoch ms."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "GET",
+      "url": "https://workflow-apis.brevo.com/v1/workflow/listing"
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Observed in UI traffic, then replayed from inside the logged-in page. Pagination and filters (status tab, tags, search) were not explored; the UI loads everything."
+  }
+}

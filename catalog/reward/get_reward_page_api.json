@@ -1,0 +1,134 @@
+{
+  "id": "reward.get_reward_page_api",
+  "name": "Get Reward Page API",
+  "category": "reward",
+  "area": "loyalty",
+  "description": "Get Reward Page API. Returns a reward page",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID"
+      },
+      "limit": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100,
+        "default": 25,
+        "description": "Page size"
+      },
+      "offset": {
+        "type": "integer",
+        "default": 0,
+        "description": "Pagination offset"
+      },
+      "state": {
+        "type": "string",
+        "default": "all",
+        "description": "State of the reward"
+      },
+      "version": {
+        "type": "string",
+        "enum": [
+          "active",
+          "draft"
+        ],
+        "default": "draft",
+        "title": "LoyaltyOfferProgramsPidOffersGetParametersVersion",
+        "description": "Version"
+      }
+    },
+    "required": [
+      "pid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp for when this reward was created"
+              },
+              "endDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp for when this reward attribution ended"
+              },
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Unique identifier for the reward"
+              },
+              "loyaltyProgramId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Loyalty Program to which current reward is associated"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the reward"
+              },
+              "publicImage": {
+                "type": "string",
+                "description": "Public image of the reward"
+              },
+              "startDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp for when this reward attribution started"
+              },
+              "state": {
+                "type": "string",
+                "description": "State of the reward"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp for when this reward attribution was updated"
+              }
+            },
+            "title": "LoyaltyOfferProgramsPidOffersGetResponsesContentApplicationJsonSchemaItemsItems"
+          },
+          "description": "Items for the current reward"
+        },
+        "totalCount": {
+          "type": "integer",
+          "description": "Count of the associated parameter in current reward"
+        }
+      },
+      "title": "Reward_getRewardPageApi_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/offer/programs/{{pid}}/offers",
+      "query_params": [
+        "limit",
+        "offset",
+        "state",
+        "version"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#reward_getRewardPageApi",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

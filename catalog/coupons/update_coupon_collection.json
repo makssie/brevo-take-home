@@ -1,0 +1,86 @@
+{
+  "id": "coupons.update_coupon_collection",
+  "name": "Update a coupon collection by id",
+  "category": "coupons",
+  "area": "ecommerce",
+  "description": "Update a coupon collection by id. Update an existing coupon collection by its UUID. You can modify the default coupon value, set or remove the expiration date (pass `null` to remove), and configure or disable alert thresholds for remaining coupons or remaining days. Only the fields included in the request body are updated; omitted fields remain unchanged.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuidv4",
+        "description": "Id of the collection to update"
+      },
+      "defaultCoupon": {
+        "type": "string",
+        "description": "A default coupon to be used in case there are no coupons left"
+      },
+      "expirationDate": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Specify an expiration date for the coupon collection in RFC3339 format. Use null to remove the expiration date."
+      },
+      "remainingCouponsAlert": {
+        "type": "integer",
+        "description": "Send a notification alert (email) when the remaining coupons count is equal or fall bellow this number. Use null to disable alerts."
+      },
+      "remainingDaysAlert": {
+        "type": "integer",
+        "description": "Send a notification alert (email) when the remaining days until the expiration date are equal or fall bellow this number. Use null to disable alerts."
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "defaultCoupon": {
+          "type": "string",
+          "description": "The default coupon of the collection"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuidv4",
+          "description": "The id of the collection"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the collection"
+        }
+      },
+      "required": [
+        "defaultCoupon",
+        "id",
+        "name"
+      ],
+      "title": "Coupons_updateCouponCollection_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PATCH",
+      "url": "https://api.brevo.com/v3/couponCollections/{{id}}",
+      "body_template": {
+        "defaultCoupon": "{{defaultCoupon}}",
+        "expirationDate": "{{expirationDate}}",
+        "remainingCouponsAlert": "{{remainingCouponsAlert}}",
+        "remainingDaysAlert": "{{remainingDaysAlert}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#coupons_updateCouponCollection",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

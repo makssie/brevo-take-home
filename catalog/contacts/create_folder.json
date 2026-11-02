@@ -1,0 +1,52 @@
+{
+  "id": "contacts.create_folder",
+  "name": "Create a folder",
+  "category": "contacts",
+  "area": "contact-management",
+  "description": "Create a folder. Create a new folder to organize your contact lists. Folders serve as containers for grouping related lists together. The folder name is required and must be provided in the request body.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the folder"
+      }
+    }
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the object created"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "Contacts_createFolder_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/contacts/folders",
+      "body_template": {
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#contacts_createFolder",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "companies.import_companies_creation_and_updation",
+  "name": "Import companies(creation and updation)",
+  "category": "companies",
+  "area": "sales-crm",
+  "description": "Import companies(creation and updation). Import companies from a CSV file with mapping options.",
+  "inputs": {
+    "type": "object",
+    "properties": {}
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "processId": {
+          "type": "integer",
+          "description": "The ID of the import process"
+        }
+      },
+      "title": "Companies_importCompaniesCreationAndUpdation_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/companies/import"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/sales-crm.json#companies_importCompaniesCreationAndUpdation",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

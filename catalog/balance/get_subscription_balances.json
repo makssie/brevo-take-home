@@ -1,0 +1,88 @@
+{
+  "id": "balance.get_subscription_balances",
+  "name": "Get subscription balances",
+  "category": "balance",
+  "area": "loyalty",
+  "description": "Get subscription balances. Returns subscription balances",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "cid": {
+        "type": "string",
+        "format": "int",
+        "description": "Contact Id"
+      },
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program Id"
+      },
+      "includeInternal": {
+        "type": "boolean",
+        "description": "Include balances tied to internal definitions."
+      }
+    },
+    "required": [
+      "cid",
+      "pid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier of the loyalty program."
+        },
+        "contactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier of the contact."
+        },
+        "balance": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "balanceDefinitionId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Balance definition ID."
+              },
+              "value": {
+                "type": "string",
+                "title": "float",
+                "description": "Aggregate balance value for this definition."
+              }
+            },
+            "title": "LoyaltyBalanceProgramsPidSubscriptionsCidBalancesGetResponsesContentApplicationJsonSchemaBalanceItems"
+          },
+          "description": "Aggregate balance per balance definition."
+        }
+      },
+      "title": "Balance_getSubscriptionBalances_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/balance/programs/{{pid}}/subscriptions/{{cid}}/balances",
+      "query_params": [
+        "includeInternal"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#balance_getSubscriptionBalances",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

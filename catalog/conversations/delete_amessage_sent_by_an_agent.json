@@ -1,0 +1,42 @@
+{
+  "id": "conversations.delete_amessage_sent_by_an_agent",
+  "name": "Delete a message sent by an agent",
+  "category": "conversations",
+  "area": "conversations",
+  "description": "Delete a message sent by an agent. Delete a message sent by an agent. Only messages of type `agent` can be deleted.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "ID of the message"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/conversations/messages/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/conversations.json#conversations_deleteAMessageSentByAnAgent",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

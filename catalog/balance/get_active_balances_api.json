@@ -1,0 +1,150 @@
+{
+  "id": "balance.get_active_balances_api",
+  "name": "Get Active Balances API",
+  "category": "balance",
+  "area": "loyalty",
+  "description": "Get Active Balances API. Returns Active Balances",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program Id"
+      },
+      "limit": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 500,
+        "description": "Limit"
+      },
+      "offset": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Offset"
+      },
+      "sortField": {
+        "type": "string",
+        "enum": [
+          "createdAt"
+        ],
+        "title": "LoyaltyBalanceProgramsPidActiveBalanceGetParametersSortField",
+        "description": "Sort Field"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "title": "LoyaltyBalanceProgramsPidActiveBalanceGetParametersSort",
+        "description": "Sort Order"
+      },
+      "contactId": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1,
+        "description": "Contact ID"
+      },
+      "balanceDefinitionId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Balance Definition ID"
+      },
+      "includeInternal": {
+        "type": "boolean",
+        "description": "Include balances tied to internal definitions."
+      }
+    },
+    "required": [
+      "pid",
+      "contactId",
+      "balanceDefinitionId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of active balances."
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier of the loyalty program."
+        },
+        "contactId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier of the contact."
+        },
+        "balanceDefinitionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier of the balance definition."
+        },
+        "activeBalances": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Unique identifier of the balance entry."
+              },
+              "amount": {
+                "type": "string",
+                "title": "float",
+                "description": "Current balance amount."
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the balance was created."
+              },
+              "expiresAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the balance expires (if applicable)."
+              }
+            },
+            "title": "LoyaltyBalanceProgramsPidActiveBalanceGetResponsesContentApplicationJsonSchemaActiveBalancesItems"
+          },
+          "description": "List of active balances."
+        }
+      },
+      "description": "Active balance response for a specific contact and balance definition.",
+      "title": "Balance_getActiveBalancesApi_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/loyalty/balance/programs/{{pid}}/active-balance",
+      "query_params": [
+        "limit",
+        "offset",
+        "sortField",
+        "sort",
+        "contactId",
+        "balanceDefinitionId",
+        "includeInternal"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#balance_getActiveBalancesApi",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

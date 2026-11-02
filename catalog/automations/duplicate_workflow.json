@@ -1,0 +1,35 @@
+{
+  "id": "automations.duplicate_workflow",
+  "name": "Duplicate an automation",
+  "category": "automations",
+  "area": "web-app-internal",
+  "description": "Copy an existing automation with its steps, from the row menu.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {},
+  "execution": {
+    "method": "ui_only",
+    "ui_steps": [
+      "Open Automations > Workflows.",
+      "Open the row's three-dot menu.",
+      "Click 'Duplicate'."
+    ]
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "observed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Option seen in the UI menu. Not executed."
+  }
+}

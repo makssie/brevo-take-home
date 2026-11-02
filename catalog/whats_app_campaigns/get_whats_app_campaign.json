@@ -1,0 +1,246 @@
+{
+  "id": "whats_app_campaigns.get_whats_app_campaign",
+  "name": "Get a WhatsApp campaign",
+  "category": "whats_app_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Get a WhatsApp campaign. You can use this API for WhatsApp only if you have setup your WhatsApp account on Brevo platform. To setup your WhatsApp account, follow the steps in the guide below. [Activating Whatsapp](https://developers.brevo.com/docs/whatsapp-campaigns-1) in your account This API requires the List and Segment ids as recipients in Body params.You can use the below Contact endpoints to get the required information. [Get all the…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "campaignId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the campaign"
+      }
+    },
+    "required": [
+      "campaignId"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "campaignName": {
+          "type": "string",
+          "description": "Name of the WhatsApp Campaign"
+        },
+        "campaignStatus": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "scheduled",
+            "pending",
+            "approved",
+            "running",
+            "suspended",
+            "rejected",
+            "sent"
+          ],
+          "description": "Status of the WhatsApp Campaign",
+          "title": "WhatsappCampaignsCampaignIdGetResponsesContentApplicationJsonSchemaCampaignStatus"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation UTC date-time of the WhatsApp campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID of the WhatsApp Campaign"
+        },
+        "modifiedAt": {
+          "type": "string",
+          "description": "UTC date-time of last modification of the WhatsApp campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)"
+        },
+        "scheduledAt": {
+          "type": "string",
+          "description": "UTC date-time on which WhatsApp campaign is scheduled. Should be in YYYY-MM-DDTHH:mm:ss.SSSZ format"
+        },
+        "recipients": {
+          "type": "object",
+          "properties": {
+            "excludedLists": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "description": "List of excluded list IDs"
+            },
+            "includedLists": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "description": "List of included list IDs"
+            },
+            "segments": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "description": "List of segment IDs"
+            },
+            "type": {
+              "type": "string",
+              "description": "Type of recipients (list or segment)"
+            }
+          },
+          "description": "Recipients of the WhatsApp Campaign",
+          "title": "WhatsappCampaignsCampaignIdGetResponsesContentApplicationJsonSchemaRecipients"
+        },
+        "senderNumber": {
+          "type": "string",
+          "description": "Sender of the WhatsApp Campaign"
+        },
+        "stats": {
+          "type": "object",
+          "properties": {
+            "delivered": {
+              "type": "integer"
+            },
+            "notSent": {
+              "type": "integer"
+            },
+            "read": {
+              "type": "integer"
+            },
+            "sent": {
+              "type": "integer"
+            },
+            "unsubscribe": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "delivered",
+            "notSent",
+            "read",
+            "sent",
+            "unsubscribe"
+          ],
+          "title": "WhatsappCampStats"
+        },
+        "template": {
+          "type": "object",
+          "properties": {
+            "body_variables": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "datatype": {
+                    "type": "string"
+                  },
+                  "default": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "title": "variablesItems"
+              },
+              "description": "array of variables item variables"
+            },
+            "button_type": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string",
+              "description": "description of the template"
+            },
+            "components": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                },
+                "title": "WhatsappCampaignsCampaignIdGetResponsesContentApplicationJsonSchemaTemplateComponentsItems"
+              },
+              "description": "array of component item objects"
+            },
+            "contains_button": {
+              "type": "boolean"
+            },
+            "display_header": {
+              "type": "boolean"
+            },
+            "header_type": {
+              "type": "string",
+              "description": "type of header"
+            },
+            "header_variables": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "datatype": {
+                    "type": "string"
+                  },
+                  "default": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "title": "variablesItems"
+              },
+              "description": "array of variables item object"
+            },
+            "hide_footer": {
+              "type": "boolean"
+            },
+            "language": {
+              "type": "string",
+              "description": "language of the template"
+            },
+            "name": {
+              "type": "string",
+              "description": "name of the template"
+            }
+          },
+          "title": "WhatsappCampaignsCampaignIdGetResponsesContentApplicationJsonSchemaTemplate"
+        }
+      },
+      "required": [
+        "campaignName",
+        "campaignStatus",
+        "createdAt",
+        "id",
+        "modifiedAt",
+        "recipients",
+        "senderNumber",
+        "template"
+      ],
+      "title": "WhatsApp Campaigns_getWhatsAppCampaign_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/whatsappCampaigns/{{campaignId}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#whatsAppCampaigns_getWhatsAppCampaign",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

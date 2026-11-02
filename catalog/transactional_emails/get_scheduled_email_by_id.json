@@ -1,0 +1,101 @@
+{
+  "id": "transactional_emails.get_scheduled_email_by_id",
+  "name": "Fetch scheduled emails by batchId or messageId",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Fetch scheduled emails by batchId or messageId. Fetch scheduled batch of emails by batchId or single scheduled email by messageId (Can retrieve data upto 30 days old)",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "identifier": {
+        "type": "string",
+        "description": "The `batchId` of scheduled emails batch (must be a valid UUIDv4) or the `messageId` of scheduled email (enclosed in angle brackets with @ sign, e.g. `<...@domain>`). When using `messageId`, the `limit`, `offset`, `sort`, and `status` query parameters are ignored."
+      },
+      "startDate": {
+        "type": "string",
+        "format": "date",
+        "description": "Mandatory if `endDate` is used. Starting date (YYYY-MM-DD) from which you want to fetch the list. Cannot be more than 30 days older than the current date."
+      },
+      "endDate": {
+        "type": "string",
+        "format": "date",
+        "description": "Mandatory if `startDate` is used. Ending date (YYYY-MM-DD) till which you want to fetch the list. Maximum time period that can be selected is one month."
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "SmtpEmailStatusIdentifierGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed. Not valid when identifier is `messageId`."
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "processed",
+          "inProgress",
+          "queued"
+        ],
+        "title": "SmtpEmailStatusIdentifierGetParametersStatus",
+        "description": "Filter the records by `status` of the scheduled email batch or message. Not valid when identifier is `messageId`."
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 500,
+        "default": 100,
+        "description": "Number of documents returned per page. Not valid when identifier is `messageId`."
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document on the page. Not valid when identifier is `messageId`."
+      }
+    },
+    "required": [
+      "identifier"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "oneOf": [
+        {
+          "description": "Reference to TransactionalEmailsGetScheduledEmailByIdResponse2000"
+        },
+        {
+          "description": "Reference to TransactionalEmailsGetScheduledEmailByIdResponse2001"
+        }
+      ],
+      "title": "Transactional emails_getScheduledEmailById_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/smtp/emailStatus/{{identifier}}",
+      "query_params": [
+        "startDate",
+        "endDate",
+        "sort",
+        "status",
+        "limit",
+        "offset"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getScheduledEmailById",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

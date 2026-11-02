@@ -1,0 +1,77 @@
+{
+  "id": "transactional_emails.post_preview_smtp_email_templates",
+  "name": "Generate the rendered preview of transactional template",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Generate the rendered preview of transactional template. Generate a fully rendered preview of a transactional email template by resolving dynamic variables. Provide either an `email` address (to populate variables from the contact''s attributes) or a `params` object with key-value pairs for manual substitution; at least one of these is required alongside the mandatory `templateId`. The response includes the rendered HTML, subject, sender details, preview text, and any feed names used in the template.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "body": {
+        "oneOf": [
+          {
+            "description": "Any type"
+          },
+          {
+            "description": "Any type"
+          }
+        ],
+        "title": "Transactional emails_postPreviewSmtpEmailTemplates_Request"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "fromEmail": {
+          "type": "string",
+          "description": "Sender email address"
+        },
+        "fromName": {
+          "type": "string",
+          "description": "Sender Name"
+        },
+        "html": {
+          "type": "string",
+          "description": "Html content of the template"
+        },
+        "previewText": {
+          "type": "string",
+          "description": "Preview text of the template"
+        },
+        "subject": {
+          "type": "string",
+          "description": "subject of the template"
+        },
+        "usedFeedNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "Transactional emails_postPreviewSmtpEmailTemplates_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/smtp/template/preview",
+      "body_template": {
+        "body": "{{body}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_postPreviewSmtpEmailTemplates",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

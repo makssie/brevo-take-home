@@ -1,0 +1,77 @@
+{
+  "id": "ecommerce.create_update_category",
+  "name": "Create/Update a category",
+  "category": "ecommerce",
+  "area": "ecommerce",
+  "description": "Create/Update a category. Create a new ecommerce category or update an existing one, identified by the mandatory `id` field. When `updateEnabled` is set to `false` (the default), the endpoint performs an insert and returns `201`; if the category ID already exists, a `400` error is returned. When `updateEnabled` is `true`, the endpoint performs an upsert, returning `201` for a new category or `204` when an existing category is updated. The `name` field is mandatory for…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "deletedAt": {
+        "type": "string",
+        "description": "UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) of the category deleted from the shop's database"
+      },
+      "id": {
+        "type": "string",
+        "description": "Unique Category ID as saved in the shop\n"
+      },
+      "isDeleted": {
+        "type": "boolean",
+        "description": "category deleted from the shop's database"
+      },
+      "name": {
+        "type": "string",
+        "description": "**Mandatory in case of creation**. Name of the Category, as displayed in the shop\n"
+      },
+      "updateEnabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Facilitate to update the existing category in the same request (updateEnabled = true)"
+      },
+      "url": {
+        "type": "string",
+        "description": "URL to the category"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of the category when a new category is created"
+        }
+      },
+      "title": "Ecommerce_createUpdateCategory_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/categories",
+      "body_template": {
+        "deletedAt": "{{deletedAt}}",
+        "id": "{{id}}",
+        "isDeleted": "{{isDeleted}}",
+        "name": "{{name}}",
+        "updateEnabled": "{{updateEnabled}}",
+        "url": "{{url}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/ecommerce.json#ecommerce_createUpdateCategory",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

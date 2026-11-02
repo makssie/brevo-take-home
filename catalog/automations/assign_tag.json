@@ -1,0 +1,39 @@
+{
+  "id": "automations.assign_tag",
+  "name": "Assign a tag to an automation",
+  "category": "automations",
+  "area": "web-app-internal",
+  "description": "Tag an automation to organize and filter the list.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "tag": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "tag"
+    ]
+  },
+  "outputs": {},
+  "execution": {
+    "method": "ui_only",
+    "ui_steps": [
+      "Open the row's three-dot menu.",
+      "Click 'Assign a tag'."
+    ]
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "observed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Option seen in the UI menu. Not executed."
+  },
+  "plan_gated": "Paid plan (the option shows a crown icon on the free plan)."
+}

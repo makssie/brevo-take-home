@@ -1,0 +1,203 @@
+{
+  "id": "external_feeds.get_all_external_feeds",
+  "name": "Get all external feeds",
+  "category": "external_feeds",
+  "area": "accounts-and-settings",
+  "description": "Get all external feeds. Retrieves all external feeds from your Brevo account with filtering and pagination. **Use this to:** - Get an overview of all external data feeds - Find feeds by name using search functionality - Filter feeds by creation date range - Browse feeds by authentication type - Monitor feed library organization and usage **Key information returned:** - Feed details (UUID, name, URL, authentication type) - Feed configuration and settings - Creation and…",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "search": {
+        "type": "string",
+        "description": "Can be used to filter records by search keyword on feed name"
+      },
+      "startDate": {
+        "type": "string",
+        "format": "date",
+        "description": "Mandatory if `endDate` is used. Starting date (YYYY-MM-DD) from which you want to fetch the list. Can be maximum 30 days older than current date."
+      },
+      "endDate": {
+        "type": "string",
+        "format": "date",
+        "description": "Mandatory if `startDate` is used. Ending date (YYYY-MM-DD) till which you want to fetch the list. Maximum time period that can be selected is one month."
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "FeedsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed."
+      },
+      "authType": {
+        "type": "string",
+        "enum": [
+          "basic",
+          "token",
+          "noAuth"
+        ],
+        "title": "FeedsGetParametersAuthType",
+        "description": "Filter the records by `authType` of the feed."
+      },
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1,
+        "maximum": 500,
+        "default": 50,
+        "description": "Number of documents returned per page."
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document on the page."
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "description": "Total number of feeds"
+        },
+        "feeds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuidv4",
+                "description": "Unique identifier of the feed"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the feed"
+              },
+              "url": {
+                "type": "string",
+                "format": "url",
+                "description": "URL of the external data source"
+              },
+              "authType": {
+                "type": "string",
+                "enum": [
+                  "basic",
+                  "token",
+                  "noAuth"
+                ],
+                "description": "Authentication type for accessing the feed",
+                "title": "FeedsGetResponsesContentApplicationJsonSchemaFeedsItemsAuthType"
+              },
+              "username": {
+                "type": "string",
+                "description": "Username for basic authentication. Only returned when authType is 'basic'. Excluded when authType is 'token'."
+              },
+              "password": {
+                "type": "string",
+                "description": "Password for basic authentication. Only returned when authType is 'basic'. Excluded when authType is 'token'."
+              },
+              "token": {
+                "type": "string",
+                "description": "Token for token-based authentication. Only returned when authType is 'token'. Excluded when authType is 'basic' or 'noAuth'."
+              },
+              "maxRetries": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5,
+                "description": "Maximum number of retry attempts for failed requests"
+              },
+              "cache": {
+                "type": "boolean",
+                "description": "Whether to cache the feed response"
+              },
+              "headers": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Header name"
+                    },
+                    "value": {
+                      "type": "string",
+                      "description": "Header value"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "value"
+                  ],
+                  "title": "FeedsGetResponsesContentApplicationJsonSchemaFeedsItemsHeadersItems"
+                },
+                "description": "Custom HTTP headers for the feed request"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Feed creation timestamp"
+              },
+              "modifiedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Feed last modification timestamp"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "url",
+              "authType",
+              "maxRetries",
+              "cache",
+              "createdAt",
+              "modifiedAt"
+            ],
+            "title": "FeedsGetResponsesContentApplicationJsonSchemaFeedsItems"
+          },
+          "description": "List of external feeds"
+        }
+      },
+      "required": [
+        "count",
+        "feeds"
+      ],
+      "title": "External Feeds_getAllExternalFeeds_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/feeds",
+      "query_params": [
+        "search",
+        "startDate",
+        "endDate",
+        "sort",
+        "authType",
+        "limit",
+        "offset"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#externalFeeds_getAllExternalFeeds",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

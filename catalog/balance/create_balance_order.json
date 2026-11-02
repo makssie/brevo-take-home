@@ -1,0 +1,159 @@
+{
+  "id": "balance.create_balance_order",
+  "name": "Create balance order",
+  "category": "balance",
+  "area": "loyalty",
+  "description": "Create balance order. Returns created order",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program Id"
+      },
+      "amount": {
+        "type": "number",
+        "format": "double",
+        "description": "Order amount (must be non-zero)."
+      },
+      "balanceDefinitionId": {
+        "type": "string",
+        "description": "Unique identifier (UUID) of the associated balance definition."
+      },
+      "contactId": {
+        "type": "integer",
+        "minimum": 1,
+        "description": "Unique identifier of the contact placing the order (must be ≥ 1)."
+      },
+      "dueAt": {
+        "type": "string",
+        "description": "RFC3339 timestamp specifying when the order is due."
+      },
+      "expiresAt": {
+        "type": "string",
+        "description": "Optional RFC3339 timestamp defining order expiration."
+      },
+      "meta": {
+        "type": "object",
+        "additionalProperties": {
+          "description": "Any type"
+        },
+        "description": "Optional metadata associated with the order."
+      },
+      "source": {
+        "type": "string",
+        "enum": [
+          "engine",
+          "user"
+        ],
+        "description": "Specifies the origin of the order.",
+        "title": "LoyaltyBalanceProgramsPidCreateOrderPostRequestBodyContentApplicationJsonSchemaSource"
+      }
+    },
+    "required": [
+      "pid",
+      "amount",
+      "balanceDefinitionId",
+      "contactId",
+      "dueAt",
+      "source"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Order amount (must not be zero)."
+        },
+        "balanceDefinitionId": {
+          "type": "string",
+          "description": "Optional unique identifier (UUID) of the associated balance definition."
+        },
+        "contactId": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Unique identifier of the contact placing the order (must be ≥ 1)."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "RFC3339 timestamp indicating when the order was created."
+        },
+        "dueAt": {
+          "type": "string",
+          "description": "RFC3339 timestamp specifying when the order is due in the future."
+        },
+        "expiresAt": {
+          "type": "string",
+          "description": "Optional RFC3339 timestamp defining order expiration in the future."
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the balance order."
+        },
+        "loyaltyProgramId": {
+          "type": "string",
+          "description": "Unique identifier of the loyalty program associated with the order."
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": {
+            "description": "Any type"
+          },
+          "description": "Optional metadata associated with the order."
+        },
+        "processedAt": {
+          "type": "string",
+          "description": "Optional RFC3339 timestamp indicating when the order was processed."
+        },
+        "transactionid": {
+          "type": "string",
+          "description": "Optional reference to the associated transaction ID."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "RFC3339 timestamp indicating the last update to the order."
+        }
+      },
+      "required": [
+        "amount",
+        "contactId",
+        "createdAt",
+        "dueAt",
+        "loyaltyProgramId",
+        "updatedAt"
+      ],
+      "description": "Represents an order linked to a balance definition, including amount, due date, and transaction details.",
+      "title": "Balance_createBalanceOrder_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/balance/programs/{{pid}}/create-order",
+      "body_template": {
+        "amount": "{{amount}}",
+        "balanceDefinitionId": "{{balanceDefinitionId}}",
+        "contactId": "{{contactId}}",
+        "dueAt": "{{dueAt}}",
+        "expiresAt": "{{expiresAt}}",
+        "meta": "{{meta}}",
+        "source": "{{source}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#balance_createBalanceOrder",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

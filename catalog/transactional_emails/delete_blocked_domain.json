@@ -1,0 +1,42 @@
+{
+  "id": "transactional_emails.delete_blocked_domain",
+  "name": "Unblock an existing domain from the list of blocked domains",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Unblock an existing domain from the list of blocked domains. Unblocks an existing domain from the list of blocked domains",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "domain": {
+        "type": "string",
+        "description": "The name of the domain to be deleted"
+      }
+    },
+    "required": [
+      "domain"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/smtp/blockedDomains/{{domain}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_deleteBlockedDomain",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

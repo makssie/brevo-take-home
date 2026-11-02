@@ -1,0 +1,68 @@
+{
+  "id": "contacts.check_duplicate_contact",
+  "name": "Find a contact id by email or phone",
+  "category": "contacts",
+  "area": "web-app-internal",
+  "description": "Check whether a contact exists and get its id, using one identifier. Use after create_contact fails with duplicate_parameter, or before creating, to avoid the error. Works with the browser session only (no API key).",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "sms": {
+        "type": "string"
+      },
+      "whatsapp": {
+        "type": "string"
+      },
+      "landline_number": {
+        "type": "string"
+      },
+      "ext_id": {
+        "type": "string"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "is_exist": {
+          "type": "boolean"
+        },
+        "contactId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      }
+    }
+  },
+  "execution": {
+    "method": "internal_api",
+    "auth": "Cookie session of the logged-in app.brevo.com user, sent with the request (fetch credentials: include). No API key. Replayed from inside the app page only; behavior from outside a browser (CSRF, CORS, session expiry) was not tested.",
+    "http": {
+      "verb": "GET",
+      "url": "https://contacts-api.brevo.com/contact/backend/contacts/is_duplicate_contact",
+      "query_params": [
+        "email",
+        "sms",
+        "whatsapp",
+        "landline_number",
+        "ext_id"
+      ]
+    }
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "executed",
+    "date": "2026-11-02",
+    "evidence": "Own free account, 2026-11-02.",
+    "notes": "Observed in UI traffic, then replayed from inside the logged-in page. Returned {is_exist: true, contactId: 2} for an existing email. Only the email parameter was tested."
+  }
+}

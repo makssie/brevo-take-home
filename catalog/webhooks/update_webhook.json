@@ -1,0 +1,130 @@
+{
+  "id": "webhooks.update_webhook",
+  "name": "Update a webhook",
+  "category": "webhooks",
+  "area": "accounts-and-settings",
+  "description": "Update a webhook. Updates an existing webhook configuration and event subscriptions. Use this to: - Modify webhook event subscriptions and triggers - Update webhook URL and endpoint configuration - Change authentication settings and credentials - Adjust custom headers and request parameters - Enable or disable specific webhook events Key information returned: - Success confirmation of webhook updates",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "webhookId": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Id of the webhook"
+      },
+      "auth": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Webhook authentication token"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of authentication"
+          }
+        },
+        "description": "Add authentication on webhook url",
+        "title": "WebhooksWebhookIdPutRequestBodyContentApplicationJsonSchemaAuth"
+      },
+      "batched": {
+        "type": "boolean",
+        "description": "To send batched webhooks"
+      },
+      "description": {
+        "type": "string",
+        "description": "Description of the webhook"
+      },
+      "domain": {
+        "type": "string",
+        "description": "Inbound domain of webhook, used in case of event type `inbound`"
+      },
+      "events": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "sent",
+            "hardBounce",
+            "softBounce",
+            "blocked",
+            "spam",
+            "delivered",
+            "request",
+            "click",
+            "invalid",
+            "deferred",
+            "opened",
+            "uniqueOpened",
+            "unsubscribed",
+            "listAddition",
+            "contactUpdated",
+            "contactDeleted",
+            "inboundEmailProcessed",
+            "reply"
+          ],
+          "title": "WebhooksWebhookIdPutRequestBodyContentApplicationJsonSchemaEventsItems"
+        },
+        "description": "- Events triggering the webhook. Possible values for\n**Transactional** type webhook: #### `sent` OR `request`,\n`delivered`, `hardBounce`, `softBounce`, `blocked`, `spam`,\n`invalid`, `deferred`, `click`, `opened`, `uniqueOpened` and\n`unsubscribed` - Possible values for **Marketing** type webhook:\n#### `spam`, `opened`, `click`, `hardBounce`, `softBounce`,\n`unsubscribed`, `listAddition` & `delivered` - Possible values\nfor **Inbound** type webhook: #### `inboundEmailProcessed`\n#### `reply`"
+      },
+      "headers": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "key": {
+              "type": "string",
+              "description": "Header key name"
+            },
+            "value": {
+              "type": "string",
+              "description": "Header value"
+            }
+          },
+          "title": "WebhooksWebhookIdPutRequestBodyContentApplicationJsonSchemaHeadersItems"
+        },
+        "description": "Custom headers to be send with webhooks"
+      },
+      "url": {
+        "type": "string",
+        "format": "url",
+        "description": "URL of the webhook"
+      }
+    },
+    "required": [
+      "webhookId"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "PUT",
+      "url": "https://api.brevo.com/v3/webhooks/{{webhookId}}",
+      "body_template": {
+        "auth": "{{auth}}",
+        "batched": "{{batched}}",
+        "description": "{{description}}",
+        "domain": "{{domain}}",
+        "events": "{{events}}",
+        "headers": "{{headers}}",
+        "url": "{{url}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/accounts-and-settings.json#webhooks_updateWebhook",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

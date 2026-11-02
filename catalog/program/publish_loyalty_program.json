@@ -1,0 +1,45 @@
+{
+  "id": "program.publish_loyalty_program",
+  "name": "Publish loyalty program",
+  "category": "program",
+  "area": "loyalty",
+  "description": "Publish loyalty program. Publishes loyalty program",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "pid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Loyalty Program ID. A unique identifier for the loyalty program."
+      }
+    },
+    "required": [
+      "pid"
+    ]
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {},
+      "description": "Empty response body",
+      "title": "Program_publishLoyaltyProgram_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/loyalty/config/programs/{{pid}}/publish"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/loyalty.json#program_publishLoyaltyProgram",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

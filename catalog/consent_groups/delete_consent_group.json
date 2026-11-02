@@ -1,0 +1,43 @@
+{
+  "id": "consent_groups.delete_consent_group",
+  "name": "Delete a consent group",
+  "category": "consent_groups",
+  "area": "contact-management",
+  "description": "Delete a consent group. Deletes a consent group by ID and removes it from all associated contacts. This endpoint is only available when the Consent Groups feature is enabled for your account.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "format": "int64",
+        "description": "ID of the consent group to delete"
+      }
+    },
+    "required": [
+      "id"
+    ]
+  },
+  "outputs": {
+    "status": 204,
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "DELETE",
+      "url": "https://api.brevo.com/v3/contacts/consent-groups/{{id}}"
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": true,
+  "reversible": false,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/contact-management.json#consentGroups_deleteConsentGroup",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "id": "transactional_emails.get_smtp_report",
+  "name": "Get your transactional email activity aggregated per day",
+  "category": "transactional_emails",
+  "area": "email-api",
+  "description": "Get your transactional email activity aggregated per day. This endpoint will show the aggregated stats per day for the past 10 days by default if `startDate` and `endDate` OR `days` is not passed. The date range can not exceed 30 days.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 0,
+        "maximum": 30,
+        "default": 10,
+        "description": "Number of documents returned per page"
+      },
+      "offset": {
+        "type": "integer",
+        "format": "int64",
+        "default": 0,
+        "description": "Index of the first document on the page"
+      },
+      "startDate": {
+        "type": "string",
+        "description": "**Mandatory if endDate is used.** Starting date of the report (YYYY-MM-DD)"
+      },
+      "endDate": {
+        "type": "string",
+        "description": "**Mandatory if startDate is used.** Ending date of the report (YYYY-MM-DD)"
+      },
+      "days": {
+        "type": "integer",
+        "format": "int64",
+        "maximum": 30,
+        "description": "Number of days in the past including today (positive integer, maximum 30). _Not compatible with 'startDate' and 'endDate'_"
+      },
+      "tag": {
+        "type": "string",
+        "description": "Tag of the emails"
+      },
+      "sort": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "desc",
+        "title": "SmtpStatisticsReportsGetParametersSort",
+        "description": "Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed"
+      }
+    }
+  },
+  "outputs": {
+    "status": 200,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "reports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "blocked": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of blocked emails for the date"
+              },
+              "clicks": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of clicks for the date"
+              },
+              "date": {
+                "type": "string",
+                "format": "date",
+                "description": "Date of the statistics"
+              },
+              "delivered": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of delivered emails for the date"
+              },
+              "hardBounces": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of hardbounces for the date"
+              },
+              "invalid": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of invalid emails for the date"
+              },
+              "opens": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of openings for the date"
+              },
+              "requests": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of requests for the date"
+              },
+              "softBounces": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of softbounces for the date"
+              },
+              "spamReports": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of complaints (spam reports) for the date"
+              },
+              "uniqueClicks": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of unique clicks for the date"
+              },
+              "uniqueOpens": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of unique openings for the date"
+              },
+              "unsubscribed": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Number of unsubscribed emails for the date"
+              }
+            },
+            "required": [
+              "blocked",
+              "clicks",
+              "date",
+              "delivered",
+              "hardBounces",
+              "invalid",
+              "opens",
+              "requests",
+              "softBounces",
+              "spamReports",
+              "uniqueClicks",
+              "uniqueOpens",
+              "unsubscribed"
+            ],
+            "title": "SmtpStatisticsReportsGetResponsesContentApplicationJsonSchemaReportsItems"
+          }
+        }
+      },
+      "title": "Transactional emails_getSmtpReport_Response_200"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "GET",
+      "url": "https://api.brevo.com/v3/smtp/statistics/reports",
+      "query_params": [
+        "limit",
+        "offset",
+        "startDate",
+        "endDate",
+        "days",
+        "tag",
+        "sort"
+      ]
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/email-api.json#transactionalEmails_getSmtpReport",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}

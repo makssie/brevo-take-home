@@ -1,0 +1,56 @@
+{
+  "id": "email_campaigns.upload_image_to_gallery",
+  "name": "Upload an image to your account's image gallery",
+  "category": "email_campaigns",
+  "area": "marketing-campaigns",
+  "description": "Upload an image to your account's image gallery. Upload an image to your account''s image gallery by providing an absolute URL to the image. The maximum allowed image size is 2MB and supported formats are jpeg, jpg, png, bmp, and gif; local file uploads are not supported.",
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "imageUrl": {
+        "type": "string",
+        "description": "The absolute url of the image (**no local file**). Maximum allowed size for image is **2MB**. Allowed extensions for images are: #### jpeg, jpg, png, bmp, gif.\n"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name shown in your Brevo image gallery. Include the file extension, e.g. product-banner.png"
+      }
+    },
+    "required": [
+      "imageUrl"
+    ]
+  },
+  "outputs": {
+    "status": 201,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL of the image uploaded"
+        }
+      },
+      "title": "Email Campaigns_uploadImageToGallery_Response_201"
+    }
+  },
+  "execution": {
+    "method": "public_api",
+    "http": {
+      "verb": "POST",
+      "url": "https://api.brevo.com/v3/emailCampaigns/images",
+      "body_template": {
+        "imageUrl": "{{imageUrl}}",
+        "name": "{{name}}"
+      }
+    },
+    "auth": "API key in the api-key header, or OAuth 2.0. Not included here."
+  },
+  "destructive": false,
+  "reversible": true,
+  "verification": {
+    "level": "documented",
+    "date": "2026-11-02",
+    "evidence": "https://developers.brevo.com/openapi/marketing-campaigns.json#emailCampaigns_uploadImageToGallery",
+    "notes": "Generated from the public OpenAPI spec. Not executed."
+  }
+}
