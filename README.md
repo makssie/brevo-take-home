@@ -11,7 +11,7 @@ A catalog of business actions in Brevo (brevo.com), designed to be consumed by A
 - `scripts/curated_actions.py`: actions found in the web app's traffic (`executed` / `observed`).
 - `scripts/build_dist.py`: builds `dist/catalog.json` (index) and `dist/tools.json` (tool definitions).
 - `WRITEUP.md`: approach, AI usage, gaps. Start here.
-- `coverage/`: what was explored and what was not.
+- `coverage/`: what was explored and what was not; `coverage/metrics.md` has the numbers (`scripts/stats.py`).
 
 ## Verification levels
 
@@ -29,6 +29,7 @@ python3 scripts/ingest_openapi.py
 python3 scripts/curated_actions.py
 python3 scripts/validate.py
 python3 scripts/build_dist.py
+python3 scripts/stats.py
 ```
 
 No credentials are stored in this repo. Anything that needs a key only describes it.
